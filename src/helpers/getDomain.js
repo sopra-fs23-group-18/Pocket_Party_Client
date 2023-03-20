@@ -7,7 +7,7 @@ import { isProduction } from 'helpers/isProduction'
  * @returns {string}
  */
 export const getDomain = () => {
-  const prodUrl = 'https://my-server-url.oa.r.appspot.com/' // TODO: insert your prod url for server (once deployed)
+  const prodUrl = 'https://github.com/sopra-fs23-group-18/pocket-party-server/actions/runs/4439569142/jobs/7850513486' // TODO: insert your prod url for server (once deployed)
   const devUrl = 'http://localhost:8080'
 
   return isProduction() ? prodUrl : devUrl
