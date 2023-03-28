@@ -12,3 +12,9 @@ export const getDomain = () => {
 
   return isProduction() ? prodUrl : devUrl
 }
+
+export const getWsUrl = () => {
+  const prodUrl = 'wss://my-server-url.oa.r.appspot.com/' // TODO: insert your prod url for server (once deployed)
+  const devUrl = 'ws://localhost:8080/socket'
+  return isProduction() ? prodUrl : devUrl
+}

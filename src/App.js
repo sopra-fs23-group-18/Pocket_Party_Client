@@ -1,6 +1,6 @@
 import Header from "components/views/Header";
 import AppRouter from "components/routing/routers/AppRouter";
-
+require("./helpers/webRTC");
 /**
  * Happy coding!
  * React Template by Lucas Pelloni
