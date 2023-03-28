@@ -43,6 +43,7 @@ const initialize = () => {
     dataChannel.onclose = function () {
         console.log("Data channel is closed");
     };
+
 }
 
 const send = msg => session.send(JSON.stringify(msg));
@@ -74,6 +75,10 @@ export const establishConnectionWith = (user) => {
             // An error occurred, so handle the failure to connect
             console.log(reason);
         });
+        
+    peerConnection.ondatachannel = function (event) {
+        dataChannel = event.channel;
+    };
 };
 
 const handleAnswer = (answer) => {

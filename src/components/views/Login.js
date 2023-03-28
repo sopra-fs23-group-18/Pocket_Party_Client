@@ -6,6 +6,7 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import { establishConnectionWith } from 'helpers/webRTC';
 
 /*
 It is possible to add multiple components inside a single file,
@@ -41,21 +42,22 @@ const Login = props => {
   const [username, setUsername] = useState(null);
 
   const doLogin = async () => {
-    try {
-      const requestBody = JSON.stringify({username, name});
-      const response = await api.post('/users', requestBody);
+    establishConnectionWith(null);
+    // try {
+    //   const requestBody = JSON.stringify({username, name});
+    //   const response = await api.post('/users', requestBody);
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
+    //   // Get the returned user and update a new object.
+    //   const user = new User(response.data);
 
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
+    //   // Store the token into the local storage.
+    //   localStorage.setItem('token', user.token);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
+    //   // Login successfully worked --> navigate to the route /game in the GameRouter
+    //   history.push(`/game`);
+    // } catch (error) {
+    //   alert(`Something went wrong during the login: \n${handleError(error)}`);
+    // }
   };
 
   return (
