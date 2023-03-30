@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory} from 'react-router-dom';
@@ -6,7 +6,9 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import { establishConnectionWith } from 'helpers/webRTC';
+import { PeerConnection, PeerConnectionConfig, WebSocketConnection } from 'helpers/webRTC';
+import { WebSocketContext } from 'App';
+const { getWsUrl } = require("../../helpers/getDomain")
 
 /*
 It is possible to add multiple components inside a single file,
@@ -40,9 +42,22 @@ const Login = props => {
   const history = useHistory();
   const [name, setName] = useState(null);
   const [username, setUsername] = useState(null);
+  const peerConnection = useRef(null);
 
-  const doLogin = async () => {
-    establishConnectionWith(null);
+  const webSocketConnection = useContext(WebSocketContext)
+
+  useEffect(() => {
+    peerConnection.current = new PeerConnection(new PeerConnectionConfig(webSocketConnection, onReceive));
+  }, [webSocketConnection])
+
+
+  const onReceive = (msg) => {
+    console.log(`Received following msg from peer connection:  ${msg}`);
+  }
+
+  const doLogin = () => {
+
+    peerConnection.current?.connect();
     // try {
     //   const requestBody = JSON.stringify({username, name});
     //   const response = await api.post('/users', requestBody);
