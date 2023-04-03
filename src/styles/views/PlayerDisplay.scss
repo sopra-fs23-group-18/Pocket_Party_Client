@@ -1,0 +1,33 @@
+@import 'styles/theme';
+
+.PlayerDisplay {
+    &.Container {
+
+        left: 0%;
+        right: 0%;
+        top: 0%;
+        bottom: 0%;
+
+        background: #458E6C;
+        border-radius: 20px 0px;
+
+    }
+
+    &.Name {
+
+        left: 29.43%;
+        right: 8.23%;
+        top: 20.21%;
+        bottom: 17.02%;
+
+        font-family: 'Outfit';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 42px;
+        line-height: 53px;
+
+        color: #FFFFFF;
+
+
+    }
+}
