@@ -1,5 +1,5 @@
 import 'styles/views/PlayerDisplay.scss';
-
+//TODO: add icon
 const PlayerDisplay = () => {
     return (
         <div className="PlayerDisplay Container">
