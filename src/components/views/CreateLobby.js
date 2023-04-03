@@ -14,7 +14,7 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-const Login = props => {
+const CreateLobby = props => {
   const history = useHistory();
 
   const doCreateLobby = async () => {
@@ -24,7 +24,7 @@ const Login = props => {
   return (
     <BaseContainer>
       <div className="lobby container">
-        <div className="lobby form1">
+        <div className="lobby form">
           <div className="lobby button-container">
             <Button
               width="100%"
@@ -43,4 +43,4 @@ const Login = props => {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default Login;
+export default CreateLobby;

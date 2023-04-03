@@ -10,7 +10,7 @@ const Lobby = props => {
 
 
     const history = useHistory();
-    
+
     // useEffect(() => {
     //     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     //     async function fetchData() {
@@ -43,13 +43,11 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
-            <div className='lobby field'>
-                <div className='lobby label'>Lobby Pin: 123456
-                </div>
+            <div className='lobby field'>Lobby Pin: 123456
             </div>
             <div className="lobby container">
-                <div className='lobby label1'>Team 1
-                    <div className="lobby form1">
+                <div className='lobby label color-team1'>Team 1
+                    <div className="lobby form team1">
                         <ul className='user-list'>
                             {/* List of players in team 1 */}
                             <Player name='Sven'></Player>
@@ -63,8 +61,8 @@ const Lobby = props => {
                         <Player name='Stefan'></Player>
                     </ul>
                 </div>
-                <div className='lobby label2'> Team 2
-                    <div className="lobby form2">
+                <div className='lobby label color-team2'> Team 2
+                    <div className="lobby form team2">
                         <ul className='user-list'>
                             {/* List of players in team 2 */}
                         </ul>
