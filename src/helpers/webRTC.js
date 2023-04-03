@@ -34,6 +34,7 @@ export class PeerConnection {
             console.warn("Could not send message to peer because Peer Connection is not active");
             return;
         }
+        this._dataChannel.send(msg);
     }
 
     _reconnect = () => {
@@ -67,9 +68,7 @@ export class PeerConnection {
         this._dataChannel.onerror = (error) => {
             console.warn(`An error occured on the data channel ${error}`)
             // reconnect
-            setTimeout(() => {
-                this.connect();
-            }, 2000)
+            this._reconnect()
         };
 
         this._dataChannel.onclose = () => {
