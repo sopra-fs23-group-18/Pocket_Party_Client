@@ -1,6 +1,6 @@
 import 'styles/views/PlayersForNextGamePreview.scss';
 import 'styles/views/GamePreview.scss';
-import PlayerDisplay from './PlayerDisplay';
+import Player from 'components/ui/Player';
 
 const PlayersForNextGamePreview = () => {
     return (
@@ -13,9 +13,9 @@ const PlayersForNextGamePreview = () => {
                 <label className="Preview MinigamePoints">500pt</label>
             </div>
             <div className='PlayersForNextGamePreview PlayerContainer'>
-                <PlayerDisplay />
+                <Player />
                 <label className='PlayersForNextGamePreview VersusLabel'>VS</label>
-                <PlayerDisplay />
+                <Player />
 
             </div>
         </div>
