@@ -1,0 +1,25 @@
+@import 'styles/theme';
+
+.PlayersForNextGamePreview {
+    &.PlayerContainer {
+        color: red;
+    }
+
+    &.VersusLabel {
+        width: 247px;
+        height: 39px;
+        left: 490px;
+        top: 583px;
+
+        font-family: 'Outfit';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 81px;
+        text-align: center;
+
+        color: #458E6C;
+
+
+    }
+}
