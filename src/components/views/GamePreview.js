@@ -1,4 +1,5 @@
 import 'styles/views/GamePreview.scss';
+//TODO: Add image of game
 const GamePreview = () => {
     return (
         <div className="Preview Container">
