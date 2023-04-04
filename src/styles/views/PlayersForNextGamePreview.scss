@@ -1,8 +1,10 @@
 @import 'styles/theme';
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 .PlayersForNextGamePreview {
     &.PlayerContainer {
         color: red;
+        font-family: 'Quicksand', sans-serif;
     }
 
     &.VersusLabel {
