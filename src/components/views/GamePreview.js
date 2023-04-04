@@ -12,8 +12,8 @@ const GamePreview = () => {
             <div>
                 <label className="Preview HTP">How to play</label>
             </div>
-            <div>
-                <label>Description goes here</label>
+            <div className='Preview DescBox'>
+                <label className='Preview Description'>Description goes here</label>
             </div>
         </div>
     );
