@@ -1,0 +1,114 @@
+@import 'styles/theme';
+
+.Preview {
+    &.Container {
+        vertical-align: center;
+    }
+
+    &.MinigamelabelBox {
+
+        box-sizing: border-box;
+
+        width: 200px;
+        height: 41px;
+        left: 98px;
+        top: 47px;
+
+        background: #53A57D;
+        border-width: 2px 2px 4px 2px;
+        border-style: solid;
+        border-color: #000000;
+        border-radius: 20px 0px 0px 0px;
+
+    }
+
+    &.Minigamelabel {
+        width: 154px;
+        height: 25px;
+        left: 113px;
+        top: 45px;
+        padding-left: 10px;
+        font-family: Quicksand;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 40px;
+        text-align: center;
+
+        color: #FFFFFF;
+
+
+    }
+
+    &.MinigametitleBox {
+
+        box-sizing: border-box;
+        align-items: center;
+        display: flex;
+        width: 803px;
+        height: 160px;
+        left: 98px;
+        top: 88px;
+
+        /* Base Color */
+        background: #53A57D;
+        border: 2px solid #000000;
+        box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.25);
+        border-radius: 0px 0px 20px 0px;
+
+    }
+
+    &.Minigametitle {
+
+        width: 795px;
+        height: 138px;
+        left: 106px;
+        top: 88px;
+
+        font-family: Quicksand;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 128px;
+        line-height: 160px;
+        text-align: center;
+
+        color: #FBF7F4;
+    }
+
+    &.MinigamePoints {
+
+        width: 117px;
+        height: 18px;
+        left: 776px;
+        top: 199px;
+
+        font-family: 'Quicksand';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        text-align: center;
+        color: #FBF7F4;
+
+
+    }
+
+    &.HTP {
+
+        width: 130px;
+        height: 39px;
+        left: 682px;
+        top: 365px;
+
+        font-family: 'Outfit';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        text-align: center;
+
+        color: #458965;
+
+
+    }
+}
