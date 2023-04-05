@@ -10,7 +10,7 @@ const GamePreview = ({ id }) => {
         const description = response.description;
         const name = response.type;
         const pointsToGain = response.scoreToGain;
-        pointsToGain += " pt";
+        pointsToGain += "pt";
         setPointsToGain(pointsToGain || 'NA')
         setDescription(description || 'The description could not be loaded!');
         setName(name || 'NA');
