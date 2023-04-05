@@ -13,9 +13,9 @@ const PlayersForNextGamePreview = () => {
                 <label className="Preview MinigamePoints">500pt</label>
             </div>
             <div className='PlayersForNextGamePreview PlayerContainer'>
-                <Player />
+                <Player className='Player1' />
                 <label className='PlayersForNextGamePreview VersusLabel'>VS</label>
-                <Player />
+                <Player className='Player2' />
 
             </div>
         </div>
