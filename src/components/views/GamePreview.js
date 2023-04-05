@@ -4,13 +4,16 @@ import 'styles/views/GamePreview.scss';
 const GamePreview = ({ id }) => {
     const [description, setDescription] = useState('');
     const [pointsToGain, setPointsToGain] = useState('');
+    const [name, setName] = useState('');
     async function getData() {
-        const response = await api.get(`'/lobbies/${id}/minigame'`);
+        const response = await api.get(`/lobbies/${id}/minigame`);
         const description = response.description;
+        const name = response.type;
         const pointsToGain = response.scoreToGain;
         pointsToGain += " pt";
-        setPointsToGain(pointsToGain || 'Points could not be loaded!')
+        setPointsToGain(pointsToGain || 'NA')
         setDescription(description || 'The description could not be loaded!');
+        setName(name || 'NA');
     }
     useEffect(() => {
         getData();
@@ -22,7 +25,7 @@ const GamePreview = ({ id }) => {
                 <label className="Preview Minigamelabel">Minigame</label>
             </div>
             <div className="Preview MinigametitleBox">
-                <label className="Preview Minigametitle">Pong</label>
+                <label className="Preview Minigametitle">{name}</label>
                 <label className="Preview MinigamePoints">{pointsToGain}</label>
             </div>
             <div>
