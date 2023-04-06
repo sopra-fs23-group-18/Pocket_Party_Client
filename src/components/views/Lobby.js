@@ -1,26 +1,27 @@
 import { useEffect, useState } from 'react';
 import { api, handleError } from 'helpers/api';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import { Button } from 'components/ui/Button';
 import "styles/views/Lobby.scss";
 import Player from 'components/ui/Player';
 
 const Lobby = props => {
-
-
+    let location = useLocation();
+    console.log(location);
+    const inviteCode = location.state.inviteCode;
     const history = useHistory();
 
     // useEffect(() => {
     //     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     //     async function fetchData() {
     //         try {
-    //             const response = await api.get('/users');
+    //             const response = await api.get('/lobbies');
 
     //             await new Promise(resolve => setTimeout(resolve, 1000));
 
     //             // Get the returned users and update the state.
-    //             setUsers(response.data);
+    //             setPin(response.data);
 
     //             // This is just some data for you to see what is available.
     //             // Feel free to remove it.
@@ -43,7 +44,7 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
-            <div className='lobby field'>Lobby Pin: 123456
+            <div className='lobby field'>Invite Code: {inviteCode}
             </div>
             <div className="lobby container">
                 <div className='lobby label color-team1'>Team 1

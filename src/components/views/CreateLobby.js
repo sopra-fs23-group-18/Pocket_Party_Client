@@ -18,7 +18,10 @@ const CreateLobby = props => {
   const history = useHistory();
 
   const doCreateLobby = async () => {
-    history.push("/lobby");
+    const requestBody = JSON.stringify({ winningScore: 500 });
+    const response = await api.post('/lobbies', requestBody);
+    console.log(response.data);
+    history.push('/lobby', response.data);
   };
 
   return (
