@@ -1,5 +1,7 @@
 import 'styles/views/PlayersForNextGamePreview.scss';
 import 'styles/views/GamePreview.scss';
+import { useEffect, useState } from 'react';
+import { api } from 'helpers/api';
 import Player from 'components/ui/Player';
 //TODO implement api call for player names once the endpoint has been implemented in the backend
 const PlayersForNextGamePreview = ({ id }) => {

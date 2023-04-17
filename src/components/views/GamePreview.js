@@ -1,5 +1,7 @@
 import { api } from 'helpers/api';
 import 'styles/views/GamePreview.scss';
+import { useEffect, useState } from 'react';
+import BaseContainer from 'components/ui/BaseContainer';
 
 const GamePreview = ({ id }) => {
     const [description, setDescription] = useState('');
@@ -20,21 +22,22 @@ const GamePreview = ({ id }) => {
     }, []);
 
     return (
-        <div className="Preview Container">
-            <div className="Preview MinigamelabelBox">
-                <label className="Preview Minigamelabel">Minigame</label>
+        <BaseContainer>
+            <div className="preview minigamelabelBox">Minigame
             </div>
-            <div className="Preview MinigametitleBox">
+            <div className='preview container'>
+                {/* <div className="Preview MinigametitleBox">
                 <label className="Preview Minigametitle">{name}</label>
                 <label className="Preview MinigamePoints">{pointsToGain}</label>
+            </div> */}
+                <div>
+                    <label className="preview label">How to play</label>
+                    <div className='preview descBox'>
+                        {/* <label className='preview description'>{description}</label> */}
+                    </div>
+                </div>
             </div>
-            <div>
-                <label className="Preview HTP">How to play</label>
-            </div>
-            <div className='Preview DescBox'>
-                <label className='Preview Description'>{description}</label>
-            </div>
-        </div>
+        </BaseContainer>
     );
 }
 
