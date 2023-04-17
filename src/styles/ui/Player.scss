@@ -21,6 +21,18 @@
     box-shadow: $dropShadow;
 }
 
+.player-container.team1 {
+    background-color: $accentTeamOne;
+}
+
+.player-container.team2 {
+    background-color: $accentTeamTwo;
+}
+
+.player-container.unassigned {
+    background-color: $accent;
+}
+
 .player-name {
     margin: 0.5em;
     font-weight: bold;
