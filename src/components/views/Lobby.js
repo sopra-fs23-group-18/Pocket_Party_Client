@@ -1,18 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { api, handleError } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
-import { Button } from 'components/ui/Button';
 import "styles/views/Lobby.scss";
 import Player from 'components/ui/Player';
+import { WebSocketContext } from 'App';
+import  {ActivationState} from '@stomp/stompjs'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Lobby = props => {
     let location = useLocation();
-    console.log(location);
     const inviteCode = location.state.inviteCode;
+    console.log(location.state);
     const history = useHistory();
+    const connections = useContext(WebSocketContext);
 
+    const onPlayerJoin = (data) => {
+        console.log(data);
+    }
+
+    useEffect(() => {
+        if(connections.stompConnection.state === ActivationState.ACTIVE){
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            return;
+        }
+        connections.stompConnection.onConnect = (_) => {
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+        };
+
+        //Here we activate the stomp connection only needed to call once.
+        connections.stompConnection.activate();
+
+        
+    }, [connections, location])
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([
         { id: 1, name: 'Sven', team: 'unassigned' },
