@@ -33,6 +33,13 @@ const Lobby = props => {
             setPlayers(newPlayers);
             return;
         }
+        const team1Count = players.filter(p => p.team === 'team1').length;
+        const team2Count = players.filter(p => p.team === 'team2').length;
+        if (result.destination.droppableId === 'team1' && team1Count >= 4) {
+            return;
+        } else if (result.destination.droppableId === 'team2' && team2Count >= 4) {
+            return;
+        }
         // Update the state with the new list of players
         const newPlayers = Array.from(players);
         const player = newPlayers.find(p => p.id === parseInt(result.draggableId));
@@ -43,6 +50,9 @@ const Lobby = props => {
     return (
         <BaseContainer>
             <div className='lobby field'>Invite Code: {inviteCode}
+            </div>
+            <div className='lobby qr-container'>
+                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100`} alt="" title="" />
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>
