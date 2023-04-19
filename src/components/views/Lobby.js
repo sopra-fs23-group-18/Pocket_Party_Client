@@ -5,7 +5,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
 import Player from 'components/ui/Player';
 import { WebSocketContext } from 'App';
-import  {ActivationState} from '@stomp/stompjs'
+import { ActivationState } from '@stomp/stompjs'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Lobby = props => {
@@ -20,7 +20,7 @@ const Lobby = props => {
     }
 
     useEffect(() => {
-        if(connections.stompConnection.state === ActivationState.ACTIVE){
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
             return;
         }
@@ -31,7 +31,7 @@ const Lobby = props => {
         //Here we activate the stomp connection only needed to call once.
         connections.stompConnection.activate();
 
-        
+
     }, [connections, location])
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([

@@ -1,27 +1,44 @@
 @import 'styles/theme';
-@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
-.PlayersForNextGamePreview {
-    &.PlayerContainer {
-        background-color: red;
-        font-family: 'Quicksand', sans-serif;
+.playersForNextGamePreview {
+
+    &.versusLabel {
+        font-family: 'Outfit';
+        font-weight: bold;
+        font-size: 5em;
+        text-align: center;
+        color: $accent;
     }
 
-    &.VersusLabel {
-        width: 247px;
-        height: 39px;
-        left: 490px;
-        top: 583px;
+    &.player-team1 {
+        animation: slide-in-left 3s ease;
+        margin-right: 4em;
+        margin-bottom: 6em;
+    }
 
-        font-family: 'Outfit';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 64px;
-        line-height: 81px;
-        text-align: center;
+    &.player-team2 {
+        animation: slide-in-right 3s ease;
+        margin-left: 4em;
+        margin-top: 4em;
+    }
 
-        color: #458E6C;
+    @keyframes slide-in-left {
+        from {
+            transform: translateX(-100%);
+        }
 
+        to {
+            transform: translateX(0);
+        }
+    }
 
+    @keyframes slide-in-right {
+        from {
+            transform: translateX(100%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
     }
 }
