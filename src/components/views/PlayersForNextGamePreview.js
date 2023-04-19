@@ -3,6 +3,8 @@ import 'styles/views/GamePreview.scss';
 import { useEffect, useState } from 'react';
 import { api } from 'helpers/api';
 import PlayerContainer from 'components/ui/PlayerContainer';
+import BaseContainer from 'components/ui/BaseContainer';
+
 //TODO implement api call for player names once the endpoint has been implemented in the backend
 const PlayersForNextGamePreview = ({ id }) => {
     // const [pointsToGain, setPointsToGain] = useState('');
