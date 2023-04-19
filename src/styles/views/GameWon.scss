@@ -1,0 +1,25 @@
+@import 'styles/theme';
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap');
+
+.GameWon {
+    &.maindiv {
+        margin-top: 5em;
+    }
+
+    &.TWI {
+        // The winner is
+
+
+        font-family: 'Outfit';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 81px;
+        text-align: center;
+        padding-left: 0.25em;
+        color: #458E6C;
+
+
+    }
+}
