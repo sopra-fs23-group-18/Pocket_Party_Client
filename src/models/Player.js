@@ -7,6 +7,7 @@ class Player {
     this.id = null;
     this.nickname = null;
     this.team = null;
+    this.avatar = null;
     Object.assign(this, data);
   }
 }

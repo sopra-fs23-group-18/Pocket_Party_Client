@@ -2,18 +2,18 @@ import "styles/ui/Player.scss";
 import PropTypes from "prop-types";
 
 function PlayerContainer(props) {
-  const { name, team } = props;
+  const { player} = props;
 
   return (
-    <div className={`player-container ${team}`}>
-      <div className="player-name">{name}</div>
+    <div className={`player-container ${player.team}`}>
+        <img className="player-avatar" src={`data:image/svg+xml;utf8,${encodeURIComponent(player.avatar)}`} />
+      <div className="player-name">{player.nickname}</div>
     </div>
   );
 }
 
 PlayerContainer.propTypes = {
-  name: PropTypes.string.isRequired,
-  team: PropTypes.string.isRequired
+  player: PropTypes.object.isRequired,
 };
 
 export default PlayerContainer;

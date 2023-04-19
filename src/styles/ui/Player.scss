@@ -1,7 +1,9 @@
 @import 'styles/theme';
 
 .player-container {
+    display: flex;
     padding: 6px;
+    padding-left: 1em;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 13px;
@@ -19,8 +21,18 @@
 
     border-radius: $borderRadius;
     box-shadow: $dropShadow;
+
+    flex-direction: row;
+    align-content: center;
 }
 
+.player-avatar {
+    height: 2.5em;
+    // border: solid;
+    border-width: 1px;
+    border-radius: 100%;
+    border-color: aliceblue;
+}
 .player-container.team1 {
     background-color: $accentTeamOne;
 }
