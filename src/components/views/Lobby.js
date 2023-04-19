@@ -3,20 +3,24 @@ import { api, handleError } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
-import Player from 'components/ui/Player';
+import PlayerContainer from 'components/ui/PlayerContainer';
 import { WebSocketContext } from 'App';
 import { ActivationState } from '@stomp/stompjs'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Player from 'models/Player';
 
 const Lobby = props => {
     let location = useLocation();
     const inviteCode = location.state.inviteCode;
-    console.log(location.state);
-    const history = useHistory();
     const connections = useContext(WebSocketContext);
 
+     // Create a state variable to hold the list of players
+    const [players, setPlayers] = useState([]);
+
     const onPlayerJoin = (data) => {
-        console.log(data);
+        const playerJoined = new Player(JSON.parse(data.body));
+        playerJoined.team = 'unassigned'
+        setPlayers((old) => [...old, playerJoined]);
     }
 
     useEffect(() => {
@@ -27,21 +31,8 @@ const Lobby = props => {
         connections.stompConnection.onConnect = (_) => {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
         };
-
-        //Here we activate the stomp connection only needed to call once.
-        connections.stompConnection.activate();
-
-
     }, [connections, location])
-    // Create a state variable to hold the list of players
-    const [players, setPlayers] = useState([
-        { id: 1, name: 'Sven', team: 'unassigned' },
-        { id: 2, name: 'Nils', team: 'unassigned' },
-        { id: 3, name: 'Stefan', team: 'unassigned' },
-        { id: 4, name: 'Guojun', team: 'unassigned' },
-        { id: 5, name: 'Isabella', team: 'unassigned' },
-        { id: 6, name: 'Naseem', team: 'unassigned' },
-    ]);
+   
 
     // Create a function to handle drag and drop events
     const handleOnDragEnd = (result) => {
@@ -87,7 +78,7 @@ const Lobby = props => {
                                             <Draggable key={`team1-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <Player name={player.name} team={player.team}></Player>
+                                                        <PlayerContainer name={player.nickname} team={player.team}></PlayerContainer>
                                                     </li>
                                                 )}
                                             </Draggable>
@@ -107,7 +98,7 @@ const Lobby = props => {
                                         <Draggable key={`unassigned-${player.id}`} draggableId={player.id.toString()} index={index}>
                                             {(provided) => (
                                                 <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <Player name={player.name} team={player.team}></Player>
+                                                    <PlayerContainer name={player.nickname} team={player.team}></PlayerContainer>
                                                 </li>
                                             )}
                                         </Draggable>
@@ -128,7 +119,7 @@ const Lobby = props => {
                                             <Draggable key={`team2-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <Player name={player.name} team={player.team}></Player>
+                                                        <PlayerContainer name={player.nickname} team={player.team}></PlayerContainer>
                                                     </li>
                                                 )}
                                             </Draggable>

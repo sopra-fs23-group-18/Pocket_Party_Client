@@ -1,7 +1,7 @@
 import "styles/ui/Player.scss";
 import PropTypes from "prop-types";
 
-function Player(props) {
+function PlayerContainer(props) {
   const { name, team } = props;
 
   return (
@@ -11,9 +11,9 @@ function Player(props) {
   );
 }
 
-Player.propTypes = {
+PlayerContainer.propTypes = {
   name: PropTypes.string.isRequired,
   team: PropTypes.string.isRequired
 };
 
-export default Player;
+export default PlayerContainer;
