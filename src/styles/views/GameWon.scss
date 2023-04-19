@@ -22,4 +22,13 @@
 
 
     }
+
+    &.Winner {
+        display: flex;
+        justify-content: center;
+    }
+
+    &.Loser {
+        float: right;
+    }
 }

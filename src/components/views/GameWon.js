@@ -9,8 +9,12 @@ const GameWon = ({ lobbyId }) => {
             <GameHeader />
             <div className="GameWon maindiv">
                 <label className="GameWon TWI">The winner is</label>
-                <PlayerContainer />
-                <PlayerContainer />
+                <div className="GameWon Winner">
+                    <PlayerContainer />
+                </div>
+                <div className="GameWon Loser">
+                    <PlayerContainer />
+                </div>
             </div>
         </BaseContainer>
     )
