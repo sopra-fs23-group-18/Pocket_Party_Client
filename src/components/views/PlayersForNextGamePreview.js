@@ -2,7 +2,7 @@ import 'styles/views/PlayersForNextGamePreview.scss';
 import 'styles/views/GamePreview.scss';
 import { useEffect, useState } from 'react';
 import { api } from 'helpers/api';
-import Player from 'components/ui/Player';
+import PlayerContainer from 'components/ui/PlayerContainer';
 //TODO implement api call for player names once the endpoint has been implemented in the backend
 const PlayersForNextGamePreview = ({ id }) => {
     const [pointsToGain, setPointsToGain] = useState('');
@@ -29,9 +29,9 @@ const PlayersForNextGamePreview = ({ id }) => {
                 <label className="Preview MinigamePoints">{pointsToGain}</label>
             </div>
             <div className='PlayersForNextGamePreview PlayerContainer'>
-                <Player className='Player1' name='Player 1' />
+                <PlayerContainer className='Player1' name='Player 1' />
                 <label className='PlayersForNextGamePreview VersusLabel'>VS</label>
-                <Player className='Player2' name='Player 2' />
+                <PlayerContainer className='Player2' name='Player 2' />
 
             </div>
         </div>
