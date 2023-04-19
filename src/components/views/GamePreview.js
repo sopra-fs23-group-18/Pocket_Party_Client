@@ -2,39 +2,25 @@ import { api } from 'helpers/api';
 import 'styles/views/GamePreview.scss';
 import { useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
+import GameHeader from 'components/ui/GameHeader';
 
 const GamePreview = ({ id }) => {
-    const [description, setDescription] = useState('');
-    const [pointsToGain, setPointsToGain] = useState('');
-    const [name, setName] = useState('');
-    async function getData() {
-        const response = await api.get(`/lobbies/${id}/minigame`);
-        const description = response.description;
-        const name = response.type;
-        const pointsToGain = response.scoreToGain;
-        pointsToGain += "pt";
-        setPointsToGain(pointsToGain || 'NA')
-        setDescription(description || 'The description could not be loaded!');
-        setName(name || 'NA');
-    }
+    const [description, setDescription] = useState('Description has not loaded yet!');
     useEffect(() => {
-        getData();
-    }, []);
+        const get_data = async () => {
+            const data = await api.get(`lobbies/${id}/minigame`);
+            setDescription(data.description);
+        };
+        get_data();
+    }, [id]);
 
     return (
         <BaseContainer>
-            <div className="preview minigamelabelBox">Minigame
-            </div>
-            <div className='preview container'>
-                {/* <div className="Preview MinigametitleBox">
-                <label className="Preview Minigametitle">{name}</label>
-                <label className="Preview MinigamePoints">{pointsToGain}</label>
-            </div> */}
-                <div>
-                    <label className="preview label">How to play</label>
-                    <div className='preview descBox'>
-                        {/* <label className='preview description'>{description}</label> */}
-                    </div>
+            <GameHeader lobbyId={id} />
+            <div className='preview desccontainer'>
+                <label className="preview label">How to play</label>
+                <div className='preview descBox'>
+                    <label className='preview description'>{description}</label>
                 </div>
             </div>
         </BaseContainer>
