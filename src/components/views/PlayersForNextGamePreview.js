@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { api } from 'helpers/api';
 import PlayerContainer from 'components/ui/PlayerContainer';
 import BaseContainer from 'components/ui/BaseContainer';
-import GameHeader from 'components/ui/GameHeader';
+import GameHeader from 'components/ui/HeaderContainer';
+import HeaderContainer from 'components/ui/HeaderContainer';
 
 //TODO implement api call for player names once the endpoint has been implemented in the backend
 const PlayersForNextGamePreview = ({ id }) => {
@@ -24,7 +25,7 @@ const PlayersForNextGamePreview = ({ id }) => {
 
     return (
         <BaseContainer>
-            <GameHeader lobbyId={id} />
+        <HeaderContainer title='Minigame' text='Pong'></HeaderContainer>
             <div className='preview container'>
                 <div className='playersForNextGamePreview player-team1'>
                     <PlayerContainer name='Player 1' team='team1' />

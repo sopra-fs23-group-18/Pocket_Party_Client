@@ -8,6 +8,7 @@ import { WebSocketContext } from 'App';
 import { ActivationState } from '@stomp/stompjs'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Player from 'models/Player';
+import HeaderContainer from 'components/ui/HeaderContainer';
 
 const Lobby = props => {
     let location = useLocation();
@@ -60,8 +61,7 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
-            <div className='lobby field'>Invite Code: {inviteCode}
-            </div>
+            <HeaderContainer title='Invite code:' text={inviteCode}></HeaderContainer>
             <div className='lobby qr-container'>
                 <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100`} alt="" title="" />
             </div>

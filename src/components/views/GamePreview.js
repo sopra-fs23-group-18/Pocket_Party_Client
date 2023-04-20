@@ -2,7 +2,7 @@ import { api } from 'helpers/api';
 import 'styles/views/GamePreview.scss';
 import { useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
-import GameHeader from 'components/ui/GameHeader';
+import HeaderContainer from 'components/ui/HeaderContainer';
 
 const GamePreview = ({ id }) => {
     const [description, setDescription] = useState('Description has not loaded yet!');
@@ -16,7 +16,7 @@ const GamePreview = ({ id }) => {
 
     return (
         <BaseContainer>
-            <GameHeader lobbyId={id} />
+            <HeaderContainer text = "Pong" title ="Minigame" points={100}></HeaderContainer>
             <div className='preview desccontainer'>
                 <label className="preview label">How to play</label>
                 <div className='preview descBox'>
