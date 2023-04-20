@@ -4,6 +4,7 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { WebSocketConnection } from "./helpers/webRTC";
 import { getWsUrl } from "helpers/getDomain";
 import { Client } from '@stomp/stompjs';
+import TeamScoreOverview from "components/ui/TeamScoreOverview";
 
 require("./helpers/webRTC");
 /**
@@ -14,14 +15,16 @@ require("./helpers/webRTC");
 export const WebSocketContext = createContext(null);
 
 const App = () => {
-  const [connections, setConnections] = useState({signalingConnection: new WebSocketConnection(getWsUrl() + "/socket"), stompConnection: new Client({
-    brokerURL: getWsUrl() + "/game"
-   })})
+  const [connections, setConnections] = useState({
+    signalingConnection: new WebSocketConnection(getWsUrl() + "/socket"), stompConnection: new Client({
+      brokerURL: getWsUrl() + "/game"
+    })
+  })
 
 
   useEffect(() => {
-     //Here we activate the stomp connection only needed to call once.
-     connections.stompConnection.activate();
+    //Here we activate the stomp connection only needed to call once.
+    connections.stompConnection.activate();
   }, [connections.stompConnection])
 
   return (
