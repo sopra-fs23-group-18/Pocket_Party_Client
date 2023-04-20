@@ -61,7 +61,7 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
-            <HeaderContainer title='Invite code:' text={inviteCode}></HeaderContainer>
+            <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
             <div className='lobby qr-container'>
                 <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100`} alt="" title="" />
             </div>
