@@ -30,7 +30,7 @@ const App = () => {
   return (
     <WebSocketContext.Provider value={connections}>
       <div>
-        <TeamScoreOverview />
+        <AppRouter />
       </div>
     </WebSocketContext.Provider>
   );
