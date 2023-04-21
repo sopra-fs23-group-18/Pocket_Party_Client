@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { api, handleError } from 'helpers/api';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
+import { Timer } from 'components/ui/Timer';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
@@ -23,6 +24,7 @@ const CreateLobby = props => {
     history.push('/lobby', response.data);
   };
 
+
   return (
     <BaseContainer>
       <div className="lobby container">
@@ -38,6 +40,8 @@ const CreateLobby = props => {
         </div>
       </div>
     </BaseContainer>
+    
+    
   );
 };
 

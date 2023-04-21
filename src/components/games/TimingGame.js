@@ -3,6 +3,7 @@ import 'styles/games/timingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
 import { WebSocketContext } from "App";
+import { Timer } from "components/ui/Timer";
 
 export const TimingGame = props => {
 
@@ -147,7 +148,9 @@ export const TimingGame = props => {
             <h1>Score: {score}</h1>
             <h1 className={feedback.show ? 'overCanvas Feedback': 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
+            <Timer> 20 </Timer>
         </div>
+        
 
     )
 }
