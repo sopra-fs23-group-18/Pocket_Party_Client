@@ -39,26 +39,6 @@
         border: 0.2em solid $accentTeamTwo;
     }
 
-    &.field {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 2em;
-
-        box-sizing: border-box;
-
-        width: 30em;
-        height: 3em;
-
-        background: $accent;
-        border: 0.2em solid #000000;
-        box-shadow: $dropShadow;
-        border-radius: $borderRadius;
-        color: $textColor;
-        font-weight: bold;
-    }
-
-
     &.label {
         color: $accent;
         margin-bottom: 10px;
