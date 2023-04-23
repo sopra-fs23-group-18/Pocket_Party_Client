@@ -17,12 +17,10 @@ const GamePreview = ({ id }) => {
     return (
         <BaseContainer>
             <HeaderContainer text = "Pong" title ="Minigame" points={100}></HeaderContainer>
-            <div className='preview desccontainer'>
                 <label className="preview label">How to play</label>
                 <div className='preview descBox'>
                     <label className='preview description'>{description}</label>
                 </div>
-            </div>
         </BaseContainer>
     );
 }

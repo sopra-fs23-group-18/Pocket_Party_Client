@@ -26,7 +26,7 @@ const AppRouter = () => {
             <GameRouter base="/game" />
           </GameGuard>
         </Route>
-        <Route exact path="/createlobby">
+        <Route exact path="/createLobby">
           <LoginGuard>
             <CreateLobby />
           </LoginGuard>

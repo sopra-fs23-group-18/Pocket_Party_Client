@@ -2,108 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 .preview {
-    &.container {
-        margin-top: 2em;
-        min-height: 300px;
-        /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
-        @include center;
-        flex-direction: row;
-    }
-
-    &.desccontainer {
-        padding-top: 5%;
-    }
-
-    &.minigamelabelBox {
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 2em;
-
-        box-sizing: border-box;
-
-        width: 30em;
-        height: 3em;
-
-        background: $accent;
-        border: 0.2em solid #000000;
-        box-shadow: $dropShadow;
-        border-radius: $borderRadius;
-        color: $textColor;
-        font-weight: bold;
-    }
-
-    // &.minigamelabel {
-    //     width: 154px;
-    //     height: 25px;
-    //     left: 113px;
-    //     top: 45px;
-    //     padding-left: 10px;
-    //     font-family: Quicksand;
-    //     font-style: normal;
-    //     font-weight: 600;
-    //     font-size: 32px;
-    //     line-height: 40px;
-    //     text-align: center;
-
-    //     color: #FFFFFF;
-
-
-    // }
-
-    // &.minigametitleBox {
-
-    //     box-sizing: border-box;
-    //     align-items: center;
-    //     display: flex;
-    //     width: 803px;
-    //     height: 160px;
-    //     left: 98px;
-    //     top: 88px;
-
-    //     /* Base Color */
-    //     background: #53A57D;
-    //     border: 2px solid #000000;
-    //     box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.25);
-    //     border-radius: 0px 0px 20px 0px;
-
-    // }
-
-    // &.minigametitle {
-
-    //     width: 795px;
-    //     height: 138px;
-    //     left: 106px;
-    //     top: 88px;
-
-    //     font-family: 'Quicksand';
-    //     font-style: normal;
-    //     font-weight: 700;
-    //     font-size: 128px;
-    //     line-height: 160px;
-    //     text-align: center;
-
-    //     color: #FBF7F4;
-    // }
-
-    // &.minigamePoints {
-
-    //     width: 117px;
-    //     height: 18px;
-    //     left: 776px;
-    //     top: 199px;
-
-    //     font-family: 'Quicksand';
-    //     font-style: normal;
-    //     font-weight: 700;
-    //     font-size: 32px;
-    //     line-height: 40px;
-    //     text-align: center;
-    //     color: #FBF7F4;
-
-
-    // }
 
     &.label {
         color: $accent;
@@ -111,7 +9,7 @@
         margin: 10px;
         margin-left: 10px;
         font-weight: bold;
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     &.descBox {
@@ -134,23 +32,4 @@
 
         border: 0.2em solid $accent;
     }
-
-    // &.description {
-
-    //     position: absolute;
-    //     width: 497px;
-    //     height: 562px;
-    //     left: 138px;
-    //     top: 384px;
-
-    //     font-family: 'Quicksand';
-    //     font-style: normal;
-    //     font-weight: 700;
-    //     font-size: 32px;
-    //     line-height: 40px;
-
-    //     color: #000000;
-
-
-    // }
 }
