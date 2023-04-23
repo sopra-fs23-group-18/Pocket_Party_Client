@@ -14,12 +14,14 @@ const GamePreview = ({ id }) => {
         get_data();
     }, [id]);
 
+    //TODO: get images and display it, get title and points and display them
     return (
         <BaseContainer>
             <HeaderContainer text = "Pong" title ="Minigame" points={100}></HeaderContainer>
                 <label className="preview label">How to play</label>
                 <div className='preview descBox'>
                     <label className='preview description'>{description}</label>
+                    <img className='preview image' src=''></img>
                 </div>
         </BaseContainer>
     );
