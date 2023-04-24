@@ -10,31 +10,33 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Player from 'models/Player';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import LobbyModel from 'models/LobbyModel';
+import { Button } from 'components/ui/Button';
 
 const Lobby = props => {
     let location = useLocation();
+    const history = useHistory();
     const inviteCode = location.state.inviteCode;
     const connections = useContext(WebSocketContext);
-    
-   
+
+
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
-    const getLobbyInfo = async() => {
+    const getLobbyInfo = async () => {
         const response = await api.get(`/lobbies/${location.state.id}`);
         const lobby = new LobbyModel(response.data);
         const playersToAdd = [];
-        for(const player of lobby.unassignedPlayers){
+        for (const player of lobby.unassignedPlayers) {
             const playerToAdd = new Player(player);
             playerToAdd.team = "unassigned"
             playersToAdd.push(playerToAdd)
         }
-        for(const player of lobby.teams[0].players){
+        for (const player of lobby.teams[0].players) {
             const playerToAdd = new Player(player);
             playerToAdd.team = "team1"
             playersToAdd.push(playerToAdd)
         }
-        for(const player of lobby.teams[1].players){
+        for (const player of lobby.teams[1].players) {
             const playerToAdd = new Player(player);
             playerToAdd.team = "team2"
             playersToAdd.push(playerToAdd)
@@ -42,10 +44,10 @@ const Lobby = props => {
         setPlayers(playersToAdd);
     }
     useEffect(() => {
-        if(location.state.id !== null){
+        if (location.state.id !== null) {
             getLobbyInfo()
         }
-        
+
     }, [])
 
     const onPlayerJoin = (data) => {
@@ -55,30 +57,33 @@ const Lobby = props => {
     }
 
     const assignPlayerToTeam = (player, team, source) => {
-        if(source !== null && team === "unassigned"){
+        if (source !== null && team === "unassigned") {
             connections.stompConnection.publish({
-                destination: `/lobbies/${location.state.id}/unassign`, 
+                destination: `/lobbies/${location.state.id}/unassign`,
                 body: JSON.stringify({
-                playerId: player.id,
-                team: source === "team1" ? "RED" : "BLUE"
-            })})
+                    playerId: player.id,
+                    team: source === "team1" ? "RED" : "BLUE"
+                })
+            })
             return;
         }
-        if(source !== null && source !== "unassigned"){
+        if (source !== null && source !== "unassigned") {
             connections.stompConnection.publish({
-                destination: `/lobbies/${location.state.id}/reassign`, 
+                destination: `/lobbies/${location.state.id}/reassign`,
                 body: JSON.stringify({
-                playerId: player.id,
-                from: source === "team1" ? "RED" : "BLUE",
-                to: team === "team1" ? "RED" : "BLUE",
-            })})
+                    playerId: player.id,
+                    from: source === "team1" ? "RED" : "BLUE",
+                    to: team === "team1" ? "RED" : "BLUE",
+                })
+            })
         }
         connections.stompConnection.publish({
-            destination: `/lobbies/${location.state.id}/assign`, 
+            destination: `/lobbies/${location.state.id}/assign`,
             body: JSON.stringify({
-            playerId: player.id,
-            team: team === "team1" ? "RED" : "BLUE"
-        })})
+                playerId: player.id,
+                team: team === "team1" ? "RED" : "BLUE"
+            })
+        })
     }
 
     useEffect(() => {
@@ -117,6 +122,40 @@ const Lobby = props => {
         setPlayers(newPlayers);
     };
 
+    const onGameStartClicked = async () => {
+        const response = await api.put(`lobbies/${location.state.id}`);
+        if(response.status === 204){
+            history.push("/timingGame", {players, lobbyId: location.state.id});
+        }
+    }
+
+    const middleSection = () => {
+        for(const player of players){
+            if(player.team === "unassigned"){
+                return <Droppable droppableId="unassigned">
+                {(provided) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                        <ul className='lobby user-list'>
+                            {/* List of unassigned players */}
+                            {players.filter(p => p.team === 'unassigned').map((player, index) => (
+                                <Draggable key={`unassigned-${player.id}`} draggableId={player.id.toString()} index={index}>
+                                    {(provided) => (
+                                        <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                            <PlayerContainer player={player}></PlayerContainer>                                                </li>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </ul>
+                    </div>
+                )}
+            </Droppable>
+            }
+        }
+        return <Button onClick={onGameStartClicked}>Start Game</Button>
+    }
+
+
     return (
         <BaseContainer>
             <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
@@ -147,24 +186,10 @@ const Lobby = props => {
                             )}
                         </Droppable>
                     </div>
-                    <Droppable droppableId="unassigned">
-                        {(provided) => (
-                            <div {...provided.droppableProps} ref={provided.innerRef}>
-                                <ul className='lobby user-list'>
-                                    {/* List of unassigned players */}
-                                    {players.filter(p => p.team === 'unassigned').map((player, index) => (
-                                        <Draggable key={`unassigned-${player.id}`} draggableId={player.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <PlayerContainer player={player}></PlayerContainer>                                                </li>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </ul>
-                            </div>
-                        )}
-                    </Droppable>
+                    <div>
+                        {middleSection()}
+                    </div>
+
                     <div className='lobby label color-team2'>
                         Team 2
                         <Droppable droppableId="team2">
