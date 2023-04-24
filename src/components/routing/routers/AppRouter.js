@@ -7,6 +7,7 @@ import Lobby from "components/views/Lobby";
 import GamePreview from "components/views/GamePreview";
 import PlayersForNextGamePreview from "components/views/PlayersForNextGamePreview";
 import { TimingGame } from "components/games/TimingGame";
+import { TappingGame } from "components/games/TappingGame";
 
 /**
  * Main router of your application.
@@ -45,6 +46,9 @@ const AppRouter = () => {
         </Route>
         <Route exact path="/timingGame">
           <TimingGame />
+        </Route>
+        <Route exact path="/tappingGame">
+          <TappingGame />
         </Route>
         
       </Switch>
