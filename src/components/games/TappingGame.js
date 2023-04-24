@@ -40,8 +40,8 @@ export const TappingGame = props => {
                     </div>
                 </div>
             </div>
-            <button onClick={handleClick1}>Click me</button>
-            <button onClick={handleClick2}>Click me</button>
+            <button onClick={handleClick1}>Click me: test</button>
+            <button onClick={handleClick2}>Click me: test</button>
             <Timer>10</Timer>
         </div>
 

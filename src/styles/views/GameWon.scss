@@ -2,33 +2,32 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap');
 
-.GameWon {
+.gameWon {
     &.maindiv {
         margin-top: 5em;
     }
 
-    &.TWI {
+    &.twi {
         // The winner is
 
 
-        font-family: 'Outfit';
         font-style: normal;
         font-weight: 700;
         font-size: 64px;
         line-height: 81px;
         text-align: center;
         padding-left: 0.25em;
-        color: #458E6C;
+        color: $accent;
 
 
     }
 
-    &.Winner {
+    &.winner {
         display: flex;
         justify-content: center;
     }
 
-    &.Loser {
+    &.loser {
         float: right;
     }
 }

@@ -7,6 +7,8 @@ import Lobby from "components/views/Lobby";
 import GamePreview from "components/views/GamePreview";
 import PlayersForNextGamePreview from "components/views/PlayersForNextGamePreview";
 import { TimingGame } from "components/games/TimingGame";
+import MinigameWon from "components/views/MinigameWon";
+import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
 
 /**
@@ -27,7 +29,7 @@ const AppRouter = () => {
             <GameRouter base="/game" />
           </GameGuard>
         </Route>
-        <Route exact path="/createlobby">
+        <Route exact path="/createLobby">
           <LoginGuard>
             <CreateLobby />
           </LoginGuard>
@@ -46,6 +48,12 @@ const AppRouter = () => {
         </Route>
         <Route exact path="/timingGame">
           <TimingGame />
+        </Route>
+        <Route exact path="/minigameWon">
+          <MinigameWon />
+        </Route>
+        <Route exact path="/teamScoreOverview">
+          <TeamScoreOverview />
         </Route>
         <Route exact path="/tappingGame">
           <TappingGame />

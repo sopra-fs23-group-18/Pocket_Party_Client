@@ -14,15 +14,13 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         width: 60%;
         max-width: 30em;
         font-size: 1em;
-        padding-left: 2em;
-        padding-right: 2em;
         border-radius: 0.75em;
         transition: opacity 0.5s ease, transform 0.5s ease;
         box-shadow: $dropShadow;
-        margin-left: 2em;
         box-sizing: border-box;
 
         width: 25em;
@@ -38,26 +36,6 @@
     &.team2 {
         border: 0.2em solid $accentTeamTwo;
     }
-
-    &.field {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 2em;
-
-        box-sizing: border-box;
-
-        width: 30em;
-        height: 3em;
-
-        background: $accent;
-        border: 0.2em solid #000000;
-        box-shadow: $dropShadow;
-        border-radius: $borderRadius;
-        color: $textColor;
-        font-weight: bold;
-    }
-
 
     &.label {
         color: $accent;
@@ -78,18 +56,15 @@
     &.button-container {
         display: flex;
         justify-content: center;
-        margin-top: 2em;
-        margin-left: 3em;
-
         width: 15em;
         height: 2.5em;
-
         background: $accent;
         border-radius: $borderRadius
     }
 
     &.user-list {
         list-style-type: none;
+        margin-right: 3em;
     }
 
     &.qr-container {

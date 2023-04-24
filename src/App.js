@@ -4,7 +4,6 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { WebSocketConnection } from "./helpers/webRTC";
 import { getWsUrl } from "helpers/getDomain";
 import { Client } from '@stomp/stompjs';
-import TeamScoreOverview from "components/ui/TeamScoreOverview";
 
 require("./helpers/webRTC");
 /**
