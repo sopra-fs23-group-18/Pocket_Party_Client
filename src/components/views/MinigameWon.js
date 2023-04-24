@@ -5,10 +5,10 @@ import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 
-const GameWon = ({ lobbyId }) => {
+const MinigameWon = ({ lobbyId }) => {
     return (
         <BaseContainer>
-        <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
+            <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
             <Confetti numberOfPieces={200} />
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
@@ -23,4 +23,4 @@ const GameWon = ({ lobbyId }) => {
     )
 }
 
-export default GameWon;
+export default MinigameWon;
