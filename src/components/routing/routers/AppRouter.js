@@ -8,6 +8,7 @@ import GamePreview from "components/views/GamePreview";
 import PlayersForNextGamePreview from "components/views/PlayersForNextGamePreview";
 import { TimingGame } from "components/games/TimingGame";
 import MinigameWon from "components/views/MinigameWon";
+import TeamScoreOverview from "components/views/TeamScoreOverview";
 
 /**
  * Main router of your application.
@@ -47,8 +48,11 @@ const AppRouter = () => {
         <Route exact path="/timingGame">
           <TimingGame />
         </Route>
-        <Route exact path="/MinigameWon">
+        <Route exact path="/minigameWon">
           <MinigameWon />
+        </Route>
+        <Route exact path="/teamScoreOverview">
+          <TeamScoreOverview />
         </Route>
 
       </Switch>
