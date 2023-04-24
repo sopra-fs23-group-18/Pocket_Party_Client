@@ -125,7 +125,7 @@ const Lobby = props => {
     const onGameStartClicked = async () => {
         const response = await api.put(`lobbies/${location.state.id}`);
         if (response.status === 204) {
-            history.push("/timingGame", { players, lobbyId: location.state.id });
+            history.push("/gamePreview", { players, lobbyId: location.state.id });
         }
     }
 
