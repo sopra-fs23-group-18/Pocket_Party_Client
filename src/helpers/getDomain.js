@@ -7,8 +7,15 @@ import { isProduction } from 'helpers/isProduction'
  * @returns {string}
  */
 export const getDomain = () => {
-  const prodUrl = 'https://sopra-fs23-group-18-server.oa.r.appspot.com/' // TODO: insert your prod url for server (once deployed)
+  const prodUrl = 'https://sopra-fs23-group-18-server.oa.r.appspot.com/'
+
   const devUrl = 'http://localhost:8080'
 
+  return isProduction() ? prodUrl : devUrl
+}
+
+export const getWsUrl = () => {
+  const prodUrl = 'wss://sopra-fs23-group-18-server.oa.r.appspot.com'
+  const devUrl = 'ws://localhost:8080'
   return isProduction() ? prodUrl : devUrl
 }

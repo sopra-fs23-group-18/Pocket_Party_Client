@@ -1,0 +1,53 @@
+@import 'styles/theme';
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+.preview {
+
+    &.label {
+        color: $accent;
+        margin-bottom: 10px;
+        margin: 10px;
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    &.descBox {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        width: 60%;
+        font-size: 1em;
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-top: 2em;
+        border-radius: 0.75em;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        box-sizing: border-box;
+        position: relative;
+        width: 50em;
+        height: 30em;
+
+        border: 0.2em solid $accent;
+    }
+
+    &.image {
+        width: 20em;
+        height: 15em;
+
+        text-align: right;
+        align-self: flex-end;
+        position: absolute;
+        top: 2em;
+        right: 2em;
+    }
+
+    &.description {
+        color: $accent;
+        font-weight: bold;
+        margin-right: 20em;
+    }
+}

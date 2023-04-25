@@ -1,0 +1,51 @@
+@import 'styles/theme';
+
+.player-container {
+    display: flex;
+    padding: 0.5em;
+    padding-left: 1em;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-align: center;
+    border: none;
+    border-radius: $borderRadius;
+    cursor: pointer;
+    opacity: 1;
+    background-color: $accent;
+    transition: all 0.3s ease;
+    margin-top: 2em;
+
+    width: 15em;
+    height: 3.5em;
+
+    border-radius: $borderRadius;
+    box-shadow: $dropShadow;
+
+    flex-direction: row;
+    align-content: center;
+}
+
+.player-avatar {
+    height: 2.5em;
+    // border: solid;
+    border-width: 1px;
+    border-radius: 100%;
+    border-color: aliceblue;
+}
+.player-container.team1 {
+    background-color: $accentTeamOne;
+}
+
+.player-container.team2 {
+    background-color: $accentTeamTwo;
+}
+
+.player-container.unassigned {
+    background-color: $accent;
+}
+
+.player-name {
+    margin: 0.5em;
+    font-weight: bold;
+    color: $textColor
+}

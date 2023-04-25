@@ -1,0 +1,33 @@
+@import 'styles/theme';
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap');
+
+.gameWon {
+    &.maindiv {
+        margin-top: 5em;
+    }
+
+    &.twi {
+        // The winner is
+
+
+        font-style: normal;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 81px;
+        text-align: center;
+        padding-left: 0.25em;
+        color: $accent;
+
+
+    }
+
+    &.winner {
+        display: flex;
+        justify-content: center;
+    }
+
+    &.loser {
+        float: right;
+    }
+}
