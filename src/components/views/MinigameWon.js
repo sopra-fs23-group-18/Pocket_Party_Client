@@ -4,16 +4,18 @@ import PlayerContainer from "components/ui/PlayerContainer";
 import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-const MinigameWon = ({ lobbyId }) => {
+const MinigameWon = () => {
+    let location = useLocation();
     const navigation = useHistory();
     useEffect(() => {
         setTimeout(() => {
             navigation.push("/teamScoreOverview")
-        }, 5000), []
-    });
+        }, 5000)
+    }, []);
+    //TODO: set winner
     return (
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
@@ -21,10 +23,10 @@ const MinigameWon = ({ lobbyId }) => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    {/* <PlayerContainer /> */}
+                    {<PlayerContainer player={location.state.team1Player} />}
                 </div>
                 <div className="gameWon loser">
-                    {/* <PlayerContainer /> */}
+                    {<PlayerContainer player={location.state.team2Player} />}
                 </div>
             </div>
         </BaseContainer>

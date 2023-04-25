@@ -11,11 +11,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 //TODO implement api call for player names once the endpoint has been implemented in the backend
 const PlayersForNextGamePreview = ({ id }) => {
     const location = useLocation();
-    const [pointsToGain, setPointsToGain] = useState('NA');
+    const [pointsToGain, setPointsToGain] = useState(0);
     const [name, setName] = useState('NA');
     const navigation = useHistory();
     useEffect(() => {
-        setPointsToGain(location.state.scoreToGain + "pt")
+        setPointsToGain(Number.parseInt(location.state.scoreToGain))
         setName(formatMinigameTypeString(location.state.type));
     }, [location])
 

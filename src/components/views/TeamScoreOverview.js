@@ -3,7 +3,8 @@ import BaseContainer from 'components/ui/BaseContainer'
 import { useState, useEffect } from 'react';
 import { api } from 'helpers/api';
 import HeaderContainer from 'components/ui/HeaderContainer';
-const TeamScoreOverview = ({ lobbyId }) => {
+import { useHistory } from 'react-router-dom';
+const TeamScoreOverview = () => {
     /*const [info, setInfo] = useState({ type: 'Not Found', scoreToGain: 'Not Found' });
     useEffect(() => {
         const get_data = async () => {
@@ -27,6 +28,12 @@ const TeamScoreOverview = ({ lobbyId }) => {
         setTeam2Pts(result)
 
     }
+    const navigation = useHistory();
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.push("/gamePreview")
+        }, 10000);
+    }, [])
     return (
         <BaseContainer>
             <HeaderContainer title='Minigame Score' text='Progress'></HeaderContainer>
@@ -41,7 +48,7 @@ const TeamScoreOverview = ({ lobbyId }) => {
                     <div className='tso team2Progress' style={{ backgroundColor: "#00BFFF", width: `${Team2Pts}`, height: "5em" }}></div>
                     <label className='tso team2Pts'>{Team2Pts}</label>
                 </div>
-                    <div className='tso line'></div>
+                <div className='tso line'></div>
             </div>
         </BaseContainer>
     )
