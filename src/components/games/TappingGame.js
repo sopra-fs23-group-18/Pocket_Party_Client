@@ -32,6 +32,12 @@ export const TappingGame = props => {
             navigation.push("/minigameWon")
         }
     }, [gameOver])
+    //^ ONLY FOR TESTING
+    useEffect(() => {
+        setTimeout(() => {
+            setGameOver(true)
+        }, 5000);
+    }, [])
     return (
         <div className="tapping-game">
             <h1>Tapping Game</h1>

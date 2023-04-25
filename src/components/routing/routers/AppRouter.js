@@ -41,42 +41,40 @@ const AppRouter = () => {
 
   return (
     <LobbyContext.Provider value={{ lobby, setLobby }}>
-      <MinigameContext.Provider value={{ minigame, setMinigame }}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/createLobby">
-                <CreateLobby />
-            </Route>
-            <Route exact path="/lobby">
-              <Lobby />
-            </Route>
-            <Route exact path="/gamePreview">
-              <GamePreview />
-            </Route>
-            <Route exact path="/playerPreview">
-              <PlayersForNextGamePreview />
-            </Route>
-            <Route exact path="/game">
-              {minigameRoute()}
-            </Route>
-            <Route exact path="/minigameWon">
-              <MinigameWon />
-            </Route>
-            <Route exact path="/teamScoreOverview">
-              <TeamScoreOverview />
-            </Route>
-            <Route exact path="/tappingGame">
-              <TappingGame />
-            </Route>
-
-          </Switch>
-        </BrowserRouter >
-      </MinigameContext.Provider>
+    <MinigameContext.Provider value={{ minigame, setMinigame }}>
+      <BrowserRouter>
+        <Switch>
+          <Redirect exact from="/" to="/createLobby" />
+          <Route exact path="/createLobby">
+            <CreateLobby />
+          </Route>
+          <Route exact path="/lobby">
+            <Lobby />
+          </Route>
+          <Route exact path="/gamePreview">
+            <GamePreview />
+          </Route>
+          <Route exact path="/playerPreview">
+            <PlayersForNextGamePreview />
+          </Route>
+          <Route exact path="/game">
+            {minigameRoute()}
+          </Route>
+          <Route exact path="/minigameWon">
+            <MinigameWon />
+          </Route>
+          <Route exact path="/teamScoreOverview">
+            <TeamScoreOverview />
+          </Route>
+          <Route exact path="/tappingGame">
+            <TappingGame />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </MinigameContext.Provider>
     </LobbyContext.Provider>
+   
   );
 };
 
-/*
-* Don't forget to export your component!
- */
 export default AppRouter;
