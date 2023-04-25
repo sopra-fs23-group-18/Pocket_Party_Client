@@ -20,10 +20,13 @@ const GamePreview = () => {
             const response = await api.get(`/lobbies/${lobbyId}/minigame`);
 
             setData(response.data);
-            minigameContext.setMinigame(response.data.type)
+            minigameContext.setMinigame(response.data)
+            localStorage.setItem("minigameContext", JSON.stringify(response.data));
+
         };
         fetchData();
     }, [lobbyId]);
+
     useEffect(() => {
         if (data !== null)
             setTimeout(() => {

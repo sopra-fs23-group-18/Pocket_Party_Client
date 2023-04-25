@@ -11,14 +11,17 @@ import Player from 'models/Player';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import LobbyModel from 'models/LobbyModel';
 import { Button } from 'components/ui/Button';
+import { LobbyContext } from 'components/routing/routers/AppRouter';
 
 const Lobby = props => {
     let location = useLocation();
     const history = useHistory();
     const inviteCode = location.state.inviteCode;
     const connections = useContext(WebSocketContext);
+    const lobbyContext = useContext(LobbyContext);
 
-
+    lobbyContext.setLobby(location.state.id)
+    localStorage.setItem("lobbyContext", JSON.stringify({id: location.state.id}));
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
@@ -125,6 +128,7 @@ const Lobby = props => {
     const onGameStartClicked = async () => {
         const response = await api.put(`lobbies/${location.state.id}`);
         if (response.status === 204) {
+            
             history.push("/gamePreview", { players, lobbyId: location.state.id });
         }
     }

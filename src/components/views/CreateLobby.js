@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { api, handleError } from 'helpers/api';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
@@ -6,6 +6,7 @@ import { Timer } from 'components/ui/Timer';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import { LobbyContext } from 'components/routing/routers/AppRouter';
 
 /*
 It is possible to add multiple components inside a single file,
@@ -16,7 +17,6 @@ specific components that belong to the main one in the same file.
 
 const CreateLobby = props => {
   const history = useHistory();
-
   const doCreateLobby = async () => {
     const requestBody = JSON.stringify({ winningScore: 500 });
     const response = await api.post('/lobbies', requestBody);

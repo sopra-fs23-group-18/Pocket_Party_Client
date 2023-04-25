@@ -12,8 +12,8 @@ const MinigameWon = ({ lobbyId }) => {
     useEffect(() => {
         setTimeout(() => {
             navigation.push("/teamScoreOverview")
-        }, 5000), []
-    });
+        }, 5000)
+    }, []);
     return (
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
