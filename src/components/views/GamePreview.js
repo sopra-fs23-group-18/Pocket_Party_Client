@@ -1,28 +1,36 @@
 import { api } from 'helpers/api';
 import 'styles/views/GamePreview.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { MinigameContext } from 'components/routing/routers/AppRouter';
 
 const GamePreview = () => {
     let location = useLocation();
     const lobbyId = location.state.lobbyId;
-
+    const minigameContext = useContext(MinigameContext);
     // const [description, setDescription] = useState('Description has not loaded yet!');
     // const [minigameTitle, setMinigameTitle] = useState('');
     // const [points, setPoints] = useState(0);
     const [data, setData] = useState(null);
+    const history = useHistory();
     useEffect(() => {
         async function fetchData() {
             const response = await api.get(`/lobbies/${lobbyId}/minigame`);
 
             setData(response.data);
-
+            minigameContext.setMinigame(response.data.type)
         };
         fetchData();
     }, [lobbyId]);
+    useEffect(() => {
+        if (data !== null)
+            setTimeout(() => {
+                history.push("/playerPreview", data)
+            }, 10000);
 
+    }, [data])
     function formatMinigameTypeString(type) {
         const words = type.split('_');
         const formattedWords = words.map(function (word) {

@@ -10,6 +10,7 @@ import { TimingGame } from "components/games/TimingGame";
 import MinigameWon from "components/views/MinigameWon";
 import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
+import { createContext, useState } from "react";
 
 /**
  * Main router of your application.
@@ -20,47 +21,58 @@ import { TappingGame } from "components/games/TappingGame";
  * /game renders a Router that contains other sub-routes that render in turn other react components
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start
  */
+
+export const MinigameContext = createContext(null);
 const AppRouter = () => {
+  const [minigame, setMinigame] = useState();
+
+  const minigameRoute = () => {
+    switch (minigame) {
+      case "TIMING_GAME":
+        return <TimingGame />
+
+      case "TAPPING_GAME":
+        return <TappingGame />
+
+      default:
+        break;
+    }
+  }
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/game">
-          <GameGuard>
-            <GameRouter base="/game" />
-          </GameGuard>
-        </Route>
-        <Route exact path="/createLobby">
-          <LoginGuard>
-            <CreateLobby />
-          </LoginGuard>
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/game" />
-        </Route>
-        <Route exact path="/lobby">
-          <Lobby />
-        </Route>
-        <Route exact path="/gamePreview">
-          <GamePreview />
-        </Route>
-        <Route exact path="/playerPreview">
-          <PlayersForNextGamePreview />
-        </Route>
-        <Route exact path="/timingGame">
-          <TimingGame />
-        </Route>
-        <Route exact path="/minigameWon">
-          <MinigameWon />
-        </Route>
-        <Route exact path="/teamScoreOverview">
-          <TeamScoreOverview />
-        </Route>
-        <Route exact path="/tappingGame">
-          <TappingGame />
-        </Route>
-        
-      </Switch>
-    </BrowserRouter >
+    <MinigameContext.Provider value={{ minigame, setMinigame }}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/createLobby">
+            <LoginGuard>
+              <CreateLobby />
+            </LoginGuard>
+          </Route>
+          <Route exact path="/lobby">
+            <Lobby />
+          </Route>
+          <Route exact path="/gamePreview">
+            <GamePreview />
+          </Route>
+          <Route exact path="/playerPreview">
+            <PlayersForNextGamePreview />
+          </Route>
+          <Route exact path="/game">
+            {minigameRoute()}
+          </Route>
+          <Route exact path="/minigameWon">
+            <MinigameWon />
+          </Route>
+          <Route exact path="/teamScoreOverview">
+            <TeamScoreOverview />
+          </Route>
+          <Route exact path="/tappingGame">
+            <TappingGame />
+          </Route>
+
+        </Switch>
+      </BrowserRouter >
+    </MinigameContext.Provider>
   );
 };
 
