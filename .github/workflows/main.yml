@@ -27,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set CI environment variable
+        run:  echo "CI=false" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v3
 
