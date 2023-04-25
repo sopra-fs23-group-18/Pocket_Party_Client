@@ -42,9 +42,12 @@ const PlayersForNextGamePreview = ({ id }) => {
             <HeaderContainer title='Minigame' text={name} points={pointsToGain}></HeaderContainer>
             <div className='preview container'>
                 <div className='playersForNextGamePreview player-team1'>
+                    <PlayerContainer player={location.state.team1Player} />
                 </div>
                 <label className='playersForNextGamePreview versusLabel'>VS</label>
                 <div className='playersForNextGamePreview player-team2'>
+                    <PlayerContainer player={location.state.team2Player} />
+
                 </div>
             </div>
         </BaseContainer>

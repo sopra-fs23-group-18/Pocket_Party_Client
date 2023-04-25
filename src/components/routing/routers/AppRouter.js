@@ -29,7 +29,7 @@ const AppRouter = () => {
   const minigameRoute = () => {
     switch (minigame?.type) {
       case "TIMING_GAME":
-        return <TimingGame />
+        return <TappingGame />
 
       case "TAPPING_GAME":
         return <TimingGame />

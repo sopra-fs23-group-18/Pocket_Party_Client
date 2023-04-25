@@ -22,10 +22,10 @@ const MinigameWon = () => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    {<PlayerContainer player={location.state.team1Player} />}
+                    <PlayerContainer player={location.state.team1Player} />
                 </div>
                 <div className="gameWon loser">
-                    {<PlayerContainer player={location.state.team2Player} />}
+                    <PlayerContainer player={location.state.team2Player} />
                 </div>
             </div>
         </BaseContainer>
