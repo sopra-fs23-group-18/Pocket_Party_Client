@@ -23,6 +23,11 @@ export class PeerConnection {
             }
         });
         this._onReceive = config.onReceive;
+        this._onConnected = config.onConnected
+        this._lobbyId = config.lobbyId;
+        this._playerId = config.playerId;
+        this._connected = false;
+        this._msg_queue = [];
     }
 
     _sendSignal(msg) {
@@ -30,37 +35,72 @@ export class PeerConnection {
     }
 
     send = (msg) => {
-        if (!this._active) {
+        if (!this._connected) {
             console.warn("Could not send message to peer because Peer Connection is not active");
             return;
         }
-        this._dataChannel.send(msg);
+        switch (this._dataChannel.readyState) {
+            case "open":
+                this._dataChannel.send(msg);
+                break;
+            default:
+                break;
+        }
+        console.warn("Data channel not opened yet adding msg to sending queue")
+        this._msg_queue.push(msg);
+
     }
 
-    _reconnect = () => {
-        setTimeout(() => {
-            this.connect()
-        }, 2000)
+    reconnect = () => {
+        this._peerConnection.restartIce();
+        console.log("Schedule reconnect");
+        // setTimeout(() => {
+        //     this._dataChannel.close();
+        //     this._dataChannel = null;
+        //     this._peerConnection.close();
+        //     this._peerConnection = null;
+        //     this.connect()
+        // }, 2000)
     }
 
     close = () => {
+        console.log("Closing peer connection");
         this._active = false;
+        this._dataChannel.close()
         this._peerConnection.close();
+        this._dataChannel = null;
+        this._peerConnection = null;
     }
 
     connect = () => {
         this._active = true;
         this._sendSignal({
-            senderId: "webApp",
+            senderId: `webApp${this._lobbyId}`,
             type: "JOIN",
         })
 
-        const configuration = {"iceServers" : [ {
-            "urls" : "stun:stun2.l.google.com:19302"
-        }]};
+        const configuration = {
+            "iceServers": [{
+                "urls": "stun:stun.nextcloud.com:443"
+            }]
+        };
         this._peerConnection = new RTCPeerConnection(configuration);
 
-        this._dataChannel = this._peerConnection.createDataChannel("dataChannel", { reliable: true });
+        this._peerConnection.onconnectionstatechange = (ev) => {
+            console.log(this._peerConnection.connectionState);
+            switch (this._peerConnection.connectionState) {
+                case "connected":
+                    console.log("peer connection established successfully!!");
+                    this._connected = true
+                    this._onConnected(this);
+                    console.log("peer connection established successfully!!");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        this._dataChannel = this._peerConnection.createDataChannel(`dataChannel`, { ordered: true, reliable: true, negotiated: true, id: 0 });
         this._dataChannel.onmessage = (event) => {
             this._onReceive(event.data);
         };
@@ -68,12 +108,14 @@ export class PeerConnection {
         this._dataChannel.onerror = (error) => {
             console.warn(`An error occured on the data channel ${error}`)
             // reconnect
-            this._reconnect()
+            this.reconnect()
+            this._connected = false;
         };
 
         this._dataChannel.onclose = () => {
+            this._connected = false;
             if (this._active) {
-                this._reconnect()
+                // this._reconnect()
             }
             console.log("Data channel closed");
         };
@@ -81,21 +123,11 @@ export class PeerConnection {
         this._peerConnection.onicecandidate = (event) => {
             if (event.candidate !== null) {
                 this._sendSignal({
-                    senderId: "webApp",
-                    recipentId: "user0",
+                    senderId: `webApp${this._lobbyId}`,
+                    recipentId: `player${this._playerId}`,
                     type: "ICE",
                     data: event.candidate,
                 });
-            }
-        }
-
-        this._peerConnection.onconnectionstatechange = (ev) => {
-            switch (this._peerConnection.connectionState) {
-                case "connected":
-                    console.log("peer connection established successfully!!");
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -104,8 +136,8 @@ export class PeerConnection {
             .then((offer) => this._peerConnection.setLocalDescription(offer))
             .then(() => {
                 this._sendSignal({
-                    senderId: "webApp",
-                    recipentId: "user0",
+                    senderId: `webApp${this._lobbyId}`,
+                    recipentId: `player${this._playerId}`,
                     type: "OFFER",
                     data: this._peerConnection.localDescription,
                 });
@@ -115,11 +147,20 @@ export class PeerConnection {
                 console.log(reason);
             });
 
-            this._peerConnection.ondatachannel = (event) => {
-            this._dataChannel = event.channel;
-        };
+        // this._peerConnection.ondatachannel = (event) => {
+        //     this._dataChannel = event.channel;
+        // };
 
-        
+        this._dataChannel.onopen = (event) => {
+            console.log("Data channel is now open");
+            console.log(`Having ${this._msg_queue.length} messages in queue sending all of them now`);
+            for (let i = 0; i < this._msg_queue.length; i++) {
+                const msg = this._msg_queue.shift();
+                this._dataChannel.send(msg);
+            }
+        }
+
+
     }
 
     _handleAnswer = (answer) => {
@@ -132,9 +173,13 @@ export class PeerConnection {
 };
 
 export class PeerConnectionConfig {
-    constructor(webSocketConnection, onReceive) {
+    constructor(webSocketConnection, onReceive, onConnected, lobbyId, playerId) {
         this.webSocketConnection = webSocketConnection;
         this.onReceive = onReceive;
+        this.lobbyId = lobbyId;
+        this.playerId = playerId;
+        this.onConnected = onConnected;
+
     }
 }
 
@@ -150,6 +195,16 @@ export class WebSocketConnection {
                 this.connection.onclose = this.onClose;
             }, 5000)
         }
+        this._msg_queue = [];
+        this.connection.onopen = () => {
+            console.log("WS open now");
+            for (let i = 0; i < this._msg_queue.length; i++) {
+                const msg = this._msg_queue.shift();
+                this.connection.send(msg);
+            }
+        }
+
+
     }
 
     setOnMessage = (onMessage) => {
@@ -161,9 +216,11 @@ export class WebSocketConnection {
         this.onClose = onClose;
         this.connection.onclose = onClose;
     }
-    
+
     send = (msg) => {
         if (this.connection.readyState !== 1) {
+            this._msg_queue.push(msg);
+
             console.warn("Could not send signaling message to server because Web Socket connection is not open");
             return;
         }

@@ -1,20 +1,25 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import 'styles/games/timingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
 import { WebSocketContext } from "App";
 import { Timer } from "components/ui/Timer";
+import { useLocation, useParams } from "react-router-dom";
+import { PeerConnection, PeerConnectionConfig } from "helpers/webRTC";
+import Input from "models/Input";
 
 export const TimingGame = props => {
 
     const connections = useContext(WebSocketContext);
-
-
+    
+    const location = useLocation();    
+    
     const [feedback, setFeedback] = useState({
         show: false,
         text: ''
     })
     const [score, setScore] = useState(0);
+    const [peerConnection, setPeerConnection] = useState(null);
     const gameContainer = useRef(null);
     const isMoving = useRef(false);
     const offset = useRef(0);
@@ -25,6 +30,39 @@ export const TimingGame = props => {
     const engine = useRef(Engine.create());
     const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: '#ff7979' } }));
 
+    const onConnected = (pc) => {
+        pc.send("Hello mobile") 
+        console.log("TODO send some shit !");
+    }
+
+    const onReceive = (data) => {
+        console.log(data);
+        const input = new Input(JSON.parse(data));
+        if(input.inputType === 0){
+            moveRect();
+        }
+    }
+
+    useEffect(() => {
+        if(peerConnection === null){
+            console.log("Created new peer connection class");
+            const pc = new PeerConnection(new PeerConnectionConfig(
+                connections.signalingConnection, onReceive, onConnected, location.state.lobbyId, location.state.players[0].id 
+            ))
+            pc.connect()
+           
+            setPeerConnection(pc)
+        }
+        window.addEventListener('beforeunload', () => peerConnection?.close());
+
+        return () => {
+            console.log("COmponent unmounted");
+            if(peerConnection){
+                console.log("Dispatch");
+                peerConnection.close();
+            }
+        }
+    }, [])
 
     useEffect(() => {
         if (feedback.show) {
