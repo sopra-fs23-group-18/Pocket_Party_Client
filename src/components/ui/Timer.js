@@ -6,7 +6,7 @@ export const Timer = props => {
     const [time, setTime] = useState(props.children);
     const [isActive, setIsActive] = useState(true);
     
-    React.useEffect(() => {
+    useEffect(() => {
         let interval = null;
         if (isActive && time > 0) {
             interval = setInterval(() => {
