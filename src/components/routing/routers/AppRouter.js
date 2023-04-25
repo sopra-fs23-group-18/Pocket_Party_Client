@@ -12,16 +12,6 @@ import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 
-/**
- * Main router of your application.
- * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
- * and another Router that matches the route "/game".
- * The main difference between these two routes is the following:
- * /login renders another component without any sub-route
- * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start
- */
-
 export const MinigameContext = createContext(null);
 const AppRouter = () => {
   const [minigame, setMinigame] = useState();
@@ -43,10 +33,9 @@ const AppRouter = () => {
     <MinigameContext.Provider value={{ minigame, setMinigame }}>
       <BrowserRouter>
         <Switch>
+          <Redirect exact from="/" to="/createLobby" />
           <Route exact path="/createLobby">
-            <LoginGuard>
-              <CreateLobby />
-            </LoginGuard>
+            <CreateLobby />
           </Route>
           <Route exact path="/lobby">
             <Lobby />
@@ -69,14 +58,10 @@ const AppRouter = () => {
           <Route exact path="/tappingGame">
             <TappingGame />
           </Route>
-
         </Switch>
-      </BrowserRouter >
+      </BrowserRouter>
     </MinigameContext.Provider>
   );
 };
 
-/*
-* Don't forget to export your component!
- */
 export default AppRouter;
