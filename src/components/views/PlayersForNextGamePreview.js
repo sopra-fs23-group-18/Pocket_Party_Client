@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { api } from 'helpers/api';
 import PlayerContainer from 'components/ui/PlayerContainer';
 import BaseContainer from 'components/ui/BaseContainer';
-import GameHeader from 'components/ui/HeaderContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -19,7 +18,7 @@ const PlayersForNextGamePreview = ({ id }) => {
         setPointsToGain(Number.parseInt(location.state.scoreToGain))
         setName(formatMinigameTypeString(location.state.type));
     }, [location])
-
+    //maybe add formatMinigameTypeString helper function
     function formatMinigameTypeString(type) {
         const words = type.split('_');
         const formattedWords = words.map(function (word) {
@@ -41,7 +40,7 @@ const PlayersForNextGamePreview = ({ id }) => {
     return (
         <BaseContainer>
             <HeaderContainer title='Minigame' text={name} points={pointsToGain}></HeaderContainer>
-            <div className='preview container'>
+            <div className='playersForNextGamePreview container'>
                 <div className='playersForNextGamePreview player-team1'>
                     <PlayerContainer player={location.state.team1Player} />
                 </div>
