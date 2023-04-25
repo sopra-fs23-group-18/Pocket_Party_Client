@@ -1,8 +1,13 @@
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import {GameGuard} from "components/routing/routeProtectors/GameGuard";
-import GameRouter from "components/routing/routers/GameRouter";
-import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
-import Login from "components/views/Login";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import CreateLobby from "components/views/CreateLobby";
+import Lobby from "components/views/Lobby";
+import GamePreview from "components/views/GamePreview";
+import PlayersForNextGamePreview from "components/views/PlayersForNextGamePreview";
+import { TimingGame } from "components/games/TimingGame";
+import MinigameWon from "components/views/MinigameWon";
+import TeamScoreOverview from "components/views/TeamScoreOverview";
+import { TappingGame } from "components/games/TappingGame";
+import { createContext, useState } from "react";
 
 /**
  * Main router of your application.
@@ -13,29 +18,63 @@ import Login from "components/views/Login";
  * /game renders a Router that contains other sub-routes that render in turn other react components
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start
  */
+
+export const MinigameContext = createContext();
+export const LobbyContext = createContext();
+
 const AppRouter = () => {
+  const [minigame, setMinigame] = useState(JSON.parse(localStorage.getItem("minigameContext")));
+  const [lobby, setLobby] = useState(JSON.parse(localStorage.getItem("lobbyContext")));
+
+  const minigameRoute = () => {
+    switch (minigame?.type) {
+      case "TIMING_GAME":
+        return <TappingGame />
+
+      case "TAPPING_GAME":
+        return <TimingGame />
+
+      default:
+        return <TimingGame />;
+    }
+  }
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/game">
-          <GameGuard>
-            <GameRouter base="/game"/>
-          </GameGuard>
-        </Route>
-        <Route exact path="/login">
-          <LoginGuard>
-            <Login/>
-          </LoginGuard>
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/game"/>
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <LobbyContext.Provider value={{ lobby, setLobby }}>
+    <MinigameContext.Provider value={{ minigame, setMinigame }}>
+      <BrowserRouter>
+        <Switch>
+          <Redirect exact from="/" to="/createLobby" />
+          <Route exact path="/createLobby">
+            <CreateLobby />
+          </Route>
+          <Route exact path="/lobby">
+            <Lobby />
+          </Route>
+          <Route exact path="/gamePreview">
+            <GamePreview />
+          </Route>
+          <Route exact path="/playerPreview">
+            <PlayersForNextGamePreview />
+          </Route>
+          <Route exact path="/game">
+            {minigameRoute()}
+          </Route>
+          <Route exact path="/minigameWon">
+            <MinigameWon />
+          </Route>
+          <Route exact path="/teamScoreOverview">
+            <TeamScoreOverview />
+          </Route>
+          <Route exact path="/tappingGame">
+            <TappingGame />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </MinigameContext.Provider>
+    </LobbyContext.Provider>
+   
   );
 };
 
-/*
-* Don't forget to export your component!
- */
 export default AppRouter;

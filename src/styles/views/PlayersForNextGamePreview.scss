@@ -1,0 +1,45 @@
+@import 'styles/theme';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600&display=swap');
+
+.playersForNextGamePreview {
+
+    &.versusLabel {
+        font-family: 'Outfit';
+        font-weight: bold;
+        font-size: 5em;
+        text-align: center;
+        color: $accent;
+    }
+
+    &.player-team1 {
+        animation: slide-in-left 3s ease;
+        margin-right: 4em;
+        margin-bottom: 6em;
+    }
+
+    &.player-team2 {
+        animation: slide-in-right 3s ease;
+        margin-left: 4em;
+        margin-top: 4em;
+    }
+
+    @keyframes slide-in-left {
+        from {
+            transform: translateX(-100%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slide-in-right {
+        from {
+            transform: translateX(100%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+}

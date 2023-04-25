@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory} from 'react-router-dom';
@@ -6,6 +6,9 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import { PeerConnection, PeerConnectionConfig, WebSocketConnection } from 'helpers/webRTC';
+import { WebSocketContext } from 'App';
+const { getWsUrl } = require("../../helpers/getDomain")
 
 /*
 It is possible to add multiple components inside a single file,
@@ -39,23 +42,37 @@ const Login = props => {
   const history = useHistory();
   const [name, setName] = useState(null);
   const [username, setUsername] = useState(null);
+  const peerConnection = useRef(null);
 
-  const doLogin = async () => {
-    try {
-      const requestBody = JSON.stringify({username, name});
-      const response = await api.post('/users', requestBody);
+  const webSocketConnection = useContext(WebSocketContext)
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
+  useEffect(() => {
+    peerConnection.current = new PeerConnection(new PeerConnectionConfig(webSocketConnection, onReceive));
+  }, [webSocketConnection])
 
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
+  const onReceive = (msg) => {
+    console.log(`Received following msg from peer connection:  ${msg}`);
+  }
+
+  const doLogin = () => {
+
+    peerConnection.current?.connect();
+    // try {
+    //   const requestBody = JSON.stringify({username, name});
+    //   const response = await api.post('/users', requestBody);
+
+    //   // Get the returned user and update a new object.
+    //   const user = new User(response.data);
+
+    //   // Store the token into the local storage.
+    //   localStorage.setItem('token', user.token);
+
+    //   // Login successfully worked --> navigate to the route /game in the GameRouter
+    //   history.push(`/game`);
+    // } catch (error) {
+    //   alert(`Something went wrong during the login: \n${handleError(error)}`);
+    // }
   };
 
   return (

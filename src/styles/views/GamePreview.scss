@@ -1,114 +1,53 @@
 @import 'styles/theme';
 
-.Preview {
-    &.Container {
-        vertical-align: center;
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+.preview {
+
+    &.label {
+        color: $accent;
+        margin-bottom: 10px;
+        margin: 10px;
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 2rem;
     }
 
-    &.MinigamelabelBox {
+    &.descBox {
 
-        box-sizing: border-box;
-
-        width: 200px;
-        height: 41px;
-        left: 98px;
-        top: 47px;
-
-        background: #53A57D;
-        border-width: 2px 2px 4px 2px;
-        border-style: solid;
-        border-color: #000000;
-        border-radius: 20px 0px 0px 0px;
-
-    }
-
-    &.Minigamelabel {
-        width: 154px;
-        height: 25px;
-        left: 113px;
-        top: 45px;
-        padding-left: 10px;
-        font-family: Quicksand;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 32px;
-        line-height: 40px;
-        text-align: center;
-
-        color: #FFFFFF;
-
-
-    }
-
-    &.MinigametitleBox {
-
-        box-sizing: border-box;
-        align-items: center;
         display: flex;
-        width: 803px;
-        height: 160px;
-        left: 98px;
-        top: 88px;
+        flex-direction: row;
+        justify-content: left;
+        width: 60%;
+        font-size: 1em;
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-top: 2em;
+        border-radius: 0.75em;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        box-sizing: border-box;
+        position: relative;
+        width: 50em;
+        height: 30em;
 
-        /* Base Color */
-        background: #53A57D;
-        border: 2px solid #000000;
-        box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.25);
-        border-radius: 0px 0px 20px 0px;
-
+        border: 0.2em solid $accent;
     }
 
-    &.Minigametitle {
+    &.image {
+        width: 20em;
+        height: 15em;
 
-        width: 795px;
-        height: 138px;
-        left: 106px;
-        top: 88px;
-
-        font-family: Quicksand;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 128px;
-        line-height: 160px;
-        text-align: center;
-
-        color: #FBF7F4;
+        text-align: right;
+        align-self: flex-end;
+        position: absolute;
+        top: 2em;
+        right: 2em;
     }
 
-    &.MinigamePoints {
-
-        width: 117px;
-        height: 18px;
-        left: 776px;
-        top: 199px;
-
-        font-family: 'Quicksand';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 32px;
-        line-height: 40px;
-        text-align: center;
-        color: #FBF7F4;
-
-
-    }
-
-    &.HTP {
-
-        width: 130px;
-        height: 39px;
-        left: 682px;
-        top: 365px;
-
-        font-family: 'Outfit';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 32px;
-        line-height: 40px;
-        text-align: center;
-
-        color: #458965;
-
-
+    &.description {
+        color: $accent;
+        font-weight: bold;
+        margin-right: 20em;
     }
 }
