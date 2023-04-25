@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import CreateLobby from "components/views/CreateLobby";
 import Lobby from "components/views/Lobby";
 import GamePreview from "components/views/GamePreview";
