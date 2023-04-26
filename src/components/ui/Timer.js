@@ -7,6 +7,9 @@ export const Timer = props => {
     const [isActive, setIsActive] = useState(true);
     
     useEffect(() => {
+        if(time === 0){
+            props.onExpire()
+        }
         let interval = null;
         if (isActive && time > 0) {
             interval = setInterval(() => {
@@ -15,8 +18,9 @@ export const Timer = props => {
         } else if (!isActive && time !== 0) {
             clearInterval(interval);
         }
+
         return () => clearInterval(interval);
-    });
+    }, [time]);
 
     return (
         <div className="timer">
