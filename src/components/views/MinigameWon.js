@@ -5,7 +5,7 @@ import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { api } from "helpers/api";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 
@@ -13,27 +13,32 @@ const MinigameWon = () => {
     const minigameContext = useContext(MinigameContext);
     const lobbyContext = useContext(LobbyContext);
 
-    const [hasWon, setHasWon] = useState("false");
+    const [hasWon, setHasWon] = useState(false);
+    const timeout = useRef(null);
+
     let location = useLocation();
     const navigation = useHistory();
     useEffect(() => {
-        setTimeout(async () => {
-            if (hasWon === "false") {
-                navigation.push("/teamScoreOverview", location.state)
+            if (!hasWon) {
+                timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state)}, 5000)
+                return;
             }
-            else if (hasWon === "true") {
-                const winnerTeam = await api.get(`/lobbies/${lobbyContext.lobby.id}/winner`)
+            console.log("got calleds");
+            clearTimeout(timeout.current);
+            setTimeout( () => {
+            api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
                 navigation.push({
                     pathname: "/winner",
-                    state: { winnerTeam: winnerTeam }
+                    state: { winnerTeam: response.data }
                 });
+            })
+                
+            }, 5000 )
 
-            }
-
-        }, 5000)
+        
     }, [hasWon]);
 
-    
+
     async function updateScores(winnerTeam) {
         const score = winnerTeam.score
         const color = winnerTeam.color
@@ -41,11 +46,14 @@ const MinigameWon = () => {
         const requestbody = JSON.stringify({score, color, name})
         await api.put(`/lobbies/${lobbyContext.lobby.id}/minigame`, requestbody)
         const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/gameover`)
-        setHasWon(response.isFinished)
+        console.log();
+        setHasWon(response.data.isFinished)
     }
+
     useEffect(() => {
         updateScores(location.state.winner);
     }, [])
+
     return (
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
