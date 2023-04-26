@@ -20,8 +20,11 @@ const Lobby = props => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
 
-    lobbyContext.setLobby(location.state.id)
-    localStorage.setItem("lobbyContext", JSON.stringify({id: location.state.id}));
+    useEffect(() => {
+        lobbyContext.setLobby({id: location.state.id})
+        localStorage.setItem("lobbyContext", JSON.stringify({id: location.state.id}));
+    }, [location.id])
+    
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 

@@ -6,9 +6,20 @@ export class PeerConnection {
      */
     constructor(config) {
         this._signalingConnection = config.webSocketConnection;
+        this._onReceive = config.onReceive;
+        this._onConnected = config.onConnected
+        this._lobbyId = config.lobbyId;
+        this._playerId = config.playerId;
+        this._connected = false;
+        this._msg_queue = [];
+
         this._signalingConnection.setOnMessage((msg) => {
             var content = JSON.parse(msg.data);
             var data = content.data;
+            
+            if(content.senderId !== `player${this._playerId}`){
+                return;
+            }
             switch (content.type) {
                 // Offer case is redundant because only web app sends offers
                 case "ANSWER":
@@ -22,12 +33,7 @@ export class PeerConnection {
                     break;
             }
         });
-        this._onReceive = config.onReceive;
-        this._onConnected = config.onConnected
-        this._lobbyId = config.lobbyId;
-        this._playerId = config.playerId;
-        this._connected = false;
-        this._msg_queue = [];
+        
     }
 
     _sendSignal(msg) {
@@ -196,6 +202,8 @@ export class WebSocketConnection {
             }, 5000)
         }
         this._msg_queue = [];
+        this._on_msg_callbacks = [];
+
         this.connection.onopen = () => {
             console.log("WS open now");
             for (let i = 0; i < this._msg_queue.length; i++) {
@@ -204,12 +212,19 @@ export class WebSocketConnection {
             }
         }
 
+        this.connection.onmessage = (msg) => {
+            console.log(`${this._on_msg_callbacks.length} Callbacks for singaling`);
+            for(const callback of this._on_msg_callbacks){
+                callback(msg)
+            }
+        }
 
     }
 
     setOnMessage = (onMessage) => {
-        this.onMessage = onMessage;
-        this.connection.onmessage = onMessage;
+        this._on_msg_callbacks.push(onMessage);
+        // this.onMessage = onMessage;
+        // this.connection.onmessage = onMessage;
     }
 
     setOnClose = (onClose) => {

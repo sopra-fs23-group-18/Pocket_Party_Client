@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from "react";
+import React, { forwardRef, useCallback, useContext, useMemo } from "react";
 import 'styles/games/timingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
@@ -9,8 +9,10 @@ import { PeerConnection, PeerConnectionConfig } from "helpers/webRTC";
 import Input from "models/Input";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import PropTypes from "prop-types";
+import { ActivationState } from "@stomp/stompjs";
+import { useImperativeHandle } from "react";
 
-export const TimingGamePlayerView = props => {
+export const TimingGamePlayerView = forwardRef((props, ref)=> {
 
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
@@ -36,37 +38,56 @@ export const TimingGamePlayerView = props => {
     const onConnected = (pc) => {
         pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"})); 
     }
+    
 
-    const onReceive = (data) => {
-        console.log(data);
-        const input = new Input(JSON.parse(data));
-        if(input.inputType === 0){
+    useImperativeHandle(ref, () => ({
+        move() {
             moveRect();
         }
-    }
+      }));
+    
+    // const onReceive = (data) => {
+    //     console.log(data);
+    //     const input = new Input(JSON.parse(data));
+    //     if(input.inputType === 0){
+    //         moveRect();
+    //     }
+    // }
 
-    useEffect(() => {
-        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
-        if(peerConnection === null){
-            console.log("Created new peer connection class");
-            const pc = new PeerConnection(new PeerConnectionConfig(
-                connections.signalingConnection, onReceive, onConnected, lobbyContext?.lobby.id || -1, player?.id || -1 
-            ))
-            pc.connect()
+    // useEffect(() => {
+    //     const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
+    //     if(connections.stompConnection.state === ActivationState.ACTIVE){
+    //         connections.stompConnection.publish({
+    //             destination: `lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+    //             body: JSON.stringify({
+    //                 signal: "START",
+    //                 minigame: "TIMING_GAME"
+    //             })
+    //         })
+    //     }
+    // }, [])
+    // useEffect(() => {
+    //     const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
+    //     if(peerConnection === null){
+    //         console.log("Created new peer connection class");
+    //         const pc = new PeerConnection(new PeerConnectionConfig(
+    //             connections.signalingConnection, onReceive, onConnected, lobbyContext?.lobby.id || -1, player?.id || -1 
+    //         ))
+    //         pc.connect()
            
-            setPeerConnection(pc)
-        }
+    //         setPeerConnection(pc)
+    //     }
 
-        window.addEventListener('beforeunload', () => {console.log("Reloaded"); peerConnection?.close();});
+    //     window.addEventListener('beforeunload', () => {console.log("Reloaded"); peerConnection?.close();});
 
-        return () => {
-            console.log("COmponent unmounted");
-            if(peerConnection){
-                console.log("Dispatch");
-                peerConnection.close();
-            }
-        }
-    }, [minigameContext, lobbyContext])
+    //     return () => {
+    //         console.log("COmponent unmounted");
+    //         if(peerConnection){
+    //             console.log("Dispatch");
+    //             peerConnection.close();
+    //         }
+    //     }
+    // }, [minigameContext, lobbyContext])
 
     useEffect(() => {
         if (feedback.show) {
@@ -90,11 +111,14 @@ export const TimingGamePlayerView = props => {
                 height: 500,
                 wireframes: false,
                 background: 'transparent',
-                showDebug: true
+                showDebug: false,
+                isFixed: true
             },
         })
 
         engine.current.gravity.y = 0.0;
+        engine.current.timing.timeScale = 2;
+
         Matter.Runner.run(engine.current)
         Matter.Common._seed = 12345678
         Render.run(render)
@@ -118,7 +142,7 @@ export const TimingGamePlayerView = props => {
 
         Events.on(engine.current, "beforeUpdate", function (event) {
             if (isMoving.current) {
-                offset.current += 0.05;
+                offset.current += 0.10;
 
                 if (offset.current < 0) {
                     return;
@@ -139,12 +163,12 @@ export const TimingGamePlayerView = props => {
             }
 
             for (const circle of circles.current) {
-                Body.setPosition(circle, { x: circle.position.x, y: circle.position.y + (10 * 0.13) })
+                Body.setPosition(circle, { x: circle.position.x, y: circle.position.y + (50 * 0.13) })
             }
             if (frameCounter.current % spawnOn.current === 0) {
                 addCircle();
                 frameCounter.current = 0;
-                spawnOn.current = Math.floor(Math.random() * (500 - 200 + 1)) + 200;
+                spawnOn.current = 120;
             }
             frameCounter.current = frameCounter.current + 1;
 
@@ -158,7 +182,6 @@ export const TimingGamePlayerView = props => {
             handleTimingFeedback(objB);
             handledCollision.current = objB.id;
         })
-
         // unmount
         return () => {
             // destroy Matter
@@ -191,12 +214,11 @@ export const TimingGamePlayerView = props => {
             <h1>Score: {score}</h1>
             <h1 className={feedback.show ? 'overCanvas Feedback': 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
-            <Timer> 20 </Timer>
         </div>
         
 
     )
-}
+})
 
 TimingGamePlayerView.propTypes = {
     playerIndex: PropTypes.number.isRequired,
