@@ -17,7 +17,7 @@ const MinigameWon = () => {
     useEffect(() => {
         setTimeout(async () => {
             if (hasWon === "false") {
-                navigation.push("/teamScoreOverview")
+                navigation.push("/teamScoreOverview", location.state)
             }
             else if (hasWon === "true") {
                 const winnerTeam = await api.get(`/lobbies/${LobbyContext}/winner`)
