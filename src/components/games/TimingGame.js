@@ -54,6 +54,24 @@ export const TimingGame = props => {
                 })
             })
         }
+        return () => {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "STOP",
+                        minigame: "TIMING_GAME"
+                    })
+                })
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "STOP",
+                        minigame: "TIMING_GAME"
+                    })
+                })
+            }
+        }
     }, [])
 
     useEffect(() => {
@@ -91,12 +109,12 @@ export const TimingGame = props => {
         <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
-            <h1>Score: {player1Score}</h1>
+            <h1 style={{color: 'black'}}>Score: {player1Score}</h1>
             <TimingGamePlayerView ref={player1} setScore={setPlayer1Score} score={player1Score} playerIndex={0} />
 
             </div>
             <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
-            <h1>Score: {player2Score}</h1>
+            <h1 style={{color: 'black'}}>Score: {player2Score}</h1>
             <TimingGamePlayerView ref={player2} setScore={setPlayer2Score} score={player2Score} playerIndex={1}/>
 
             </div>
@@ -104,11 +122,11 @@ export const TimingGame = props => {
           <Timer onExpire={() => {
             const scoreToGain = minigameContext.minigame.scoreToGain;
             let winnerScore = player1Score > player2Score ? player1Score : player2Score;
-            const winningTeam = player1Score > player2Score ? {color: "RED", name: "team1"}: {color: "BLUE", name: "team2"}
+            const winningTeam = player1Score > player2Score ? {color: "RED", name: "Team Red"}: {color: "BLUE", name: "Team Blue"}
             const total = player1Score + player2Score;
-            winnerScore = Math.round(winnerScore / total * scoreToGain);
-            const winner =  {score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-            const looser = {score: scoreToGain - winnerScore};
+            winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
+            const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+            const looser = { score: scoreToGain - winnerScore};
             history.push("/minigameWon", {winner, looser} )
           }}> 20 </Timer>
           </div>

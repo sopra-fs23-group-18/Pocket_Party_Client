@@ -11,6 +11,8 @@ import { LobbyContext, MinigameContext } from "components/routing/routers/AppRou
 
 const MinigameWon = () => {
     const minigameContext = useContext(MinigameContext);
+    const lobbyContext = useContext(LobbyContext);
+
     const [hasWon, setHasWon] = useState("false");
     let location = useLocation();
     const navigation = useHistory();
@@ -20,7 +22,7 @@ const MinigameWon = () => {
                 navigation.push("/teamScoreOverview", location.state)
             }
             else if (hasWon === "true") {
-                const winnerTeam = await api.get(`/lobbies/${LobbyContext}/winner`)
+                const winnerTeam = await api.get(`/lobbies/${lobbyContext.lobby.id}/winner`)
                 navigation.push({
                     pathname: "/winner",
                     state: { winnerTeam: winnerTeam }
@@ -30,13 +32,15 @@ const MinigameWon = () => {
 
         }, 5000)
     }, [hasWon]);
+
+    
     async function updateScores(winnerTeam) {
         const score = winnerTeam.score
         const color = winnerTeam.color
         const name = winnerTeam.name
-        const requestbody = JSON.stringify(score, color, name)
-        await api.put(`/lobbies/${LobbyContext}/minigame`, requestbody)
-        const response = await api.get(`/lobbies/${LobbyContext}/gameover`)
+        const requestbody = JSON.stringify({score, color, name})
+        await api.put(`/lobbies/${lobbyContext.lobby.id}/minigame`, requestbody)
+        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/gameover`)
         setHasWon(response.isFinished)
     }
     useEffect(() => {

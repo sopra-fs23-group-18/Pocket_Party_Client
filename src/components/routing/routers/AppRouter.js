@@ -33,7 +33,7 @@ const AppRouter = () => {
         return <TimingGame />
 
       case "TAPPING_GAME":
-        return <TappingGame />
+        return <TimingGame />
 
       default:
         return <TimingGame />;

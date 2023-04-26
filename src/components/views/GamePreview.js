@@ -4,12 +4,12 @@ import { useContext, useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
-import { MinigameContext } from 'components/routing/routers/AppRouter';
+import { LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
 
 const GamePreview = () => {
     let location = useLocation();
-    const lobbyId = location.state.lobbyId;
     const minigameContext = useContext(MinigameContext);
+    const lobbyContext = useContext(LobbyContext);
     // const [description, setDescription] = useState('Description has not loaded yet!');
     // const [minigameTitle, setMinigameTitle] = useState('');
     // const [points, setPoints] = useState(0);
@@ -17,7 +17,7 @@ const GamePreview = () => {
     const history = useHistory();
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`/lobbies/${lobbyId}/minigame`);
+            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/minigame`);
 
             setData(response.data);
             minigameContext.setMinigame(response.data)
@@ -25,7 +25,7 @@ const GamePreview = () => {
 
         };
         fetchData();
-    }, [lobbyId]);
+    }, []);
 
     useEffect(() => {
         if (data !== null)

@@ -95,11 +95,11 @@ export const TappingGame = props => {
         }
     }, [gameOver])
     //^ ONLY FOR TESTING
-    useEffect(() => {
-        setTimeout(() => {
-            setGameOver(true)
-        }, 200000);
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setGameOver(true)
+    //     }, 200000);
+    // }, [])
 
     return (
         <div className="tapping-game">
@@ -116,8 +116,10 @@ export const TappingGame = props => {
                     </div>
                 </div>
             </div>
-            <Timer>20</Timer>
-        </div>
+            <Timer onExpire={() => {
+                setGameOver(true);
+            }}>20</Timer>
+        </div> 
 
     );
 

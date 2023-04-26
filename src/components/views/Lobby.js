@@ -20,8 +20,8 @@ const Lobby = props => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
 
-    lobbyContext.setLobby(location.state.id)
-    localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id }));
+
+    
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
@@ -46,12 +46,19 @@ const Lobby = props => {
         }
         setPlayers(playersToAdd);
     }
+
     useEffect(() => {
         if (location.state.id !== null) {
+            
             getLobbyInfo()
         }
 
     }, [])
+
+    useEffect(() => {
+        lobbyContext.setLobby({id: location.state.id})
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id }));
+    }, [location.state.id])
 
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
