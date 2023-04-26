@@ -5,12 +5,12 @@ import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { api } from "helpers/api";
-import { LobbyContext } from "components/routing/routers/AppRouter";
+import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 
 const MinigameWon = () => {
-
+    const minigameContext = useContext(MinigameContext);
     const [hasWon, setHasWon] = useState("false");
     let location = useLocation();
     const navigation = useHistory();
@@ -49,10 +49,10 @@ const MinigameWon = () => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    <PlayerContainer player={location.state.team1Player} />
+                    <PlayerContainer player={minigameContext.minigame.team1Player} />
                 </div>
                 <div className="gameWon loser">
-                    <PlayerContainer player={location.state.team2Player} />
+                    <PlayerContainer player={minigameContext.minigame.team2Player} />
                 </div>
             </div>
         </BaseContainer>
