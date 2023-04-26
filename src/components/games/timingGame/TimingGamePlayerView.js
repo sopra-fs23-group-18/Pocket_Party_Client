@@ -13,18 +13,11 @@ import { ActivationState } from "@stomp/stompjs";
 import { useImperativeHandle } from "react";
 
 export const TimingGamePlayerView = forwardRef((props, ref)=> {
-
-    const connections = useContext(WebSocketContext);
-    const lobbyContext = useContext(LobbyContext);
-    const minigameContext = useContext(MinigameContext);
-
-    const location = useLocation();
     const [feedback, setFeedback] = useState({
         show: false,
         text: ''
     })
-    const [score, setScore] = useState(0);
-    const [peerConnection, setPeerConnection] = useState(null);
+    const {score, setScore} = props
     const gameContainer = useRef(null);
     const isMoving = useRef(false);
     const offset = useRef(0);
@@ -35,9 +28,9 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     const engine = useRef(Engine.create());
     const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: '#ff7979' } }));
 
-    const onConnected = (pc) => {
-        pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"})); 
-    }
+    // const onConnected = (pc) => {
+    //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"})); 
+    // }
     
 
     useImperativeHandle(ref, () => ({
@@ -210,8 +203,7 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     }
 
     return (
-        <div style={{border: 'solid', width: "401px", height: "501px"}}>
-            <h1>Score: {score}</h1>
+        <div style={{color: 'black', order: 'solid', width: "401px", height: "501px"}}>
             <h1 className={feedback.show ? 'overCanvas Feedback': 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
         </div>

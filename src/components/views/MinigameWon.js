@@ -5,26 +5,42 @@ import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { api } from "helpers/api";
-import { LobbyContext } from "components/routing/routers/AppRouter";
-const MinigameWon = ({ winner }) => {
+import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
+
+const MinigameWon = () => {
+    const minigameContext = useContext(MinigameContext);
+    const [hasWon, setHasWon] = useState("false");
     let location = useLocation();
     const navigation = useHistory();
     useEffect(() => {
-        setTimeout(() => {
-            navigation.push("/teamScoreOverview")
+        setTimeout(async () => {
+            if (hasWon === "false") {
+                navigation.push("/teamScoreOverview", location.state)
+            }
+            else if (hasWon === "true") {
+                const winnerTeam = await api.get(`/lobbies/${LobbyContext}/winner`)
+                navigation.push({
+                    pathname: "/winner",
+                    state: { winnerTeam: winnerTeam }
+                });
+
+            }
+
         }, 5000)
-    }, []);
+    }, [hasWon]);
     async function updateScores(winnerTeam) {
         const score = winnerTeam.score
         const color = winnerTeam.color
         const name = winnerTeam.name
         const requestbody = JSON.stringify(score, color, name)
         await api.put(`/lobbies/${LobbyContext}/minigame`, requestbody)
+        const response = await api.get(`/lobbies/${LobbyContext}/gameover`)
+        setHasWon(response.isFinished)
     }
     useEffect(() => {
-        updateScores(winner);
+        updateScores(location.state.winner);
     }, [])
     return (
         <BaseContainer>
@@ -33,10 +49,10 @@ const MinigameWon = ({ winner }) => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    <PlayerContainer player={location.state.team1Player} />
+                    <PlayerContainer player={minigameContext.minigame.team1Player} />
                 </div>
                 <div className="gameWon loser">
-                    <PlayerContainer player={location.state.team2Player} />
+                    <PlayerContainer player={minigameContext.minigame.team2Player} />
                 </div>
             </div>
         </BaseContainer>
