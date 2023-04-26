@@ -34,6 +34,7 @@ const GamePreview = () => {
             }, 10000);
 
     }, [data])
+    //maybe add formatMinigameTypeString helper function
     function formatMinigameTypeString(type) {
         const words = type.split('_');
         const formattedWords = words.map(function (word) {
@@ -47,7 +48,7 @@ const GamePreview = () => {
     function getImagePath(type) {
         return `${process.env.PUBLIC_URL}/images/${type.toLowerCase()}.png`;
     }
-    //TODO: get images and display it, get title and points and display them
+
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
