@@ -32,7 +32,7 @@ const AppRouter = () => {
         return <TimingGame />
 
       case "TAPPING_GAME":
-        return <TimingGame />
+        return <TappingGame />
 
       default:
         return <TimingGame />;
@@ -65,9 +65,6 @@ const AppRouter = () => {
           </Route>
           <Route exact path="/teamScoreOverview">
             <TeamScoreOverview />
-          </Route>
-          <Route exact path="/tappingGame">
-            <TappingGame />
           </Route>
         </Switch>
       </BrowserRouter>
