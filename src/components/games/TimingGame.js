@@ -5,6 +5,7 @@ import { Timer } from "components/ui/Timer";
 import { useContext, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom"
 import { TimingGamePlayerView } from "./timingGame/TimingGamePlayerView"
+import BaseContainer from "components/ui/BaseContainer";
 
 export const TimingGame = props => {
     const location = useLocation();
@@ -17,21 +18,21 @@ export const TimingGame = props => {
 
     const onPlayerOneInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "SHAKE"){
+        if (data.inputType === "SHAKE") {
             player1.current.move();
         }
     }
 
     const onPlayerTwoInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "SHAKE"){
+        if (data.inputType === "SHAKE") {
             player2.current.move();
         }
     }
 
     useEffect(() => {
         const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
-        if(connections.stompConnection.state === ActivationState.ACTIVE){
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
                 body: JSON.stringify({
@@ -77,13 +78,15 @@ export const TimingGame = props => {
             })
         };
     }, [connections, lobbyContext, minigameContext])
-    return(
-        <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
-        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <TimingGamePlayerView ref={player1} playerIndex={0}/>
-            <TimingGamePlayerView ref={player2} playerIndex={1}/>
-        </div>
-          <Timer> 20 </Timer>
-          </div>
+    return (
+        <BaseContainer>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                    <TimingGamePlayerView ref={player1} playerIndex={0} />
+                    <TimingGamePlayerView ref={player2} playerIndex={1} />
+                </div>
+                <Timer> 20 </Timer>
+            </div>
+        </BaseContainer>
     )
 }

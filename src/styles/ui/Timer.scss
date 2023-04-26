@@ -6,23 +6,22 @@
   padding-left: 1em;
   font-weight: bold;
   text-transform: none;
-  font-size: 13px;
   text-align: center;
+  align-self: center;
   border: none;
   border-radius: $borderRadius;
-  cursor: pointer;
   opacity: 1;
   background-color: $accent;
   transition: all 0.3s ease;
   margin-top: 2em;
   margin-bottom: 2em;
+  width: 40%;
 }
 .timer-display {
   font-size: 50px;
-  width: 15em;
+  width: 10em;
   height: 1.5em;
   border-radius: $borderRadius;
-  box-shadow: $dropShadow;
   flex-direction: row;
   align-content: center;
 }

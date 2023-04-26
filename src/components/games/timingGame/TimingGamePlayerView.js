@@ -210,7 +210,7 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     }
 
     return (
-        <div style={{border: 'solid', width: "401px", height: "501px"}}>
+        <div style={{color: 'black',border: 'solid', width: "401px", height: "501px"}}>
             <h1>Score: {score}</h1>
             <h1 className={feedback.show ? 'overCanvas Feedback': 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
