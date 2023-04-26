@@ -6,7 +6,7 @@ function PlayerContainer(props) {
 
   return (
     <div className={`player-container ${player.team}`}>
-      <img className="player-avatar" src={`data:image/svg+xml;utf8,${encodeURIComponent(player.avatar)}`} />
+      <img className="player-avatar" src={`data:image/svg+xml;utf8,${encodeURIComponent(localStorage.getItem(`${player.id}`))}`} />
       <div className="player-name">{player.nickname}</div>
     </div>
   );
