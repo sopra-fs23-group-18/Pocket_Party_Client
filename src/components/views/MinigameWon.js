@@ -6,8 +6,9 @@ import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-
-const MinigameWon = () => {
+import { api } from "helpers/api";
+import { LobbyContext } from "components/routing/routers/AppRouter";
+const MinigameWon = ({ winner }) => {
     let location = useLocation();
     const navigation = useHistory();
     useEffect(() => {
@@ -15,6 +16,16 @@ const MinigameWon = () => {
             navigation.push("/teamScoreOverview")
         }, 5000)
     }, []);
+    async function updateScores(winnerTeam) {
+        const score = winnerTeam.score
+        const color = winnerTeam.color
+        const name = winnerTeam.name
+        const requestbody = JSON.stringify(score, color, name)
+        await api.put(`/lobbies/${LobbyContext}/minigame`, requestbody)
+    }
+    useEffect(() => {
+        updateScores(winner);
+    }, [])
     return (
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>

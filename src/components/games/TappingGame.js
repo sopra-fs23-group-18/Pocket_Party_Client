@@ -27,6 +27,7 @@ export const TappingGame = props => {
         setCount2(count2 + 1);
     }
     //TODO creator of this game: set gameover to true once the game is finished THANKS!
+    //TODO: pass winner to MinigameWon
     useEffect(() => {
         if (gameOver === true) {
             navigation.push("/minigameWon")
