@@ -180,7 +180,7 @@ const Lobby = props => {
                                             <Draggable key={`team1-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <PlayerContainer player={player}></PlayerContainer>
+                                                        <PlayerContainer team={player.team} player={player}></PlayerContainer>
                                                     </li>
                                                 )}
                                             </Draggable>
@@ -206,7 +206,7 @@ const Lobby = props => {
                                             <Draggable key={`team2-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <PlayerContainer player={player}></PlayerContainer>                                                    </li>
+                                                        <PlayerContainer team={player.team} player={player}></PlayerContainer>                                                    </li>
                                                 )}
                                             </Draggable>
                                         ))}

@@ -1,6 +1,8 @@
+import { withRouter } from "react-router-dom";
 
-export const WinnerScreen = () => {
+export const WinnerScreen = withRouter(({ location }) => {
+    const { winnerTeam } = location.state;
     return (
-        <label>test</label>
+        <label>{winnerTeam} has won!</label>
     )
-};
+});
