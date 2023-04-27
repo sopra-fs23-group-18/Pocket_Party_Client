@@ -19,7 +19,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     const spawnOn = useRef(Math.floor(Math.random() * (500 - 200 + 1)) + 200)
     const circles = useRef([]);
     const engine = useRef(Engine.create());
-    const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: '#ff7979' } }));
+    const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: props.playerIndex === 0 ? '#e17860':'#5d96ef' } }));
 
     // const onConnected = (pc) => {
     //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"}));
@@ -186,7 +186,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     /* ############################################################ */
 
     const addCircle = () => {
-        const circle = Bodies.rectangle(200, 0, 50, 50, { label: 'obstacle', isStatic: false, render: { fillStyle: '#f6e58d' } });
+        const circle = Bodies.rectangle(200, 0, 50, 50, { label: 'obstacle', isStatic: false, render: { fillStyle: '#000000' } });
         Composite.add(engine.current.world, circle);
         circles.current.push(circle);
     }
