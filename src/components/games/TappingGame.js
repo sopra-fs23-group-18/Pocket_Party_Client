@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
+import PlayerContainer from "components/ui/PlayerContainer";
 
 export const TappingGame = props => {
     const history = useHistory();
@@ -107,11 +108,13 @@ export const TappingGame = props => {
         <div className="tapping-game">
             <h1>Tapping Game</h1>
             <div className="tapping-game__container">
+                <PlayerContainer team="team1" player={minigameContext.minigame.team1Player}/>
                 <div class="bar">
                     <div class="progress">
                         <div class="count">{count1}</div>
                     </div>
                 </div>
+                <PlayerContainer team="team2" player={minigameContext.minigame.team2Player}/>
                 <div class="bar">
                     <div class="progress">
                         <div class="count">{count2}</div>

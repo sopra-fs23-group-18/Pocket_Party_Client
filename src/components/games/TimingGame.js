@@ -6,6 +6,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom"
 import { TimingGamePlayerView } from "./timingGame/TimingGamePlayerView"
 import BaseContainer from "components/ui/BaseContainer";
+import PlayerContainer from "components/ui/PlayerContainer";
 
 export const TimingGame = props => {
     const location = useLocation();
@@ -109,11 +110,13 @@ export const TimingGame = props => {
         <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
+            <PlayerContainer team='team1' player={minigameContext?.minigame?.team1Player}/> 
             <h1 style={{color: 'black'}}>Score: {player1Score}</h1>
             <TimingGamePlayerView ref={player1} setScore={setPlayer1Score} score={player1Score} playerIndex={0} />
 
             </div>
             <div style={{display: 'flex', flexDirection: 'column', justifyItems: 'center'}}>
+            <PlayerContainer team='team2' player={minigameContext?.minigame?.team2Player}/> 
             <h1 style={{color: 'black'}}>Score: {player2Score}</h1>
             <TimingGamePlayerView ref={player2} setScore={setPlayer2Score} score={player2Score} playerIndex={1}/>
 
