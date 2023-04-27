@@ -30,12 +30,9 @@ const MinigameWon = () => {
         clearTimeout(timeout.current);
         setTimeout(() => {
             api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
-                navigation.push({
-                    pathname: "/winner",
-                    state: { winnerTeam: response.data }
-                });
+                navigation.push("/winner", {winnerTeam: response.data}
+                );
             })
-
         }, 5000)
 
 
