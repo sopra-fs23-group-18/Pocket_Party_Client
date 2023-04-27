@@ -20,11 +20,8 @@ const Lobby = props => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
 
-    useEffect(() => {
-        lobbyContext.setLobby({id: location.state.id})
-        localStorage.setItem("lobbyContext", JSON.stringify({id: location.state.id}));
-    }, [location.id])
-    
+
+
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
@@ -49,15 +46,23 @@ const Lobby = props => {
         }
         setPlayers(playersToAdd);
     }
+
     useEffect(() => {
         if (location.state.id !== null) {
+
             getLobbyInfo()
         }
 
     }, [])
 
+    useEffect(() => {
+        lobbyContext.setLobby({ id: location.state.id, winningScore: location.state.winningScore })
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+    }, [location.state.id])
+
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
+        localStorage.setItem(`${playerJoined.id}`, `${playerJoined.avatar}`)
         playerJoined.team = 'unassigned'
         setPlayers((old) => [...old, playerJoined]);
     }
@@ -131,7 +136,7 @@ const Lobby = props => {
     const onGameStartClicked = async () => {
         const response = await api.put(`lobbies/${location.state.id}`);
         if (response.status === 204) {
-            
+
             history.push("/gamePreview", { players, lobbyId: location.state.id });
         }
     }
@@ -182,7 +187,7 @@ const Lobby = props => {
                                             <Draggable key={`team1-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <PlayerContainer player={player}></PlayerContainer>
+                                                        <PlayerContainer team={player.team} player={player}></PlayerContainer>
                                                     </li>
                                                 )}
                                             </Draggable>
@@ -208,7 +213,7 @@ const Lobby = props => {
                                             <Draggable key={`team2-${player.id}`} draggableId={player.id.toString()} index={index}>
                                                 {(provided) => (
                                                     <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <PlayerContainer player={player}></PlayerContainer>                                                    </li>
+                                                        <PlayerContainer team={player.team} player={player}></PlayerContainer>                                                    </li>
                                                 )}
                                             </Draggable>
                                         ))}
