@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import 'styles/games/tappingGame.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Timer } from "components/ui/Timer";
 import { useHistory } from "react-router-dom";
 import { WebSocketContext } from "App";
@@ -19,20 +19,20 @@ export const TappingGame = props => {
 
     const onPlayerOneInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "TAP"){
+        if (data.inputType === "TAP") {
             setCount1(data.rawData.x);
         }
     }
 
     const onPlayerTwoInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "TAP"){
+        if (data.inputType === "TAP") {
             setCount2(data.rawData.x);
         }
     }
 
     useEffect(() => {
-        if(connections.stompConnection.state === ActivationState.ACTIVE){
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
                 body: JSON.stringify({
@@ -108,13 +108,13 @@ export const TappingGame = props => {
         <div className="tapping-game">
             <h1>Tapping Game</h1>
             <div className="tapping-game__container">
-                <PlayerContainer team="team1" player={minigameContext.minigame.team1Player}/>
+                <PlayerContainer team="team1" player={minigameContext.minigame.team1Player} />
                 <div class="bar">
                     <div class="progress">
                         <div class="count">{count1}</div>
                     </div>
                 </div>
-                <PlayerContainer team="team2" player={minigameContext.minigame.team2Player}/>
+                <PlayerContainer team="team2" player={minigameContext.minigame.team2Player} />
                 <div class="bar">
                     <div class="progress">
                         <div class="count">{count2}</div>
@@ -124,14 +124,14 @@ export const TappingGame = props => {
             <Timer onExpire={() => {
                 const scoreToGain = minigameContext.minigame.scoreToGain;
                 let winnerScore = count1 > count2 ? count1 : count2;
-                const winningTeam = count1 > count2 ? {color: "RED", name: "Team Red"}: {color: "BLUE", name: "Team Blue"}
+                const winningTeam = count1 > count2 ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
                 const total = count1 + count2;
                 winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
                 const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-                const looser = { score: scoreToGain - winnerScore};
-                history.push("/minigameWon", {winner, looser} )
+                const looser = { score: scoreToGain - winnerScore };
+                history.push("/minigameWon", { winner, looser })
             }}>20</Timer>
-        </div> 
+        </div>
 
     );
 

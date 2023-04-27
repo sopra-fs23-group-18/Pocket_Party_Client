@@ -1,13 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import '../../styles/views/WinnerScreen.scss';
+
 
 export const WinnerScreen = () => {
     const location = useLocation();
-    useEffect(() => {
-        console.log("HEllo world");
-        console.log(location.state);
+    const [winnerTeam, setWinnerTeam] = useState();
 
-    }, [])
-    return (
-        <h1>{location.state && location.state.winnerTeam && location.state.winnerTeam.name} has won!</h1>    )
+    useEffect(() => {
+        const {winnerTeam} = location.state;
+        setWinnerTeam(winnerTeam);
+    }, [location])
+
+    return (<div className="container">
+           <h1 className="winnerTitle">Winner</h1>
+                {winnerTeam && <h1 className={`winnerName ${winnerTeam.color === "RED" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
+            </div>
+    )
 };
