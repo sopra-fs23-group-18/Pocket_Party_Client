@@ -76,10 +76,10 @@ const MinigameWon = () => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    <PlayerContainer player={winner} team={winnerTeam} />
+                    {winner && <PlayerContainer player={winner} team={winnerTeam} />}
                 </div>
                 <div className="gameWon loser">
-                    <PlayerContainer player={loser} team={loserTeam} />
+                    {loser && <PlayerContainer player={loser} team={loserTeam} />}
                 </div>
             </div>
         </BaseContainer>
