@@ -1,23 +1,16 @@
-import React, { forwardRef, useCallback, useContext, useMemo } from "react";
+import React, { forwardRef } from "react";
 import 'styles/games/timingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
-import { WebSocketContext } from "App";
-import { Timer } from "components/ui/Timer";
-import { useLocation, useParams } from "react-router-dom";
-import { PeerConnection, PeerConnectionConfig } from "helpers/webRTC";
-import Input from "models/Input";
-import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import PropTypes from "prop-types";
-import { ActivationState } from "@stomp/stompjs";
 import { useImperativeHandle } from "react";
 
-export const TimingGamePlayerView = forwardRef((props, ref)=> {
+export const TimingGamePlayerView = forwardRef((props, ref) => {
     const [feedback, setFeedback] = useState({
         show: false,
         text: ''
     })
-    const {score, setScore} = props
+    const { score, setScore } = props
     const gameContainer = useRef(null);
     const isMoving = useRef(false);
     const offset = useRef(0);
@@ -29,16 +22,16 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: '#ff7979' } }));
 
     // const onConnected = (pc) => {
-    //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"})); 
+    //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"}));
     // }
-    
+
 
     useImperativeHandle(ref, () => ({
         move() {
             moveRect();
         }
-      }));
-    
+    }));
+
     // const onReceive = (data) => {
     //     console.log(data);
     //     const input = new Input(JSON.parse(data));
@@ -64,10 +57,10 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     //     if(peerConnection === null){
     //         console.log("Created new peer connection class");
     //         const pc = new PeerConnection(new PeerConnectionConfig(
-    //             connections.signalingConnection, onReceive, onConnected, lobbyContext?.lobby.id || -1, player?.id || -1 
+    //             connections.signalingConnection, onReceive, onConnected, lobbyContext?.lobby.id || -1, player?.id || -1
     //         ))
     //         pc.connect()
-           
+
     //         setPeerConnection(pc)
     //     }
 
@@ -203,11 +196,11 @@ export const TimingGamePlayerView = forwardRef((props, ref)=> {
     }
 
     return (
-        <div style={{color: 'black', border: 'solid', width: "401px", height: "501px"}}>
-            <h1 className={feedback.show ? 'overCanvas Feedback': 'overCanvas'}>{feedback.text}</h1>
+        <div style={{ color: 'black', border: 'solid', width: "401px", height: "501px" }}>
+            <h1 className={feedback.show ? 'overCanvas Feedback' : 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
         </div>
-        
+
 
     )
 })

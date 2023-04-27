@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { api, handleError } from 'helpers/api';
+import { api } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
