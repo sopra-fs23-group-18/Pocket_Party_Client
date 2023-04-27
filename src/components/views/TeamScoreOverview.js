@@ -29,14 +29,14 @@ const TeamScoreOverview = () => {
     const updateScoreTeam1 = async () => {
         const score = data.teams[0].score;
         console.log(score);
-        setTeam1Pts(score);
+        setTeam1Pts(score / lobbyContext.lobby.winningScore * 100);
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
         const score = data.teams[1].score;
         console.log(score);
-        setTeam2Pts(score);
+        setTeam2Pts(score / lobbyContext.lobby.winningScore * 100);
         team2BarRef.current.classList.add('mounted');
     };
 

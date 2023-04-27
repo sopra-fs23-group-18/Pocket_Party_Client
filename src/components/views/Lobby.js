@@ -21,7 +21,7 @@ const Lobby = props => {
     const lobbyContext = useContext(LobbyContext);
 
 
-    
+
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
@@ -49,15 +49,15 @@ const Lobby = props => {
 
     useEffect(() => {
         if (location.state.id !== null) {
-            
+
             getLobbyInfo()
         }
 
     }, [])
 
     useEffect(() => {
-        lobbyContext.setLobby({id: location.state.id})
-        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id }));
+        lobbyContext.setLobby({ id: location.state.id, winningScore: location.state.winningScore })
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
     }, [location.state.id])
 
     const onPlayerJoin = (data) => {
