@@ -1,11 +1,10 @@
 import BaseContainer from "components/ui/BaseContainer";
-import GameHeader from "components/ui/HeaderContainer";
 import PlayerContainer from "components/ui/PlayerContainer";
 import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { api } from "helpers/api";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 
@@ -30,7 +29,7 @@ const MinigameWon = () => {
         clearTimeout(timeout.current);
         setTimeout(() => {
             api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
-                navigation.push("/winner", {winnerTeam: response.data}
+                navigation.push("/winner", { winnerTeam: response.data }
                 );
             })
         }, 5000)
