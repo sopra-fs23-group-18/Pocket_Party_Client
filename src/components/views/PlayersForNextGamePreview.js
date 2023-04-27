@@ -2,11 +2,10 @@
 import 'styles/views/PlayersForNextGamePreview.scss'
 import 'styles/views/GamePreview.scss';
 import { useContext, useEffect, useState } from 'react';
-import { api } from 'helpers/api';
 import PlayerContainer from 'components/ui/PlayerContainer';
 import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { MinigameContext } from 'components/routing/routers/AppRouter';
 
 //TODO implement api call for player names once the endpoint has been implemented in the backend
