@@ -1,8 +1,13 @@
-import { withRouter } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-export const WinnerScreen = withRouter(({ location }) => {
-    const { winnerTeam } = location.state;
+export const WinnerScreen = () => {
+    const location = useLocation();
+    useEffect(() => {
+        console.log("HEllo world");
+        console.log(location.state);
+
+    }, [])
     return (
-        <label>{winnerTeam} has won!</label>
-    )
-});
+        <h1>{location.state && location.state.winnerTeam && location.state.winnerTeam.name} has won!</h1>    )
+};
