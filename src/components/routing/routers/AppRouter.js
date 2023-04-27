@@ -67,11 +67,8 @@ const AppRouter = () => {
             <Route exact path="/teamScoreOverview">
               <TeamScoreOverview />
             </Route>
-            <Route exact path="/tappingGame">
-              <TappingGame />
-              <Route exact path="/winner">
+            <Route exact path="/winner">
                 <WinnerScreen />
-              </Route>
             </Route>
           </Switch>
         </BrowserRouter>
