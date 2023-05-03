@@ -7,6 +7,7 @@
         /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
         @include center;
         flex-direction: row;
+        justify-content: space-around;
 
     }
 
@@ -15,16 +16,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 60%;
-        max-width: 30em;
-        font-size: 1em;
+        width: 25vw;
+        font-size: 1vw;
         border-radius: 0.75em;
         transition: opacity 0.5s ease, transform 0.5s ease;
         box-shadow: $dropShadow;
         box-sizing: border-box;
 
-        width: 25em;
-        height: 30em;
+        height: 60vh;
 
         border: 0.2em solid $accent;
     }
@@ -43,6 +42,7 @@
         margin: 10px;
         margin-left: 10px;
         font-weight: bold;
+        font-size: 2vw;
     }
 
     &.color-team1 {
@@ -53,13 +53,19 @@
         color: $accentTeamTwo;
     }
 
+    &.image {
+        width: 10vw;
+    }
+
     &.button-container {
         display: flex;
         justify-content: center;
-        width: 15em;
-        height: 2.5em;
+        align-items: center;
+        width: 15vw;
+        height: 6vh;
         background: $accent;
-        border-radius: $borderRadius
+        border-radius: $borderRadius;
+        font-size: 2vw;
     }
 
     &.user-list {
@@ -67,9 +73,11 @@
         margin-right: 3em;
     }
 
-    &.qr-container {
-        position: absolute;
-        top: 2em;
-        right: 10em;
+
+
+    &.div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
     }
 }
