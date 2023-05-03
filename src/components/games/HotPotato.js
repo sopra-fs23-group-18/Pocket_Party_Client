@@ -12,7 +12,6 @@ const HotPotato = () => {
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             if (connections.stompConnection.state === ActivationState.ACTIVE) {
-
                 players.forEach(player => {
                     connections.stompConnection.publish({
                         destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
@@ -40,6 +39,31 @@ const HotPotato = () => {
 
         }
     }, [])
+    useEffect(() => {
+
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
+            players.forEach(player => {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${player.id}/input`, handlePass);
+            });
+            return;
+        }
+
+        connections.stompConnection.onConnect = (_) => {
+            players.forEach(player => {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${player.id}/input`, handlePass);
+            });
+
+            players.forEach(player => {
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "START",
+                        minigame: "HOTPOTATO"
+                    })
+                });
+            });
+        };
+    }, [connections, lobbyContext, minigameContext]);
 
 
 
