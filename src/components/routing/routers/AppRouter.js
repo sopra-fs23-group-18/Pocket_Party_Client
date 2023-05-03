@@ -9,6 +9,7 @@ import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
+import Settings from "components/views/Settings";
 
 /**
  * Main router of your application.
@@ -48,6 +49,9 @@ const AppRouter = () => {
             <Redirect exact from="/" to="/createLobby" />
             <Route exact path="/createLobby">
               <CreateLobby />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
             </Route>
             <Route exact path="/lobby">
               <Lobby />
