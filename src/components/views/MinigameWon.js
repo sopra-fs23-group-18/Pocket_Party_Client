@@ -10,9 +10,7 @@ import { LobbyContext, MinigameContext } from "components/routing/routers/AppRou
 
 const MinigameWon = () => {
     const minigameContext = useContext(MinigameContext);
-    const lobbyContext = useContext(LobbyContext);
 
-    const [hasWon, setHasWon] = useState(false);
     const timeout = useRef(null);
     const [loser, setLoser] = useState();
     const [loserTeam, setLoserTeam] = useState();
@@ -20,25 +18,9 @@ const MinigameWon = () => {
     const [winnerTeam, setWinnerTeam] = useState();
     let location = useLocation();
     const navigation = useHistory();
-    useEffect(() => {
-        if (!hasWon) {
-            timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
-            return;
-        }
-        console.log("got calleds");
-        clearTimeout(timeout.current);
-        setTimeout(() => {
-            api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
-                navigation.push("/winner", { winnerTeam: response.data }
-                );
-            })
-        }, 5000)
 
 
-    }, [hasWon]);
-
-
-    async function updateScores(winnerTeam) {
+    async function getWinner(winnerTeam) {
         if (winnerTeam.color === "RED") {
             setWinner(minigameContext.minigame.team1Player)
             setWinnerTeam("team1")
@@ -51,18 +33,11 @@ const MinigameWon = () => {
             setLoser(minigameContext.minigame.team1Player)
             setLoserTeam("team1")
         }
-        const score = winnerTeam.score
-        const color = winnerTeam.color
-        const name = winnerTeam.name
-        const requestbody = JSON.stringify({ score, color, name })
-        await api.put(`/lobbies/${lobbyContext.lobby.id}/minigame`, requestbody)
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/gameover`)
-        console.log();
-        setHasWon(response.data.isFinished)
     }
 
     useEffect(() => {
-        updateScores(location.state.winner);
+        getWinner(location.state.winner);
+        timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
     }, [])
 
     return (

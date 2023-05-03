@@ -3,12 +3,18 @@ import BaseContainer from 'components/ui/BaseContainer';
 import { useState, useEffect, useRef, useContext } from 'react';
 import { api } from 'helpers/api';
 import HeaderContainer from 'components/ui/HeaderContainer';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { LobbyContext } from "components/routing/routers/AppRouter";
 
 const TeamScoreOverview = () => {
-    const navigation = useHistory();
+
     const lobbyContext = useContext(LobbyContext);
+    let location = useLocation();
+    const navigation = useHistory();
+
+    const [hasWon, setHasWon] = useState(false);
+    const timeout = useRef(null);
+
     // State for team scores
     // const [team1PtsOvr, setTeam1PtsOvr] = useState(0);
     // const [team2PtsOvr, setTeam2PtsOvr] = useState(0);
@@ -40,9 +46,23 @@ const TeamScoreOverview = () => {
         team2BarRef.current.classList.add('mounted');
     };
 
-    useEffect(() => {
+
+    async function updateScores(winnerTeam) {
+        const score = winnerTeam.score
+        const color = winnerTeam.color
+        const name = winnerTeam.name
+        const requestbody = JSON.stringify({ score, color, name })
+        await api.put(`/lobbies/${lobbyContext.lobby.id}/minigame`, requestbody)
+        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/gameover`)
+        console.log();
+        setHasWon(response.data.isFinished)
         getPoints();
+    }
+
+    useEffect(() => {
+        updateScores(location.state.winner);
     }, []);
+
     // Wait for data to be updated
     useEffect(() => {
         if (data) {
@@ -59,6 +79,18 @@ const TeamScoreOverview = () => {
         return () => clearTimeout(timeoutId);
     }, [navigation]);
 
+    useEffect(() => {
+        if (hasWon) {
+            console.log("got calleds");
+            clearTimeout(timeout.current);
+            setTimeout(() => {
+                api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
+                    navigation.push("/winner", { winnerTeam: response.data }
+                    );
+                })
+            }, 5000)
+        }
+    }, [hasWon]);
 
     return (
         <BaseContainer>
