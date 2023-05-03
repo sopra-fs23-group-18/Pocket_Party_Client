@@ -1,0 +1,14 @@
+.pong-game {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+}
+
+// pong game board should be in the middle of the screen and take enough space
+.game-board {
+    height: 100%;
+    display: flex;
+}

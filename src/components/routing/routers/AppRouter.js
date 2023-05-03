@@ -9,6 +9,7 @@ import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
+import { PongGame } from "components/games/PongGame";
 
 /**
  * Main router of your application.
@@ -73,6 +74,10 @@ const AppRouter = () => {
                 <WinnerScreen />
               </Route>
             </Route>
+            <Route exact path="/pongGame">
+              <PongGame />
+            </Route>
+            
           </Switch>
         </BrowserRouter>
       </MinigameContext.Provider>
