@@ -7,6 +7,47 @@ const HotPotato = () => {
     const [gameOver, setGameOver] = useState(false);
     const [index, setIndex] = useState(0);
     const [hasCooldown, setHasCooldown] = useState(true);
+
+
+    useEffect(() => {
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+
+                players.forEach(player => {
+                    connections.stompConnection.publish({
+                        destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                        body: JSON.stringify({
+                            signal: "START",
+                            minigame: "TAPPING_GAME"
+                        })
+                    });
+                });
+            }
+
+        }
+        return () => {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+                players.forEach(player => {
+                    connections.stompConnection.publish({
+                        destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                        body: JSON.stringify({
+                            signal: "STOP",
+                            minigame: "HOTPOTATO"
+                        })
+                    });
+                });
+            }
+
+        }
+    }, [])
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (timeLeft === 0) {
             handleExplode();
