@@ -106,18 +106,17 @@ export const TappingGame = props => {
 
     return (
         <div className="tapping-game">
-            <h1>Tapping Game</h1>
             <div className="tapping-game__container">
                 <PlayerContainer team="team1" player={minigameContext.minigame.team1Player} />
-                <div class="bar">
-                    <div class="progress">
-                        <div class="count">{count1}</div>
+                <div className="bar">
+                    <div className="progress">
+                        <div className="count">{count1}</div>
                     </div>
                 </div>
                 <PlayerContainer team="team2" player={minigameContext.minigame.team2Player} />
-                <div class="bar">
-                    <div class="progress">
-                        <div class="count">{count2}</div>
+                <div className="bar">
+                    <div className="progress">
+                        <div className="count">{count2}</div>
                     </div>
                 </div>
             </div>

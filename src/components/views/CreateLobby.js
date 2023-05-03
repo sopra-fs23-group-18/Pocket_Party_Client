@@ -26,14 +26,11 @@ const CreateLobby = props => {
     <BaseContainer>
       <div className="lobby container">
         <div className="lobby form">
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => doCreateLobby()}
-            >
-              Create Lobby
-            </Button>
-          </div>
+          <Button className="lobby button-container"
+            onClick={() => doCreateLobby()}
+          >
+            Create Lobby
+          </Button>
         </div>
       </div>
     </BaseContainer>
