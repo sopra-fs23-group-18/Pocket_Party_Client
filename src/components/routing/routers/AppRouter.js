@@ -31,9 +31,9 @@ const AppRouter = () => {
   const minigameRoute = () => {
     switch (minigame?.type) {
       case "TIMING_GAME":
-        return <VibrationGame />
+        return <TimingGame />
       case "TAPPING_GAME":
-        return <VibrationGame />
+        return <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
       default:
