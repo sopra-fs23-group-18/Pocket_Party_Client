@@ -1,0 +1,49 @@
+
+@keyframes circleAnim {
+    0% {
+        transform: scale(1, 1)
+    }
+
+    23% {
+        transform: scale(0.5, 0.5)
+    }
+
+    26% {
+        transform: scale(1, 1)
+    }
+
+    46% {
+        transform: scale(0.5, 0.5)
+    }
+    49% {
+        transform: scale(1, 1)
+    }
+
+    69% {
+        transform: scale(0.5, 0.5)
+    }
+    100% {
+        transform: scale(1, 1)
+    }
+}
+
+.circle {
+    cx: 30em;
+    cy: 30em;
+    transform-origin: 50%;
+    r: 15em;
+    fill: rgb(132, 0, 255);
+
+    &.play {
+        animation: circleAnim 2s;
+    }
+    
+}
+
+
+
+svg {
+    width: 60em;
+    height: 60em;
+
+}

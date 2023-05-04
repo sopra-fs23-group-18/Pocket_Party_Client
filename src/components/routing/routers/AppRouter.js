@@ -9,6 +9,7 @@ import TeamScoreOverview from "components/views/TeamScoreOverview";
 import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
+import { VibrationGame } from "components/games/VibrationGame";
 import { PongGame } from "components/games/PongGame";
 
 /**
@@ -32,12 +33,12 @@ const AppRouter = () => {
     switch (minigame?.type) {
       case "TIMING_GAME":
         return <TimingGame />
-
       case "TAPPING_GAME":
         return <TappingGame />
-
+      case "VIBRATION_GAME":
+        return <VibrationGame />
       default:
-        return <TimingGame />;
+        return null;
     }
   }
 
@@ -67,6 +68,9 @@ const AppRouter = () => {
             </Route>
             <Route exact path="/teamScoreOverview">
               <TeamScoreOverview />
+            </Route>
+            <Route exact path="/winner">
+              <WinnerScreen />
             </Route>
             <Route exact path="/tappingGame">
               <TappingGame />

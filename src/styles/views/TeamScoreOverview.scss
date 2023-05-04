@@ -1,63 +1,75 @@
 @import 'styles/theme';
 
 .tso {
-
     &.maincontent {
         display: flex;
         flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5em;
     }
 
-    &.barbox {
+    .barbox {
         display: flex;
+        justify-content: space-between;
         flex-direction: column;
-        flex-grow: 1;
+        width: 80%;
+        margin-bottom: 1em;
+
+        .team1-bar,
+        .team2-bar {
+            height: 5em;
+            border-radius: 0.75em;
+            transition: width 0.5s ease-out;
+            overflow: hidden;
+            transform-origin: right;
+
+            &.mounted {
+                width: 0;
+                animation: expand 4s ease-out forwards;
+            }
+        }
+
+        .team1-bar {
+            background-color: $accentTeamOne;
+            width: #{Team1Pts};
+        }
+
+        .team2-bar {
+            background-color: $accentTeamTwo;
+            width: #{Team2Pts};
+        }
+
+        .team1 {
+            color: $accentTeamOne;
+            font-weight: bold;
+            text-align: center;
+            width: 10%;
+        }
+
+        .team2 {
+            color: $accentTeamTwo;
+            font-weight: bold;
+            text-align: center;
+            width: 10%;
+        }
     }
 
-    &.team1 {
-        font-style: normal;
-        font-weight: bold;
-        font-size: 4em;
-
-        color: $accentTeamOne;
-
-    }
-
-    &.team1Pts {
-        color: $accentTeamOne;
-    }
-
-    &.team2 {
-        font-style: normal;
-        font-weight: bold;
-        font-size: 4em;
-
-        color: $accentTeamTwo;
-    }
-
-    &.team2Pts {
-        color: $accentTeamTwo;
-    }
-
-    &.line {
+    .line {
+        height: 15em;
+        width: 0.1em;
+        flex-direction: row;
         background-color: $accent;
-        height: 35em;
-        width: 0.2em;
+        margin-bottom: 1em;
     }
-
 }
 
-/*
+@keyframes expand {
+    from {
+        width: 0;
+    }
 
-box-sizing: border-box;
-
-position: absolute;
-width: 184px;
-height: 41px;
-left: 98px;
-top: 47px;
-
-background: #53A57D;
-border-width: 2px 2px 4px 2px;
-border-style: solid;
-border-color: #000000;
-border-radius: 20px 0px 0px 0px;*/
+    to {
+        width: #{Team1Pts};
+    }
+}

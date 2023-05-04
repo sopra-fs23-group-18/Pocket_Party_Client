@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 function HeaderContainer(props) {
     const { title, text, points } = props;
     return (
-        <div>
+        <div className="header-container">
             <div className="header-titlebox">
                 {title}
             </div>

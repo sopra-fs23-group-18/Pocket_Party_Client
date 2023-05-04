@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { api, handleError } from 'helpers/api';
+import { api } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
@@ -20,8 +20,8 @@ const Lobby = props => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
 
-    lobbyContext.setLobby(location.state.id)
-    localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id }));
+
+
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
@@ -46,12 +46,19 @@ const Lobby = props => {
         }
         setPlayers(playersToAdd);
     }
+
     useEffect(() => {
         if (location.state.id !== null) {
+
             getLobbyInfo()
         }
 
     }, [])
+
+    useEffect(() => {
+        lobbyContext.setLobby({ id: location.state.id, winningScore: location.state.winningScore })
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+    }, [location.state.id])
 
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
@@ -163,9 +170,11 @@ const Lobby = props => {
 
     return (
         <BaseContainer>
-            <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
-            <div className='lobby qr-container'>
-                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} />
+            <div className='lobby div'>
+                <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
+                <div className='lobby qr-container'>
+                    <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
+                </div>
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>

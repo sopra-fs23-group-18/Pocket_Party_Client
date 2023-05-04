@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import 'styles/games/tappingGame.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Timer } from "components/ui/Timer";
 import { useHistory } from "react-router-dom";
 import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
+import PlayerContainer from "components/ui/PlayerContainer";
 
 export const TappingGame = props => {
-    const navigation = useHistory();
-    const [gameOver, setGameOver] = useState(false);
+    const history = useHistory();
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
     const minigameContext = useContext(MinigameContext);
@@ -19,21 +19,20 @@ export const TappingGame = props => {
 
     const onPlayerOneInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "TAP"){
+        if (data.inputType === "TAP") {
             setCount1(data.rawData.x);
         }
     }
 
     const onPlayerTwoInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if(data.inputType === "TAP"){
+        if (data.inputType === "TAP") {
             setCount2(data.rawData.x);
         }
     }
 
     useEffect(() => {
-        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
-        if(connections.stompConnection.state === ActivationState.ACTIVE){
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
                 body: JSON.stringify({
@@ -48,6 +47,24 @@ export const TappingGame = props => {
                     minigame: "TAPPING_GAME"
                 })
             })
+        }
+        return () => {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "STOP",
+                        minigame: "TAPPING_GAME"
+                    })
+                })
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "STOP",
+                        minigame: "TAPPING_GAME"
+                    })
+                })
+            }
         }
     }, [])
 
@@ -86,37 +103,33 @@ export const TappingGame = props => {
         document.querySelectorAll('.progress')[1].style.height = `${count2 / 2}%`;
     }, [count1, count2]);
 
-    
-    //TODO creator of this game: set gameover to true once the game is finished THANKS!
-    //TODO: pass winner to MinigameWon
-    useEffect(() => {
-        if (gameOver === true) {
-            navigation.push("/minigameWon")
-        }
-    }, [gameOver])
-    //^ ONLY FOR TESTING
-    useEffect(() => {
-        setTimeout(() => {
-            setGameOver(true)
-        }, 200000);
-    }, [])
 
     return (
         <div className="tapping-game">
-            <h1>Tapping Game</h1>
             <div className="tapping-game__container">
-                <div class="bar">
-                    <div class="progress">
-                        <div class="count">{count1}</div>
+                <PlayerContainer team="team1" player={minigameContext.minigame.team1Player} />
+                <div className="bar">
+                    <div className="progress">
+                        <div className="count">{count1}</div>
                     </div>
                 </div>
-                <div class="bar">
-                    <div class="progress">
-                        <div class="count">{count2}</div>
+                <PlayerContainer team="team2" player={minigameContext.minigame.team2Player} />
+                <div className="bar">
+                    <div className="progress">
+                        <div className="count">{count2}</div>
                     </div>
                 </div>
             </div>
-            <Timer>20</Timer>
+            <Timer onExpire={() => {
+                const scoreToGain = minigameContext.minigame.scoreToGain;
+                let winnerScore = count1 > count2 ? count1 : count2;
+                const winningTeam = count1 > count2 ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
+                const total = count1 + count2;
+                winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
+                const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+                const looser = { score: scoreToGain - winnerScore };
+                history.push("/minigameWon", { winner, looser })
+            }}>20</Timer>
         </div>
 
     );

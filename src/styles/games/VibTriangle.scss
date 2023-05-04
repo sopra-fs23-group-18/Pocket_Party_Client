@@ -1,0 +1,47 @@
+
+@keyframes triangleAnim {
+    0% {
+        transform: scale(1, 1)
+    }
+
+    23% {
+        transform: scale(0.5, 0.5)
+    }
+
+    26% {
+        transform: scale(1, 1)
+    }
+
+    46% {
+        transform: scale(0.5, 0.5)
+    }
+    49% {
+        transform: scale(1, 1)
+    }
+
+    69% {
+        transform: scale(0.5, 0.5)
+    }
+    100% {
+        transform: scale(1, 1)
+    }
+}
+
+.triangle {
+    transform-origin: 50%;
+    fill: rgb(229, 255, 0);
+    x: 30em;
+    y: 30em;
+    &.play {
+        animation: triangleAnim 2s;
+    }
+    
+}
+
+
+
+svg {
+    width: 60em;
+    height: 60em;
+
+}

@@ -1,47 +1,45 @@
 import BaseContainer from "components/ui/BaseContainer";
-import GameHeader from "components/ui/HeaderContainer";
 import PlayerContainer from "components/ui/PlayerContainer";
 import "styles/views/GameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { api } from "helpers/api";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 
 const MinigameWon = () => {
     const minigameContext = useContext(MinigameContext);
-    const [hasWon, setHasWon] = useState("false");
+
+    const timeout = useRef(null);
+    const [loser, setLoser] = useState();
+    const [loserTeam, setLoserTeam] = useState();
+    const [winner, setWinner] = useState();
+    const [winnerTeam, setWinnerTeam] = useState();
     let location = useLocation();
     const navigation = useHistory();
-    useEffect(() => {
-        setTimeout(async () => {
-            if (hasWon === "false") {
-                navigation.push("/teamScoreOverview", location.state)
-            }
-            else if (hasWon === "true") {
-                const winnerTeam = await api.get(`/lobbies/${LobbyContext}/winner`)
-                navigation.push({
-                    pathname: "/winner",
-                    state: { winnerTeam: winnerTeam }
-                });
 
-            }
 
-        }, 5000)
-    }, [hasWon]);
-    async function updateScores(winnerTeam) {
-        const score = winnerTeam.score
-        const color = winnerTeam.color
-        const name = winnerTeam.name
-        const requestbody = JSON.stringify(score, color, name)
-        await api.put(`/lobbies/${LobbyContext}/minigame`, requestbody)
-        const response = await api.get(`/lobbies/${LobbyContext}/gameover`)
-        setHasWon(response.isFinished)
+    async function getWinner(winnerTeam) {
+        if (winnerTeam.color === "RED") {
+            setWinner(minigameContext.minigame.team1Player)
+            setWinnerTeam("team1")
+            setLoser(minigameContext.minigame.team2Player)
+            setLoserTeam("team2")
+        }
+        else {
+            setWinner(minigameContext.minigame.team2Player)
+            setWinnerTeam("team2")
+            setLoser(minigameContext.minigame.team1Player)
+            setLoserTeam("team1")
+        }
     }
+
     useEffect(() => {
-        updateScores(location.state.winner);
+        getWinner(location.state.winner);
+        timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
     }, [])
+
     return (
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
@@ -49,10 +47,10 @@ const MinigameWon = () => {
             <div className="gameWon maindiv">
                 <label className="gameWon twi">The winner is</label>
                 <div className="gameWon winner">
-                    <PlayerContainer player={minigameContext.minigame.team1Player} />
+                    {winner && <PlayerContainer player={winner} team={winnerTeam} />}
                 </div>
                 <div className="gameWon loser">
-                    <PlayerContainer player={minigameContext.minigame.team2Player} />
+                    {loser && <PlayerContainer player={loser} team={loserTeam} />}
                 </div>
             </div>
         </BaseContainer>
