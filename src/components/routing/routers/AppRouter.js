@@ -11,6 +11,7 @@ import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
 import HotPotato from "components/games/HotPotato";
+import { PongGame } from "components/games/PongGame";
 
 /**
  * Main router of your application.
@@ -74,6 +75,16 @@ const AppRouter = () => {
             <Route exact path="/winner">
               <WinnerScreen />
             </Route>
+            <Route exact path="/tappingGame">
+              <TappingGame />
+              <Route exact path="/winner">
+                <WinnerScreen />
+              </Route>
+            </Route>
+            <Route exact path="/pongGame">
+              <PongGame />
+            </Route>
+            
           </Switch>
         </BrowserRouter>
       </MinigameContext.Provider>

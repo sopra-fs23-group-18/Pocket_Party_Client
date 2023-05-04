@@ -34,14 +34,14 @@ export const TappingGame = props => {
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TAPPING_GAME"
                 })
             })
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TAPPING_GAME"
@@ -51,14 +51,14 @@ export const TappingGame = props => {
         return () => {
             if (connections.stompConnection.state === ActivationState.ACTIVE) {
                 connections.stompConnection.publish({
-                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
                         minigame: "TAPPING_GAME"
                     })
                 })
                 connections.stompConnection.publish({
-                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
                         minigame: "TAPPING_GAME"
@@ -70,25 +70,25 @@ export const TappingGame = props => {
 
     useEffect(() => {
 
-        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
+        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Players[0] : minigameContext?.minigame.team2Players[0];
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             return;
         }
         connections.stompConnection.onConnect = (_) => {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
 
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TAPPING_GAME"
                 })
             })
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TAPPING_GAME"
@@ -107,13 +107,13 @@ export const TappingGame = props => {
     return (
         <div className="tapping-game">
             <div className="tapping-game__container">
-                <PlayerContainer team="team1" player={minigameContext.minigame.team1Player} />
+                <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
                 <div className="bar">
                     <div className="progress">
                         <div className="count">{count1}</div>
                     </div>
                 </div>
-                <PlayerContainer team="team2" player={minigameContext.minigame.team2Player} />
+                <PlayerContainer team="team2" player={minigameContext.minigame.team2Players[0]} />
                 <div className="bar">
                     <div className="progress">
                         <div className="count">{count2}</div>
