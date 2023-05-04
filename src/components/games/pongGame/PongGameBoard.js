@@ -185,12 +185,12 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                 width: GAME_WIDTH,
                 height: GAME_HEIGHT,
                 wireframes: false,
-                background: "transparent"
+                background: 'rgb(1, 50, 32)'
             },
         })
 
         engine.current.gravity.y = 0;
-        engine.current.timing.timeScale = 0.8;
+        engine.current.timing.timeScale = 0.7;
 
         /// Ball will start moving in a random direction
         const speed = 5;
@@ -206,6 +206,18 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         /// paddles should stop there initially
         Body.setVelocity(leftPaddle.current, {x: 0, y: 0});
         Body.setVelocity(rightPaddle.current, {x: 0, y: 0});
+
+        const resetBall = () => {
+            Body.setPosition(ball.current, {x: GAME_WIDTH/2, y: GAME_HEIGHT/2});
+                    let newAngle = Math.random() * Math.PI * 2;
+                    Body.setVelocity(ball.current, Matter.Vector.rotate({ x: speed, y: 0 }, newAngle));
+                    //pause the game for 1 second
+                    engine.current.timing.timeScale = 0;
+                    setTimeout(() => {
+                        engine.current.timing.timeScale = 0.7;
+                    }
+                    , 1000)
+        }
 
         
         Events.on(engine.current, "beforeUpdate", function (event) {
@@ -259,15 +271,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             left: prev.left + 1
                         }
                     })
-                    Body.setPosition(ball.current, {x: GAME_WIDTH/2, y: GAME_HEIGHT/2});
-                    let newAngle = Math.random() * Math.PI * 2;
-                    Body.setVelocity(ball.current, Matter.Vector.rotate({ x: speed, y: 0 }, newAngle));
-                    //pause the game for 1 second
-                    engine.current.timing.timeScale = 0;
-                    setTimeout(() => {
-                        engine.current.timing.timeScale = 0.8;
-                    }
-                    , 1000)
+                    resetBall();
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "rightGoalWall" || pair.bodyB.label === "ball" && pair.bodyA.label === "rightGoalWall") {
                     /// update the score
@@ -277,15 +281,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             right: prev.right + 1
                         }
                     })
-                    Body.setPosition(ball.current, {x: GAME_WIDTH/2, y: GAME_HEIGHT/2});
-                    let newAngle = Math.random() * Math.PI * 2;
-                    Body.setVelocity(ball.current, Matter.Vector.rotate({ x: speed, y: 0 }, newAngle));
-                    //pause the game for 1 second
-                    engine.current.timing.timeScale = 0;
-                    setTimeout(() => {
-                        engine.current.timing.timeScale = 0.8;
-                    }
-                    , 1000)
+                    resetBall(); 
                 }
 
                 /// if paddle hits the wall, it will stop
