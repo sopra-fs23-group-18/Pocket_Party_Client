@@ -38,17 +38,17 @@ export const TimingGame = props => {
     }
 
     useEffect(() => {
-        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
+        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Players[0] : minigameContext?.minigame.team2Players[0];
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TIMING_GAME"
                 })
             })
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TIMING_GAME"
@@ -58,14 +58,14 @@ export const TimingGame = props => {
         return () => {
             if (connections.stompConnection.state === ActivationState.ACTIVE) {
                 connections.stompConnection.publish({
-                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
                         minigame: "TIMING_GAME"
                     })
                 })
                 connections.stompConnection.publish({
-                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
                         minigame: "TIMING_GAME"
@@ -77,25 +77,25 @@ export const TimingGame = props => {
 
     useEffect(() => {
 
-        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Player : minigameContext?.minigame.team2Player;
+        const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Players[0] : minigameContext?.minigame.team2Players[0];
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             return;
         }
         connections.stompConnection.onConnect = (_) => {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
 
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TIMING_GAME"
                 })
             })
             connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/signal`,
+                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
                     minigame: "TIMING_GAME"
@@ -110,13 +110,13 @@ export const TimingGame = props => {
             <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
-                        <PlayerContainer team='team1' player={minigameContext?.minigame?.team1Player} />
+                        <PlayerContainer team='team1' player={minigameContext?.minigame?.team1Players[0]} />
                         <h1 style={{ color: 'black' }}>Score: {player1Score}</h1>
                         <TimingGamePlayerView ref={player1} setScore={setPlayer1Score} score={player1Score} playerIndex={0} />
 
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
-                        <PlayerContainer team='team2' player={minigameContext?.minigame?.team2Player} />
+                        <PlayerContainer team='team2' player={minigameContext?.minigame?.team2Players[0]} />
                         <h1 style={{ color: 'black' }}>Score: {player2Score}</h1>
                         <TimingGamePlayerView ref={player2} setScore={setPlayer2Score} score={player2Score} playerIndex={1} />
 
