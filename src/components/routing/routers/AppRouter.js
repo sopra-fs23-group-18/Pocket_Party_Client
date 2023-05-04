@@ -10,6 +10,7 @@ import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
+import HotPotato from "components/games/HotPotato";
 import { PongGame } from "components/games/PongGame";
 
 /**
@@ -34,9 +35,11 @@ const AppRouter = () => {
       case "TIMING_GAME":
         return <TimingGame />
       case "TAPPING_GAME":
-        return <TappingGame />
+        return  <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
+      case "HOT_POTATO":
+        return <HotPotato />
       default:
         return null;
     }
