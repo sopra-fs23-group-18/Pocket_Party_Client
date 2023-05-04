@@ -50,21 +50,21 @@ export const VibrationGame = () => {
             setLobbyId(lobbyContext.lobby.id)
         }
         if (minigameContext.minigame) {
-            setPlayers([minigameContext?.minigame.team1Player.id, minigameContext?.minigame.team2Player.id])
+            setPlayers([minigameContext?.minigame.team1Players[0].id, minigameContext?.minigame.team2Players[0].id])
         }
         
     }, [lobbyContext, minigameContext, ])
 
     useEffect(() => {
         if (connections.stompConnection.connected) {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             return;
         }
 
         connections.stompConnection.onConnect = (_) => {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Player.id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Player.id}/input`, onPlayerTwoInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             sendToPlayers({
                 signal: "START",
                 minigame: "VIBRATION_GAME",
@@ -133,7 +133,7 @@ export const VibrationGame = () => {
     return (
         <BaseContainer>
             {/* <VibRect ref={vibrationRepresentationOne}/> */}
-            <VibMerge ref={vibrationRepresentationTwo}/>
+            <VibCircle ref={vibrationRepresentationTwo}/>
             <Button onClick={() => {playVibrationTWO()}}>Pattern 1</Button>
         </BaseContainer>);
 }

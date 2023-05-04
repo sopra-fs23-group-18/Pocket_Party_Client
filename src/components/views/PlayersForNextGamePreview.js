@@ -28,6 +28,8 @@ const PlayersForNextGamePreview = ({ id }) => {
         const formattedString = formattedWords.join(' ');
         return formattedString;
     }
+
+
     useEffect(() => {
         if (name !== 'NA') {
             setTimeout(() => {
@@ -37,17 +39,36 @@ const PlayersForNextGamePreview = ({ id }) => {
 
     }, [name])
 
+
+    const team1Players = () => {
+        const players = []
+        for (const player of minigameContext.minigame.team1Players) {
+            players.push(<PlayerContainer key={player.id} team='team1' player={player} />)
+        }
+
+        return players;
+    }
+
+    const team2Players = () => {
+        const players = []
+        for (const player of minigameContext.minigame.team2Players) {
+            players.push(<PlayerContainer key={player.id} team='team2' player={player} />)
+        }
+
+        return players;
+    }
     return (
         <BaseContainer>
             <HeaderContainer title='Minigame' text={name} points={pointsToGain}></HeaderContainer>
             <div className='playersForNextGamePreview container'>
                 <div className='playersForNextGamePreview player-team1'>
-                    <PlayerContainer team='team1' player={minigameContext.minigame.team1Player} />
+                    {team1Players()}
+
+
                 </div>
                 <label className='playersForNextGamePreview versusLabel'>VS</label>
                 <div className='playersForNextGamePreview player-team2'>
-                    <PlayerContainer team='team2' player={minigameContext.minigame.team2Player} />
-
+                    {team2Players()}
                 </div>
             </div>
         </BaseContainer>
