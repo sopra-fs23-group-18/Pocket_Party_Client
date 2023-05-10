@@ -12,6 +12,7 @@ import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
 import HotPotato from "components/games/HotPotato";
 import { PongGame } from "components/games/PongGame";
+import Settings from "components/views/Settings";
 
 /**
  * Main router of your application.
@@ -58,6 +59,9 @@ const AppRouter = () => {
             </Route>
             <Route exact path="/lobby">
               <Lobby />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
             </Route>
             <Route exact path="/gamePreview">
               <GamePreview />

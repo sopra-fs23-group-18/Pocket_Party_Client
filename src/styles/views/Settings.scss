@@ -1,0 +1,75 @@
+@import 'styles/theme';
+
+.settings {
+    &.container {
+        margin-top: 2em;
+        min-height: 300px;
+        /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
+        @include center;
+        flex-direction: row;
+
+    }
+
+    &.form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 60%;
+        max-width: 30em;
+        font-size: 1em;
+        border-radius: 0.75em;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        box-sizing: border-box;
+
+        width: 25em;
+        height: 30em;
+
+        border: 0.2em solid $accent;
+    }
+
+    &.team1 {
+        border: 0.2em solid $accentTeamOne;
+    }
+
+    &.team2 {
+        border: 0.2em solid $accentTeamTwo;
+    }
+
+    &.label {
+        color: $accent;
+        margin-bottom: 10px;
+        margin: 10px;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    &.color-team1 {
+        color: $accentTeamOne;
+    }
+
+    &.color-team2 {
+        color: $accentTeamTwo;
+    }
+
+    &.button-container {
+        display: flex;
+        justify-content: center;
+        width: 15em;
+        height: 2.5em;
+        background: $accent;
+        border-radius: $borderRadius
+    }
+
+    &.user-list {
+        list-style-type: none;
+        margin-right: 3em;
+    }
+
+    &.qr-container {
+        position: absolute;
+        top: 2em;
+        right: 10em;
+    }
+}

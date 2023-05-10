@@ -5,6 +5,7 @@ import { Button } from 'components/ui/Button';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 
+
 /*
 It is possible to add multiple components inside a single file,
 however be sure not to clutter your files with an endless amount!
@@ -15,8 +16,7 @@ specific components that belong to the main one in the same file.
 const CreateLobby = props => {
   const history = useHistory();
   const doCreateLobby = async () => {
-    const requestBody = JSON.stringify({ winningScore: 500 });
-    const response = await api.post('/lobbies', requestBody);
+    const response = await api.post('/lobbies');
     console.log(response.data);
     history.push('/lobby', response.data);
   };
