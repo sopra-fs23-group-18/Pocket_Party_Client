@@ -66,6 +66,7 @@
         background: $accent;
         border-radius: $borderRadius;
         font-size: 2vw;
+        color: $textColor;
     }
 
     &.user-list {
@@ -73,11 +74,41 @@
         margin-right: 3em;
     }
 
-
-
     &.div {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+    }
+
+    &.settings {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        border: 0.3em solid $accent;
+        border-radius: $borderRadius;
+
+        .option {
+            border: 0.1em solid $accent;
+            padding: 10px;
+            cursor: pointer;
+            background-color: $accentPage;
+            color: $textColor;
+
+            &:hover {
+                background-color: $accent;
+            }
+
+            &.selected {
+                background-color: $accent;
+                color: $textColor;
+            }
+
+            .option-label {
+                font-size: 18px;
+                font-weight: bold;
+            }
+        }
     }
 }
