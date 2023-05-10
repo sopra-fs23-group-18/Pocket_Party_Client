@@ -13,12 +13,14 @@ export const VibCircle = forwardRef((props, ref) => {
     }));
 
 
-    return(
-        <svg>
-            <circle className={playing ? 'circle play' : 'circle'}>
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <svg>
+                <circle className={playing ? 'circle play' : 'circle'}>
 
-            </circle>
-        </svg>
+                </circle>
+            </svg>
+        </div>
     )
 
 });
