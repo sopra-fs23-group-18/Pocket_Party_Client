@@ -21,15 +21,19 @@ const Settings = props => {
   const lobbyContext = useContext(LobbyContext);
 
 
-  const [score, setScore] = useState(null);
+  const [winningScore, setWinningScore] = useState(0);
   const [pointCalculation, setPointCalculation] = useState(null);
   const [playerChoice, setPlayerChoice] = useState(null);
   //const [gameMode, setGameMode] = useState(null);
   const [chosenMinigames, setChosenMinigames] = useState([]);
 
   const doCreateGame = async () => {
-    setScore(500);
-    const requestBody = JSON.stringify(score, pointCalculation, playerChoice, chosenMinigames);
+    setWinningScore(500);
+    const requestBody = JSON.stringify({
+      winningScore: winningScore,
+      pointCalculation: pointCalculation,
+      playerChoice: playerChoice
+    });
     const response = await api.post(`/lobbies/${location.state.id}/games`, requestBody);
     console.log(response.data);
     history.push('/lobby', response.data);
