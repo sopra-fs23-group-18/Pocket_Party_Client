@@ -4,24 +4,36 @@ import { useContext, useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
+import { GameContext, LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
 
 const GamePreview = () => {
     let location = useLocation();
     const minigameContext = useContext(MinigameContext);
     const lobbyContext = useContext(LobbyContext);
+    const gameContext = useContext(GameContext);
     // const [description, setDescription] = useState('Description has not loaded yet!');
     // const [minigameTitle, setMinigameTitle] = useState('');
     // const [points, setPoints] = useState(0);
     const [data, setData] = useState(null);
     const history = useHistory();
+
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/minigame`);
+            const responsePost = await api.post(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
+            if(responsePost.status !== 201 ){
+                //TODO proper error handeling
+                return;
+            }
+            const responsPut = await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
+            if(responsPut.status !== 204){
+                //TODO proper error handeling
+                return
+            }
+            const responseGet = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigame`);
 
-            setData(response.data);
-            minigameContext.setMinigame(response.data)
-            localStorage.setItem("minigameContext", JSON.stringify(response.data));
+            setData(responseGet.data);
+            minigameContext.setMinigame(responseGet.data)
+            localStorage.setItem("minigameContext", JSON.stringify(responseGet.data));
 
         };
         fetchData();

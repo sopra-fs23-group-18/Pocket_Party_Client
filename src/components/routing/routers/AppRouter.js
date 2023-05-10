@@ -26,10 +26,12 @@ import ErrorScreen from "components/views/ErrorScreen";
 
 export const MinigameContext = createContext();
 export const LobbyContext = createContext();
+export const GameContext = createContext();
 
 const AppRouter = () => {
   const [minigame, setMinigame] = useState(JSON.parse(localStorage.getItem("minigameContext")));
   const [lobby, setLobby] = useState(JSON.parse(localStorage.getItem("lobbyContext")));
+  const [game, setGame] = useState(JSON.parse(localStorage.getItem("gameContext")));
 
   const minigameRoute = () => {
     switch (minigame?.type) {
@@ -50,47 +52,49 @@ const AppRouter = () => {
 
   return (
     <LobbyContext.Provider value={{ lobby, setLobby }}>
-      <MinigameContext.Provider value={{ minigame, setMinigame }}>
-        <BrowserRouter>
-          <Switch>
-            <Redirect exact from="/" to="/createLobby" />
-            <Route exact path="/createLobby">
-              <CreateLobby />
-            </Route>
-            <Route exact path="/lobby">
-              <Lobby />
-            </Route>
-            <Route exact path="/error">
-              <ErrorScreen />
-            </Route>
-            <Route exact path="/gamePreview">
-              <GamePreview />
-            </Route>
-            <Route exact path="/playerPreview">
-              <PlayersForNextGamePreview />
-            </Route>
-            <Route exact path="/game">
-              {minigameRoute()}
-            </Route>
-            <Route exact path="/minigameWon">
-              <MinigameWon />
-            </Route>
-            <Route exact path="/teamScoreOverview">
-              <TeamScoreOverview />
-            </Route>
-            <Route exact path="/winner">
-              <WinnerScreen />
-            </Route>
-            <Route exact path="/pongGame">
-              <PongGame />
+      <GameContext.Provider value={{ game, setGame }}>
+        <MinigameContext.Provider value={{ minigame, setMinigame }}>
+          <BrowserRouter>
+            <Switch>
+              <Redirect exact from="/" to="/createLobby" />
+              <Route exact path="/createLobby">
+                <CreateLobby />
+              </Route>
+              <Route exact path="/lobby">
+                <Lobby />
+              </Route>
+              <Route exact path="/error">
+                <ErrorScreen />
+              </Route>
+              <Route exact path="/gamePreview">
+                <GamePreview />
+              </Route>
+              <Route exact path="/playerPreview">
+                <PlayersForNextGamePreview />
+              </Route>
+              <Route exact path="/game">
+                {minigameRoute()}
+              </Route>
+              <Route exact path="/minigameWon">
+                <MinigameWon />
+              </Route>
+              <Route exact path="/teamScoreOverview">
+                <TeamScoreOverview />
+              </Route>
               <Route exact path="/winner">
                 <WinnerScreen />
               </Route>
-            </Route>
+              <Route exact path="/pongGame">
+                <PongGame />
+                <Route exact path="/winner">
+                  <WinnerScreen />
+                </Route>
+              </Route>
 
-          </Switch>
-        </BrowserRouter>
-      </MinigameContext.Provider>
+            </Switch>
+          </BrowserRouter>
+        </MinigameContext.Provider>
+      </GameContext.Provider>
     </LobbyContext.Provider>
 
   );

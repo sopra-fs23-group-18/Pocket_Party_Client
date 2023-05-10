@@ -15,9 +15,7 @@ specific components that belong to the main one in the same file.
 const CreateLobby = props => {
   const history = useHistory();
   const doCreateLobby = async () => {
-    const requestBody = JSON.stringify({ winningScore: 500 });
-    const response = await api.post('/lobbies', requestBody);
-    console.log(response.data);
+    const response = await api.post('/lobbies');
     history.push('/lobby', response.data);
   };
 
