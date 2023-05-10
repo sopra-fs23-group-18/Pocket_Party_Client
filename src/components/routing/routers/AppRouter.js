@@ -40,6 +40,8 @@ const AppRouter = () => {
         return <VibrationGame />
       case "HOT_POTATO":
         return <HotPotato />
+      case "PONG_GAME":
+        return <PongGame />
       default:
         return null;
     }
@@ -75,14 +77,11 @@ const AppRouter = () => {
             <Route exact path="/winner">
               <WinnerScreen />
             </Route>
-            <Route exact path="/tappingGame">
-              <TappingGame />
+            <Route exact path="/pongGame">
+              <PongGame />
               <Route exact path="/winner">
                 <WinnerScreen />
               </Route>
-            </Route>
-            <Route exact path="/pongGame">
-              <PongGame />
             </Route>
             
           </Switch>

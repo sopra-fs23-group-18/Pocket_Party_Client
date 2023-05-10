@@ -60,19 +60,19 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         }
       }, []);
     
-        // redircet to winning page when game is over
-        useEffect(() => {
-            // check if a winner exists, if so, redirect to the winner page
-            if (score.left === WINNING_SCORE || score.right === WINNING_SCORE) {
-                const loserScore = score.left === WINNING_SCORE ? score.right : score.left;
-                const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-                const winner = { score: WINNING_SCORE, color: winningTeam.color, name: winningTeam.name }
-                const loser = { score: loserScore}
-                setTimeout(() => {
-                    history.push("/minigameWon", { winner, loser })
-                }, 1000);
-            }
-        }, [score]);
+    // redircet to winning page when game is over
+    useEffect(() => {
+        // check if a winner exists, if so, redirect to the winner page
+        if (score.left === WINNING_SCORE || score.right === WINNING_SCORE) {
+            const loserScore = score.left === WINNING_SCORE ? score.right : score.left;
+            const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
+            const winner = { score: WINNING_SCORE, color: winningTeam.color, name: winningTeam.name }
+            const loser = { score: loserScore}
+            setTimeout(() => {
+                history.push("/minigameWon", { winner, loser })
+            }, 1000);
+        }
+    }, [score]);
         
 
 
