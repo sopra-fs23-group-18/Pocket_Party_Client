@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 
 const HotPotato = () => {
     const [timeLeft, setTimeLeft] = useState(10);
@@ -136,4 +136,4 @@ const HotPotato = () => {
     );
 };
 
-export default HotPotato;
+export default HotPotato;*/
