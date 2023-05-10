@@ -17,6 +17,11 @@ specific components that belong to the main one in the same file.
 
 const CreateLobby = props => {
 const history = useHistory();
+const doCreateLobby = async () => {
+  const response = await api.post('/lobbies');
+  console.log(response.data);
+  history.push('/settings', response.data);
+};
 
 
   return (
@@ -26,7 +31,7 @@ const history = useHistory();
           <div className="lobby button-container">
             <Button
               width="100%"
-              onClick={() => history.push('/settings')}
+              onClick={() => doCreateLobby()}
             >
               Create Lobby
             </Button>

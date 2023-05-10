@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { api, handleError } from 'helpers/api';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
 import { Timer } from 'components/ui/Timer';
-import 'styles/views/Lobby.scss';
+import 'styles/views/Settings.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import { LobbyContext } from 'components/routing/routers/AppRouter';
@@ -16,25 +16,35 @@ specific components that belong to the main one in the same file.
  */
 
 const Settings = props => {
+  let location = useLocation();
   const history = useHistory();
+  const lobbyContext = useContext(LobbyContext);
+
+
   const [score, setScore] = useState(null);
   const [pointCalculation, setPointCalculation] = useState(null);
   const [playerChoice, setPlayerChoice] = useState(null);
   //const [gameMode, setGameMode] = useState(null);
   const [chosenMinigames, setChosenMinigames] = useState([]);
 
-  const doCreateLobby = async () => {
+  const doCreateGame = async () => {
+    setScore(500);
     const requestBody = JSON.stringify(score, pointCalculation, playerChoice, chosenMinigames);
-    const response = await api.post('/lobbies', requestBody);
+    const response = await api.post(`/lobbies/${location.state.id}/games`, requestBody);
     console.log(response.data);
     history.push('/lobby', response.data);
   };
 
+  useEffect(() => {
+    lobbyContext.setLobby({ id: location.state.id})
+    localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id}));
+  }, [location.state.id])
 
-  setChosenMinigames([
-    ...chosenMinigames,
-    { id: nextId++, name: name}
-  ]);
+
+  // setChosenMinigames([
+  //   ...chosenMinigames,
+  //   { id: nextId++, name: name}
+  // ]);
 
   return (
     <BaseContainer>
@@ -43,9 +53,41 @@ const Settings = props => {
           <div className="lobby button-container">
             <Button
               width="100%"
-              onClick={() => doCreateLobby()}
+              onClick={() => doCreateGame()}
             >
               Save settings
+            </Button>
+          </div>
+          <div className="lobby button-container">
+            <Button
+              width="100%"
+              onClick={() => setPointCalculation("EXPONENTIAL")}
+            >
+              Exponential
+            </Button>
+          </div>
+          <div className="lobby button-container">
+            <Button
+              width="100%"
+              onClick={() => setPointCalculation("LINEAR")}
+            >
+              Linear
+            </Button>
+          </div>
+          <div className="lobby button-container">
+            <Button
+              width="100%"
+              onClick={() => setPlayerChoice("RANDOM")}
+            >
+              Random
+            </Button>
+          </div>
+          <div className="lobby button-container">
+            <Button
+              width="100%"
+              onClick={() => setPlayerChoice("VOTING")}
+            >
+              Voting
             </Button>
           </div>
         </div>
