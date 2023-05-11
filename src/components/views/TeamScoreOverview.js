@@ -28,7 +28,7 @@ const TeamScoreOverview = () => {
     const team2BarRef = useRef(null);
 
     const getPoints = async () => {
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}}/games/${gameContext.game.id}/scores`);
+        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
         setData(response.data);
         console.log(response.data)
     }

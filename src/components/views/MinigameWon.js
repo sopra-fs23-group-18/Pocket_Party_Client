@@ -22,15 +22,15 @@ const MinigameWon = () => {
 
     async function getWinner(winnerTeam) {
         if (winnerTeam.color === "RED") {
-            setWinner(minigameContext.minigame.team1Player)
+            setWinner(minigameContext.minigame.team1Players[0])
             setWinnerTeam("team1")
-            setLoser(minigameContext.minigame.team2Player)
+            setLoser(minigameContext.minigame.team2Players[0])
             setLoserTeam("team2")
         }
         else {
-            setWinner(minigameContext.minigame.team2Player)
+            setWinner(minigameContext.minigame.team2Players[0])
             setWinnerTeam("team2")
-            setLoser(minigameContext.minigame.team1Player)
+            setLoser(minigameContext.minigame.team1Players[0])
             setLoserTeam("team1")
         }
     }
