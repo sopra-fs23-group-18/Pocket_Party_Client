@@ -134,7 +134,7 @@ const Lobby = props => {
     };
 
     const onGameStartClicked = async () => {
-        const requestBody = JSON.stringify({ winningScore: 500 });
+        const requestBody = JSON.stringify({ winningScore: 500, playerChoice: 'RANDOM' });
         const response = await api.post(`lobbies/${location.state.id}/games`, requestBody);
         if (response.status === 201) {
             gameContext.setGame(response.data);
