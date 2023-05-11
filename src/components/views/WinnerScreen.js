@@ -3,13 +3,13 @@ import { useHistory, useLocation } from "react-router-dom";
 import '../../styles/views/WinnerScreen.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import { Button } from "components/ui/Button";
-import { LobbyContext } from "components/routing/routers/AppRouter";
+import { GameContext, LobbyContext } from "components/routing/routers/AppRouter";
 
 
 export const WinnerScreen = () => {
     const history = useHistory();
     const location = useLocation();
-    const lobbyContext = useContext(LobbyContext);
+    const gameContext = useContext(GameContext);
     const [winnerTeam, setWinnerTeam] = useState();
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export const WinnerScreen = () => {
             <div className="container">
                 <h1 className="winnerTitle">Winner</h1>
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam.color === "RED" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
-                <div className="score">Score: {lobbyContext.lobby.winningScore} pts </div>
+                <div className="score">Score: {gameContext.game.winningScore} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
             </div>
         </BaseContainer>

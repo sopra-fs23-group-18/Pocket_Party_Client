@@ -36,14 +36,14 @@ const TeamScoreOverview = () => {
     const updateScoreTeam1 = async () => {
         const score = data.teams[0].score;
         console.log(score);
-        setTeam1Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam1Pts(Math.round(score / gameContext.game.winningScore * 100));
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
         const score = data.teams[1].score;
         console.log(score);
-        setTeam2Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam2Pts(Math.round(score / gameContext.game.winningScore * 100));
         team2BarRef.current.classList.add('mounted');
     };
 
