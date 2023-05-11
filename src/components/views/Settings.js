@@ -6,20 +6,13 @@ import { Timer } from 'components/ui/Timer';
 import 'styles/views/Settings.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import { LobbyContext } from 'components/routing/routers/AppRouter';
-
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
+import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
 
 const Settings = props => {
   let location = useLocation();
   const history = useHistory();
   const lobbyContext = useContext(LobbyContext);
-
+  const gameContext = useContext(GameContext);
 
   const [winningScore, setWinningScore] = useState(2000);
   const [pointCalculation, setPointCalculation] = useState(null);
@@ -33,15 +26,13 @@ const Settings = props => {
       // pointCalculation: pointCalculation,
       playerChoice: playerChoice
     });
-    const response = await api.post(`/lobbies/${location.state.id}/games`, requestBody);
-    console.log(response.data);
-    history.push('/lobby', response.data);
+    const response = await api.post(`/lobbies/${lobbyContext.lobby.id}/games`, requestBody);
+    if (response.status === 201) {
+      gameContext.setGame(response.data);
+      localStorage.setItem("gameContext", JSON.stringify((response.data)));
+      history.push("/gamePreview", { lobbyId: lobbyContext.lobby.id });
+    }
   };
-
-  useEffect(() => {
-    lobbyContext.setLobby({ id: location.state.id })
-    localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id }));
-  }, [location.state.id])
 
 
   // setChosenMinigames([
