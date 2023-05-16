@@ -19,7 +19,6 @@ const Lobby = props => {
     const inviteCode = location.state.inviteCode;
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
-    const gameContext = useContext(GameContext);
 
 
     // Create a state variable to hold the list of players
@@ -28,6 +27,9 @@ const Lobby = props => {
     const getLobbyInfo = async () => {
         const response = await api.get(`/lobbies/${location.state.id}`);
         const lobby = new LobbyModel(response.data);
+        lobbyContext.setLobby(lobby)
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+
         const playersToAdd = [];
         for (const player of lobby.unassignedPlayers) {
             const playerToAdd = new Player(player);
@@ -134,7 +136,19 @@ const Lobby = props => {
     };
 
     const onGameStartClicked = async () => {
-        const response = await api.put(`lobbies/${location.state.id}`);
+        const body = {
+            teams: [
+                {
+                    "id": lobbyContext.lobby.teams[0].id,
+                    "name": "Team Blue"
+                },
+                {
+                    "id": lobbyContext.lobby.teams[1].id,
+                    "name": "Team Red"
+                }
+            ]
+        }
+        const response = await api.put(`lobbies/${location.state.id}`, body );
         if (response.status === 204) {
             history.push("/settings", { lobbyId: location.state.id });
         }
