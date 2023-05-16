@@ -134,12 +134,9 @@ const Lobby = props => {
     };
 
     const onGameStartClicked = async () => {
-        const requestBody = JSON.stringify({ winningScore: 500 });
-        const response = await api.post(`lobbies/${location.state.id}/games`, requestBody);
-        if (response.status === 201) {
-            gameContext.setGame(response.data);
-            localStorage.setItem("gameContext", JSON.stringify((response.data)));
-            history.push("/gamePreview", { players, lobbyId: location.state.id });
+        const response = await api.put(`lobbies/${location.state.id}`);
+        if (response.status === 204) {
+            history.push("/settings", { lobbyId: location.state.id });
         }
     }
 

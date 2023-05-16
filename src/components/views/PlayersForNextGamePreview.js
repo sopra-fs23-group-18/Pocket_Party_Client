@@ -33,7 +33,7 @@ const PlayersForNextGamePreview = ({ id }) => {
     useEffect(() => {
         if (name !== 'NA') {
             setTimeout(() => {
-                navigation.push("/game")
+                navigation.push("/minigame")
             }, 5000)
         }
 
