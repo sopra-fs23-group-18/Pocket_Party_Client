@@ -17,7 +17,7 @@
 .left-score{
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5%;
     font-size: 8rem;
     font-weight: bold;
     color: rgb(215, 84, 64);
@@ -27,8 +27,25 @@
 .right-score{
     position: absolute;
     top: 0;
-    right: 0;
+    right: 5%;
     font-size: 8rem;
     font-weight: bold;
     color: rgb(57, 57, 179);
 }
+
+.red-winner {
+    font-size: 3rem;
+    position: absolute;
+    color: red;
+    text-align: center;
+    left: 45%;
+  }
+  
+  .blue-winner {
+    font-size: 3rem;
+    position: absolute;
+    color: blue;
+    text-align: center;
+    left: 45%;
+  }
+  
