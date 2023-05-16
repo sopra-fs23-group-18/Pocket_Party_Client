@@ -4,11 +4,12 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { api } from 'helpers/api';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LobbyContext } from "components/routing/routers/AppRouter";
+import { GameContext, LobbyContext } from "components/routing/routers/AppRouter";
 
 const TeamScoreOverview = () => {
 
     const lobbyContext = useContext(LobbyContext);
+    const gameContext = useContext(GameContext);
     let location = useLocation();
     const navigation = useHistory();
 
@@ -27,7 +28,7 @@ const TeamScoreOverview = () => {
     const team2BarRef = useRef(null);
 
     const getPoints = async () => {
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/scores`);
+        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
         setData(response.data);
         console.log(response.data)
     }
@@ -35,14 +36,14 @@ const TeamScoreOverview = () => {
     const updateScoreTeam1 = async () => {
         const score = data.teams[0].score;
         console.log(score);
-        setTeam1Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam1Pts(Math.round(score / gameContext.game.winningScore * 100));
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
         const score = data.teams[1].score;
         console.log(score);
-        setTeam2Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam2Pts(Math.round(score / gameContext.game.winningScore * 100));
         team2BarRef.current.classList.add('mounted');
     };
 
@@ -52,8 +53,8 @@ const TeamScoreOverview = () => {
         const color = winnerTeam.color
         const name = winnerTeam.name
         const requestbody = JSON.stringify({ score, color, name })
-        await api.put(`/lobbies/${lobbyContext.lobby.id}/minigame`, requestbody)
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/gameover`)
+        await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
+        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
         console.log();
         setHasWon(response.data.isFinished)
         getPoints();
@@ -84,7 +85,7 @@ const TeamScoreOverview = () => {
             console.log("got calleds");
             clearTimeout(timeout.current);
             setTimeout(() => {
-                api.get(`/lobbies/${lobbyContext.lobby.id}/winner`).then((response) => {
+                api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`).then((response) => {
                     navigation.push("/winner", { winnerTeam: response.data }
                     );
                 })

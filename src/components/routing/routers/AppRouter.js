@@ -13,6 +13,7 @@ import { VibrationGame } from "components/games/VibrationGame";
 import HotPotato from "components/games/HotPotato";
 import { PongGame } from "components/games/PongGame";
 import ErrorScreen from "components/views/ErrorScreen";
+import Settings from "components/views/Settings";
 import { RPSGame } from "components/games/RPSGame";
 
 /**
@@ -27,10 +28,12 @@ import { RPSGame } from "components/games/RPSGame";
 
 export const MinigameContext = createContext();
 export const LobbyContext = createContext();
+export const GameContext = createContext();
 
 const AppRouter = () => {
   const [minigame, setMinigame] = useState(JSON.parse(localStorage.getItem("minigameContext")));
   const [lobby, setLobby] = useState(JSON.parse(localStorage.getItem("lobbyContext")));
+  const [game, setGame] = useState(JSON.parse(localStorage.getItem("gameContext")));
 
   const minigameRoute = () => {
     switch (minigame?.type) {
@@ -39,9 +42,9 @@ const AppRouter = () => {
       case "TAPPING_GAME":
         return <TappingGame />
       case "VIBRATION_GAME":
-        return <VibrationGame />
+        return <TappingGame />
       case "HOT_POTATO":
-        return <HotPotato />
+        return <TappingGame />
       case "PONG_GAME":
         return <PongGame />
       case "RPS_GAME":
@@ -53,40 +56,45 @@ const AppRouter = () => {
 
   return (
     <LobbyContext.Provider value={{ lobby, setLobby }}>
-      <MinigameContext.Provider value={{ minigame, setMinigame }}>
-        <BrowserRouter>
-          <Switch>
-            <Redirect exact from="/" to="/createLobby" />
-            <Route exact path="/createLobby">
-              <CreateLobby />
-            </Route>
-            <Route exact path="/lobby">
-              <Lobby />
-            </Route>
-            <Route exact path="/error">
-              <ErrorScreen />
-            </Route>
-            <Route exact path="/gamePreview">
-              <GamePreview />
-            </Route>
-            <Route exact path="/playerPreview">
-              <PlayersForNextGamePreview />
-            </Route>
-            <Route exact path="/game">
-              {minigameRoute()}
-            </Route>
-            <Route exact path="/minigameWon">
-              <MinigameWon />
-            </Route>
-            <Route exact path="/teamScoreOverview">
-              <TeamScoreOverview />
-            </Route>
-            <Route exact path="/winner">
-              <WinnerScreen />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </MinigameContext.Provider>
+      <GameContext.Provider value={{ game, setGame }}>
+        <MinigameContext.Provider value={{ minigame, setMinigame }}>
+          <BrowserRouter>
+            <Switch>
+              <Redirect exact from="/" to="/createLobby" />
+              <Route exact path="/createLobby">
+                <CreateLobby />
+              </Route>
+              <Route exact path="/lobby">
+                <Lobby />
+              </Route>
+              <Route exact path="/error">
+                <ErrorScreen />
+              </Route>
+              <Route exact path="/gamePreview">
+                <GamePreview />
+              </Route>
+              <Route exact path="/playerPreview">
+                <PlayersForNextGamePreview />
+              </Route>
+              <Route exact path="/minigame">
+                {minigameRoute()}
+              </Route>
+              <Route exact path="/minigameWon">
+                <MinigameWon />
+              </Route>
+              <Route exact path="/teamScoreOverview">
+                <TeamScoreOverview />
+              </Route>
+              <Route exact path="/winner">
+                <WinnerScreen />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </MinigameContext.Provider>
+      </GameContext.Provider>
     </LobbyContext.Provider>
 
   );

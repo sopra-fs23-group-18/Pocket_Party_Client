@@ -10,9 +10,7 @@ const CreateLobby = props => {
   const [winningScore, setWinningScore] = useState(2000);
 
   const doCreateLobby = async () => {
-    const requestBody = JSON.stringify({ winningScore: winningScore });
-    const response = await api.post('/lobbies', requestBody);
-    console.log(response.data);
+    const response = await api.post('/lobbies');
     history.push('/lobby', response.data);
   };
 
