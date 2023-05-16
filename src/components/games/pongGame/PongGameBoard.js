@@ -22,8 +22,10 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         left: 0,
         right: 0
     });
-    const [gameOver, setGameOver] = useState(false);
+    const [winner, setWinner] = useState(null);
     const timeScale = useRef(1);
+
+    const minigameContext = useContext(MinigameContext);
 
 
     useImperativeHandle(ref, () => ({
@@ -59,15 +61,26 @@ export const PongGameBoard = forwardRef((props, ref)=> {
           setScore(JSON.parse(storedScore));
         }
       }, []);
+
+      // display winner
+        useEffect(() => {
+            if (winner) {
+                setTimeout(() => {
+                    setWinner(null);
+                }, 1000);
+            }
+        }, [winner]);
     
     // redircet to winning page when game is over
     useEffect(() => {
         // check if a winner exists, if so, redirect to the winner page
         if (score.left === WINNING_SCORE || score.right === WINNING_SCORE) {
-            const loserScore = score.left === WINNING_SCORE ? score.right : score.left;
+            const scoreToGain = minigameContext.minigame.scoreToGain;
+            const total = score.left + score.right;
+            const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
             const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-            const winner = { score: WINNING_SCORE, color: winningTeam.color, name: winningTeam.name }
-            const loser = { score: loserScore}
+            const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+            const loser = { score: scoreToGain - winnerScore}
             setTimeout(() => {
                 history.push("/minigameWon", { winner, loser })
             }, 1000);
@@ -291,6 +304,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             right: prev.right + 1
                         }
                     })
+                    setWinner("Blue Wins!");
                     isGoal();
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "rightGoalWall" || pair.bodyB.label === "ball" && pair.bodyA.label === "rightGoalWall") {
@@ -301,6 +315,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             left: prev.left + 1
                         }
                     })
+                    setWinner("Red Wins!");
                     isGoal();
                 }
 
@@ -335,6 +350,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         <div className="game-board" ref={gameContainer}></div>
         <h1 className={'left-score'}>{score.left}</h1>
         <h1 className={'right-score'}>{score.right}</h1>
+        <h1 className={winner === "Red Wins!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
         </div>
     )
 })

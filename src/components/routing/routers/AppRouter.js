@@ -12,6 +12,7 @@ import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
 import HotPotato from "components/games/HotPotato";
 import { PongGame } from "components/games/PongGame";
+import { RPSGame } from "components/games/RPSGame";
 
 /**
  * Main router of your application.
@@ -42,6 +43,8 @@ const AppRouter = () => {
         return <HotPotato />
       case "PONG_GAME":
         return <PongGame />
+      case "RPS_GAME":
+        return <RPSGame />
       default:
         return null;
     }
@@ -77,13 +80,6 @@ const AppRouter = () => {
             <Route exact path="/winner">
               <WinnerScreen />
             </Route>
-            <Route exact path="/pongGame">
-              <PongGame />
-              <Route exact path="/winner">
-                <WinnerScreen />
-              </Route>
-            </Route>
-            
           </Switch>
         </BrowserRouter>
       </MinigameContext.Provider>
