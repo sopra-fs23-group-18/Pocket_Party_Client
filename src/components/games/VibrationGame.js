@@ -133,7 +133,7 @@ export const VibrationGame = () => {
     return (
         <BaseContainer>
             {/* <VibRect ref={vibrationRepresentationOne}/> */}
-            <VibCircle ref={vibrationRepresentationTwo}/>
+            <VibMerge ref={vibrationRepresentationTwo}/>
             <Button onClick={() => {playVibrationTWO()}}>Pattern 1</Button>
         </BaseContainer>);
 }

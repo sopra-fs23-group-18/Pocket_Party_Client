@@ -17,15 +17,9 @@
     transform-origin: 50% ;
     width: 30em;
     height: 30em;
-    fill: aqua;
+    fill: #00ffff;
 
     &.play{
         animation: rectAnim 2.2s;
     }
-}
-
-svg{
-    width: 60em;
-    height: 60em;
-
 }

@@ -14,10 +14,11 @@ export const VibTriangle = forwardRef((props, ref) => {
 
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg">
-            <polygon points="460,250 700,600 225,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
-        </svg>
-
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <svg xmlns="http://www.w3.org/2000/svg">
+                <polygon points="460,250 700,600 225,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
+            </svg>
+        </div>
     )
 
 });

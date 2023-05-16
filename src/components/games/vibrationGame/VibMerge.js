@@ -17,14 +17,16 @@ export const VibMerge = forwardRef((props, ref) => {
 
 
     return (
-        <svg  xmlns="http://www.w3.org/2000/svg">
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <svg xmlns="http://www.w3.org/2000/svg">
 
-            <rect className={playing ? 'rect play' : 'rect'} />
-            <circle className={playing ? 'circle play' : 'circle'} />
-            <polygon points="460,250 675,600 275,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
+                <rect className={playing ? 'rect play' : 'rect'} />
+                <circle className={playing ? 'circle play' : 'circle'} />
+                <polygon points="460,250 675,600 275,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
 
 
-        </svg>
+            </svg>
+        </div>
     )
 
 });

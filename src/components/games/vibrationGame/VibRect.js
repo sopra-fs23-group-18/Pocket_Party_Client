@@ -13,12 +13,14 @@ export const VibRect = forwardRef((props, ref) => {
     }));
 
 
-    return(
-        <svg >
-            <rect className={playing ? 'rect play' : 'rect'}>
+    return (
+        <div style={{display: 'flex', justifyContent:'center'}}>
+            <svg >
+                <rect className={playing ? 'rect play' : 'rect'}>
 
-            </rect>
-        </svg>
+                </rect>
+            </svg>
+        </div>
     )
 
 });

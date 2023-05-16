@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ActivationState } from "@stomp/stompjs";
+import { WebSocketContext } from "App";
+import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
+
 
 const HotPotato = () => {
     const [timeLeft, setTimeLeft] = useState(10);
@@ -7,7 +11,9 @@ const HotPotato = () => {
     const [gameOver, setGameOver] = useState(false);
     const [index, setIndex] = useState(0);
     const [hasCooldown, setHasCooldown] = useState(true);
-
+    const connections = useContext(WebSocketContext);
+    const lobbyContext = useContext(LobbyContext);
+    const minigameContext = useContext(MinigameContext);
 
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {

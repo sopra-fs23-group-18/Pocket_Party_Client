@@ -12,6 +12,7 @@ import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
 import HotPotato from "components/games/HotPotato";
 import { PongGame } from "components/games/PongGame";
+import ErrorScreen from "components/views/ErrorScreen";
 import { RPSGame } from "components/games/RPSGame";
 
 /**
@@ -36,7 +37,7 @@ const AppRouter = () => {
       case "TIMING_GAME":
         return <TimingGame />
       case "TAPPING_GAME":
-        return  <TappingGame />
+        return <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
       case "HOT_POTATO":
@@ -61,6 +62,9 @@ const AppRouter = () => {
             </Route>
             <Route exact path="/lobby">
               <Lobby />
+            </Route>
+            <Route exact path="/error">
+              <ErrorScreen />
             </Route>
             <Route exact path="/gamePreview">
               <GamePreview />

@@ -1,46 +1,48 @@
-import React, { } from 'react';
+import React, { useState } from 'react';
 import { api } from 'helpers/api';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
 import 'styles/views/Lobby.scss';
 import BaseContainer from "components/ui/BaseContainer";
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-
 const CreateLobby = props => {
   const history = useHistory();
+  const [winningScore, setWinningScore] = useState(2000);
+
   const doCreateLobby = async () => {
-    const requestBody = JSON.stringify({ winningScore: 500 });
+    const requestBody = JSON.stringify({ winningScore: winningScore });
     const response = await api.post('/lobbies', requestBody);
     console.log(response.data);
     history.push('/lobby', response.data);
   };
 
+  const handleOptionClick = (score) => {
+    setWinningScore(score);
+  };
 
   return (
     <BaseContainer>
       <div className="lobby container">
         <div className="lobby form">
-          <Button className="lobby button-container"
-            onClick={() => doCreateLobby()}
-          >
+          <div className='lobby label'>Duration</div>
+          <div className="lobby settings">
+            <div className={`option ${winningScore === 1000 ? 'selected' : ''}`} onClick={() => handleOptionClick(1000)}>
+              <span className="option-label">Short</span>
+            </div>
+            <div className={`option ${winningScore === 2000 ? 'selected' : ''}`} onClick={() => handleOptionClick(2000)}>
+              <span className="option-label">Normal</span>
+            </div>
+            <div className={`option ${winningScore === 3000 ? 'selected' : ''}`} onClick={() => handleOptionClick(3000)}>
+              <span className="option-label">Long</span>
+            </div>
+          </div>
+          <Button className="lobby button-container" onClick={() => doCreateLobby()}>
             Create Lobby
           </Button>
         </div>
       </div>
     </BaseContainer>
-
-
   );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default CreateLobby;
