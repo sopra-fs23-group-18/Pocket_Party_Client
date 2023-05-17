@@ -51,3 +51,15 @@
         margin-right: 20em;
     }
 }
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15vw;
+    height: 6vh;
+    background: $accent;
+    border-radius: $borderRadius;
+    font-size: 2vw;
+    color: $textColor;
+}

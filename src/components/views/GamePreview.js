@@ -20,12 +20,12 @@ const GamePreview = () => {
     useEffect(() => {
         async function fetchData() {
             const responsePost = await api.post(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
-            if(responsePost.status !== 201 ){
+            if (responsePost.status !== 201) {
                 //TODO proper error handeling
                 return;
             }
             const responsPut = await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
-            if(responsPut.status !== 204){
+            if (responsPut.status !== 204) {
                 //TODO proper error handeling
                 return
             }
@@ -39,13 +39,9 @@ const GamePreview = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (data !== null)
-            setTimeout(() => {
-                history.push("/playerPreview", data)
-            }, 10000);
-
-    }, [data])
+    const next = () => {
+        history.push("/playerPreview", data)
+    }
     //maybe add formatMinigameTypeString helper function
     function formatMinigameTypeString(type) {
         const words = type.split('_');
@@ -69,6 +65,7 @@ const GamePreview = () => {
                 <label className='preview description'>{data?.description}</label>
                 <img className='preview image' src={getImagePath(data?.type || '')}></img>
             </div>
+            <button className='btn' onClick={next}>Start game!</button>
         </BaseContainer>
     );
 }
