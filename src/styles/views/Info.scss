@@ -8,7 +8,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: #000;
+    background-color: white;
 }
 
 .info {
@@ -41,6 +41,8 @@
 .tooltip .tooltip-text {
     margin-bottom: 4px;
     color: white;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 

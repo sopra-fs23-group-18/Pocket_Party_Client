@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import '../../styles/views/Info.scss'
-const Info = () => {
+import InfoIcon from '../../images/information.png';
+import '../../styles/views/Info.scss';
+
+const Info = ({ infotext }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [infotext, setInfotext] = useState("Testsssssssssssssssss");
+
     const handleHover = () => {
         setIsHovered(!isHovered);
     };
@@ -15,7 +17,7 @@ const Info = () => {
         >
             <div className="circle"></div>
             <div className="info">
-                <span>?</span>
+                <img src={InfoIcon} alt="Info Icon" />
             </div>
             {isHovered && (
                 <div className="tooltip">
