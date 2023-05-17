@@ -262,7 +262,7 @@ useEffect(() => {
         )}
         {winner === 'tie' && <p>Tie!</p>}
       </div>
-      <div className="buttons-container">
+      <div className="rps-game-buttons-container">
       {choices.map((choice) => (
         <Button
           key={choice}
@@ -273,7 +273,7 @@ useEffect(() => {
         </Button>
       ))}
     </div>
-    <div className="buttons-container">
+    <div className="rps-game-buttons-container">
     {choices.map((choice) => (
       <Button
         key={choice}
