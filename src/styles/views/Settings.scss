@@ -90,19 +90,20 @@
         border-radius: $borderRadius;
 
         .option {
-            border: 0.1em solid $accent;
             padding: 10px;
             cursor: pointer;
             background-color: $accentPage;
             color: $textColor;
+            border-radius: $borderRadius;
 
-            &:hover {
-                background-color: $accent;
-            }
+            // &:hover {
+            //     background-color: $accent;
+            // }
 
             &.selected {
                 background-color: $accent;
                 color: $textColor;
+                border-radius: 0;
             }
 
             .option-label {

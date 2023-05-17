@@ -15,7 +15,7 @@ const Settings = props => {
   const gameContext = useContext(GameContext);
 
   const [winningScore, setWinningScore] = useState(2000);
-  const [pointCalculation, setPointCalculation] = useState(null);
+  // const [pointCalculation, setPointCalculation] = useState(null);
   const [playerChoice, setPlayerChoice] = useState('RANDOM');
   //const [gameMode, setGameMode] = useState(null);
   const [chosenMinigames, setChosenMinigames] = useState([]);
@@ -43,11 +43,24 @@ const Settings = props => {
   const handleDurationOptionClick = (score) => {
     setWinningScore(score);
   };
+  const handlePlayerChoiceOptionClick = (choice) => {
+    setPlayerChoice(choice);
+    console.log(choice);
+  };
 
   return (
     <BaseContainer>
       <div className="settings container">
         <div className="settings form">
+          <div className='settings label'>Player Choice</div>
+          <div className="settings option-container">
+            <div className={`option ${playerChoice === 'RANDOM' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('RANDOM')}>
+              <span className="option-label">Random</span>
+            </div>
+            <div className={`option ${playerChoice === 'VOTING' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('VOTING')}>
+              <span className="option-label">Voting</span>
+            </div>
+          </div>
           <div className='settings label'>Duration</div>
           <div className="settings option-container">
             <div className={`option ${winningScore === 1000 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(1000)}>
@@ -67,54 +80,10 @@ const Settings = props => {
           </Button>
         </div>
       </div>
-      {/* <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => doCreateGame()}
-            >
-              Save settings
-            </Button>
-          </div>
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => setPointCalculation("EXPONENTIAL")}
-            >
-              Exponential
-            </Button>
-          </div>
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => setPointCalculation("LINEAR")}
-            >
-              Linear
-            </Button>
-          </div>
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => setPlayerChoice("RANDOM")}
-            >
-              Random
-            </Button>
-          </div>
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => setPlayerChoice("VOTING")}
-            >
-              Voting
-            </Button> */}
-      {/* </div> */}
     </BaseContainer >
 
 
   );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default Settings;
