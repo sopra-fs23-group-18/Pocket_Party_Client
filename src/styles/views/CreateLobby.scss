@@ -1,0 +1,118 @@
+@import 'styles/theme';
+
+.createlobby {
+    &.container {
+        margin-top: 2em;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    &.form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 25vw;
+        font-size: 1vw;
+        border-radius: 0.75em;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        box-sizing: border-box;
+        height: 60vh;
+        border: 0.2em solid $accent;
+        margin-bottom: 2em;
+    }
+
+    &.info {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &.team1 {
+        border: 0.2em solid $accentTeamOne;
+    }
+
+    &.team2 {
+        border: 0.2em solid $accentTeamTwo;
+    }
+
+    &.label {
+        color: $accent;
+        margin-bottom: 10px;
+        margin: 10px;
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 2vw;
+    }
+
+    &.color-team1 {
+        color: $accentTeamOne;
+    }
+
+    &.color-team2 {
+        color: $accentTeamTwo;
+    }
+
+    &.image {
+        width: 10vw;
+    }
+
+    &.button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 15vw;
+        height: 6vh;
+        background: $accent;
+        border-radius: $borderRadius;
+        font-size: 2vw;
+        color: $textColor;
+    }
+
+    &.user-list {
+        list-style-type: none;
+        margin-right: 3em;
+    }
+
+    &.div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    &.settings {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        border: 0.3em solid $accent;
+        border-radius: $borderRadius;
+
+        .option {
+            border: 0.1em solid $accent;
+            padding: 10px;
+            cursor: pointer;
+            background-color: $accentPage;
+            color: $textColor;
+
+            &:hover {
+                background-color: $accent;
+            }
+
+            &.selected {
+                background-color: $accent;
+                color: $textColor;
+            }
+
+            .option-label {
+                font-size: 18px;
+                font-weight: bold;
+            }
+        }
+    }
+}
