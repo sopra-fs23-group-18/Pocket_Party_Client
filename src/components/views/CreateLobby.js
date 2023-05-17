@@ -18,7 +18,7 @@ const CreateLobby = (props) => {
     <BaseContainer>
       <div className="createlobby container">
         <div className="createlobby info">
-          <Info infotext={'Welcome to Pocket Party! blablablablabla this is a test'} />
+          <Info infotext={'Welcome to Pocket Party! This is a party game for at least two players where you will compete in several different minigames until a team has reached the winning score! Click the button below to get started.'} />
         </div>
         <div className="createlobby form">
           <Button className="createlobby button-container" onClick={() => doCreateLobby()}>

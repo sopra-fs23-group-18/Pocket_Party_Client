@@ -28,6 +28,12 @@
         border: 0.2em solid $accent;
     }
 
+    &.qr-container {
+        display: flex;
+        flex: column;
+        align-items: flex-end;
+    }
+
     &.team1 {
         border: 0.2em solid $accentTeamOne;
     }
@@ -55,6 +61,7 @@
 
     &.image {
         width: 10vw;
+        margin-right: 1.5vw;
     }
 
     &.button-container {

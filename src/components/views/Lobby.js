@@ -12,6 +12,7 @@ import HeaderContainer from 'components/ui/HeaderContainer';
 import LobbyModel from 'models/LobbyModel';
 import { Button } from 'components/ui/Button';
 import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
+import Info from './Info';
 
 const Lobby = props => {
     let location = useLocation();
@@ -148,7 +149,7 @@ const Lobby = props => {
                 }
             ]
         }
-        const response = await api.put(`lobbies/${location.state.id}`, body );
+        const response = await api.put(`lobbies/${location.state.id}`, body);
         if (response.status === 204) {
             history.push("/settings", { lobbyId: location.state.id });
         }
@@ -187,6 +188,8 @@ const Lobby = props => {
                 <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
                 <div className='lobby qr-container'>
                     <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
+                    <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M3. After scanning the QR-code in the app you can choose your team by dragging your player. Click the button in the center whenever you are ready to play!"} />
+
                 </div>
             </div>
             <div className="lobby container">

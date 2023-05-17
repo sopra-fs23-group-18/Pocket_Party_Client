@@ -1,3 +1,5 @@
+@import '../theme';
+
 .info-icon {
     display: inline-block;
     position: relative;
@@ -28,11 +30,11 @@
     top: 30px;
     left: -80px;
     width: 160px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: $accent;
     padding: 8px;
     border-radius: 4px;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.3s linear;
@@ -48,5 +50,5 @@
 
 .hovered .tooltip {
     visibility: visible;
-    opacity: 0.5;
+    opacity: 0.8;
 }
