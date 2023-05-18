@@ -12,7 +12,7 @@ import HeaderContainer from 'components/ui/HeaderContainer';
 import LobbyModel from 'models/LobbyModel';
 import { Button } from 'components/ui/Button';
 import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
-import Info from './Info';
+import Info from '../ui/Info';
 
 const Lobby = props => {
     let location = useLocation();
@@ -21,6 +21,16 @@ const Lobby = props => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
 
+    const [team1Name, setTeam1Name] = useState('Team 1');
+    const [team2Name, setTeam2Name] = useState('Team 2');
+
+    const onTeam1NameChange = (e) => {
+        setTeam1Name(e.target.value);
+    };
+
+    const onTeam2NameChange = (e) => {
+        setTeam2Name(e.target.value);
+    };
 
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
@@ -141,15 +151,18 @@ const Lobby = props => {
             teams: [
                 {
                     "id": lobbyContext.lobby.teams[0].id,
-                    "name": "Team Blue"
+                    "name": team1Name
                 },
                 {
                     "id": lobbyContext.lobby.teams[1].id,
-                    "name": "Team Red"
+                    "name": team2Name
                 }
             ]
         }
         const response = await api.put(`lobbies/${location.state.id}`, body);
+        const lobbyUpdated = await api.get(`/lobbies/${location.state.id}`);
+        lobbyContext.setLobby(lobbyUpdated.data)
+        localStorage.setItem("lobbyContext", JSON.stringify(lobbyUpdated.data))
         if (response.status === 204) {
             history.push("/settings", { lobbyId: location.state.id });
         }
@@ -178,7 +191,7 @@ const Lobby = props => {
                 </Droppable>
             }
         }
-        return <Button disabled={(team1Count < 1) || (team2Count < 1)} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
+        return <Button disabled={(team1Count < 1) || (team2Count < 1) || (team1Name === '') || team2Name === ''} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
     }
 
 
@@ -195,7 +208,12 @@ const Lobby = props => {
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <div className='lobby label color-team1'>
-                        Team 1
+                        <input
+                            className="lobby team-name-input team1 color-team1"
+                            type="text"
+                            value={team1Name}
+                            onChange={onTeam1NameChange}
+                        />
                         <Droppable droppableId="team1">
                             {(provided) => (
                                 <div className="lobby form team1" {...provided.droppableProps} ref={provided.innerRef}>
@@ -221,7 +239,12 @@ const Lobby = props => {
                     </div>
 
                     <div className='lobby label color-team2'>
-                        Team 2
+                        <input
+                            className="lobby team-name-input team2 color-team2"
+                            type="text"
+                            value={team2Name}
+                            onChange={onTeam2NameChange}
+                        />
                         <Droppable droppableId="team2">
                             {(provided) => (
                                 <div className="lobby form team2" {...provided.droppableProps} ref={provided.innerRef}>

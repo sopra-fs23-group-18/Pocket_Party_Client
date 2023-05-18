@@ -34,12 +34,23 @@
         align-items: flex-end;
     }
 
+    &.team-name-input {
+        color: $accent;
+        font-weight: bold;
+        margin-bottom: 1em;
+        font-size: 2vw;
+        background-color: $accentPage;
+        border-radius: $borderRadius;
+        width: 50%;
+        padding-left: 0.4em;
+    }
+
     &.team1 {
-        border: 0.2em solid $accentTeamOne;
+        border: 3px solid $accentTeamOne;
     }
 
     &.team2 {
-        border: 0.2em solid $accentTeamTwo;
+        border: 3px solid $accentTeamTwo;
     }
 
     &.label {
@@ -85,37 +96,5 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-    }
-
-    &.settings {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
-        border: 0.3em solid $accent;
-        border-radius: $borderRadius;
-
-        .option {
-            border: 0.1em solid $accent;
-            padding: 10px;
-            cursor: pointer;
-            background-color: $accentPage;
-            color: $textColor;
-
-            &:hover {
-                background-color: $accent;
-            }
-
-            &.selected {
-                background-color: $accent;
-                color: $textColor;
-            }
-
-            .option-label {
-                font-size: 18px;
-                font-weight: bold;
-            }
-        }
     }
 }

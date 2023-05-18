@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
 import 'styles/views/CreateLobby.scss';
 import BaseContainer from 'components/ui/BaseContainer';
-import Info from './Info';
+import Info from '../ui/Info';
 
 const CreateLobby = (props) => {
   const history = useHistory();
