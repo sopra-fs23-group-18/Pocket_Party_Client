@@ -39,7 +39,7 @@ export const VibrationGame = () => {
                     body: JSON.stringify(body)
                 })
                 console.log("trash bruder trash");
-            }else{
+            } else {
                 console.log("Fuck off");
             }
         }
@@ -52,8 +52,8 @@ export const VibrationGame = () => {
         if (minigameContext.minigame) {
             setPlayers([minigameContext?.minigame.team1Players[0].id, minigameContext?.minigame.team2Players[0].id])
         }
-        
-    }, [lobbyContext, minigameContext, ])
+
+    }, [lobbyContext, minigameContext,])
 
     useEffect(() => {
         if (connections.stompConnection.connected) {
@@ -71,10 +71,10 @@ export const VibrationGame = () => {
                 data: null
             }, lobbyId, players);
         };
-    },[connections, players, lobbyId])
+    }, [connections, players, lobbyId])
 
     useEffect(() => {
-        if(players.length > 0 && lobbyId !== null){
+        if (players.length > 0 && lobbyId !== null) {
             sendToPlayers({
                 signal: "START",
                 minigame: "VIBRATION_GAME",
@@ -121,19 +121,10 @@ export const VibrationGame = () => {
         }, lobbyId, players)
     }, [lobbyId, players])
 
-
-    const chooseAndPlayRandomVibration = () => {
-        const vibrations = [playVibrationONE, playVibrationTWO, playVibrationTHREE];
-        const randomIndex = Math.floor(Math.random() * 3) + 1 // returns a number between 1 and 3 (both inclusiv)
-        setChoosenVibration(randomIndex - 1);
-        vibrations[randomIndex - 1].call();
-    }
-
-
     return (
         <BaseContainer>
             {/* <VibRect ref={vibrationRepresentationOne}/> */}
-            <VibMerge ref={vibrationRepresentationTwo}/>
-            <Button onClick={() => {playVibrationTWO()}}>Pattern 1</Button>
+            <VibMerge ref={vibrationRepresentationTwo} />
+            <Button onClick={() => { playVibrationTWO() }}>Pattern 1</Button>
         </BaseContainer>);
 }
