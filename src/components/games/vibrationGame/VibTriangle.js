@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import '../../../styles/games/VibTriangle.scss'
+import triangle from '../../../images/triangle.png'
 
 
 export const VibTriangle = forwardRef((props, ref) => {
@@ -14,11 +15,9 @@ export const VibTriangle = forwardRef((props, ref) => {
 
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <svg xmlns="http://www.w3.org/2000/svg">
-                <polygon points="460,250 700,600 225,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
-            </svg>
-        </div>
+        <img style={props.style} className={playing ? 'triangle play' : 'triangle'} src={triangle} />
+
+
     )
 
 });

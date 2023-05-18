@@ -12,12 +12,8 @@
   }
 
 .rect{
-    x: 15em;
-    y: 15em;
-    transform-origin: 50% ;
-    width: 30em;
-    height: 30em;
-    fill: #00ffff;
+    width: 20rem;
+    height: 20rem;
 
     &.play{
         animation: rectAnim 2.2s;

@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
 import '../../../styles/games/vibRect.scss'
+import rect from '../../../images/rect.png'
 
 
 export const VibRect = forwardRef((props, ref) => {
@@ -14,13 +15,7 @@ export const VibRect = forwardRef((props, ref) => {
 
 
     return (
-        <div style={{display: 'flex', justifyContent:'center'}}>
-            <svg >
-                <rect className={playing ? 'rect play' : 'rect'}>
-
-                </rect>
-            </svg>
-        </div>
+        <img style={props.style} className={playing ? 'rect play' : 'rect'} src={rect} />
     )
 
 });

@@ -27,13 +27,9 @@
     }
 }
 
-.circle {
-    cx: 30em;
-    cy: 30em;
-    transform-origin: 50%;
-    r: 15em;
-    fill: rgb(132, 0, 255);
-
+.vibCircle {
+    width: 20rem;
+    height: 20rem;
     &.play {
         animation: circleAnim 2s;
     }
