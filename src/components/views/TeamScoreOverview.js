@@ -98,7 +98,7 @@ const TeamScoreOverview = () => {
             <HeaderContainer title="Minigame Score" text="Progress" />
             <div className="tso maincontent">
                 <div className="tso barbox">
-                    <label className="tso team1">Team 1</label>
+                    <label className="tso team1">{lobbyContext.lobby.teams[0].name}</label>
                     <div
                         ref={team1BarRef}
                         className="tso team1-bar"
@@ -107,7 +107,7 @@ const TeamScoreOverview = () => {
                     </div>
                     <label className="tso team1">{team1Pts}%</label>
 
-                    <label className="tso team2">Team 2</label>
+                    <label className="tso team2">{lobbyContext.lobby.teams[1].name}</label>
                     <div
                         ref={team2BarRef}
                         className="tso team2-bar"
