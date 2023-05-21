@@ -1,9 +1,10 @@
-import { ActivationState } from "@stomp/stompjs";
 import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import BaseContainer from "components/ui/BaseContainer";
-import { Button } from "components/ui/Button";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import PlayerContainer from "components/ui/PlayerContainer";
+import { Timer } from "components/ui/Timer";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { VibCircle } from "./vibrationGame/VibCircle";
 import { VibMerge } from "./vibrationGame/VibMerge";
 import { VibRect } from "./vibrationGame/VibRect";
@@ -13,21 +14,49 @@ export const VibrationGame = () => {
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
     const minigameContext = useContext(MinigameContext);
+
     const [choosenVibration, setChoosenVibration] = useState(null);
+    const [currentVib, setCurrentVib] = useState("VIB_ONE");
+
+    const [voting, setVoting] = useState(false);
+    const [votingResult, setVotingResult] = useState([]);
+
+    const [headerText, setHeaderText] = useState("Listen carefully and remember");
+
     const [lobbyId, setLobbyId] = useState(null);
     const [players, setPlayers] = useState([]);
 
     const vibrationRepresentationOne = useRef();
     const vibrationRepresentationTwo = useRef();
+    const vibrationRepresentationThree = useRef();
+    const vibrationRepresentationRand = useRef();
+
+    const history = useHistory();
 
     const onPlayerOneInput = (msg) => {
         const data = JSON.parse(msg.body)
-        console.log(data);
+        if (data.inputType === 'VIBRATION_VOTE') {
+            setVotingResult((old) => {
+                const result = {
+                    player: minigameContext?.minigame.team1Players[0],
+                    option: data.rawData.x
+                }
+                return [...old, result];
+            })
+        }
     }
 
     const onPlayerTwoInput = (msg) => {
         const data = JSON.parse(msg.body)
-        console.log(data);
+        if (data.inputType === 'VIBRATION_VOTE') {
+            setVotingResult((old) => {
+                const result = {
+                    player: minigameContext?.minigame.team2Players[0],
+                    option: data.rawData.x
+                }
+                return [...old, result];
+            })
+        }
     }
 
     const sendToPlayers = (body, lobbyId, players) => {
@@ -38,9 +67,6 @@ export const VibrationGame = () => {
                     destination: `/lobbies/${lobbyId}/players/${player}/signal`,
                     body: JSON.stringify(body)
                 })
-                console.log("trash bruder trash");
-            }else{
-                console.log("Fuck off");
             }
         }
     }
@@ -52,8 +78,8 @@ export const VibrationGame = () => {
         if (minigameContext.minigame) {
             setPlayers([minigameContext?.minigame.team1Players[0].id, minigameContext?.minigame.team2Players[0].id])
         }
-        
-    }, [lobbyContext, minigameContext, ])
+
+    }, [lobbyContext, minigameContext])
 
     useEffect(() => {
         if (connections.stompConnection.connected) {
@@ -71,16 +97,20 @@ export const VibrationGame = () => {
                 data: null
             }, lobbyId, players);
         };
-    },[connections, players, lobbyId])
+    }, [connections, players, lobbyId])
 
     useEffect(() => {
-        if(players.length > 0 && lobbyId !== null){
+        if (players.length > 0 && lobbyId !== null) {
             sendToPlayers({
                 signal: "START",
                 minigame: "VIBRATION_GAME",
                 data: null
             }, lobbyId, players);
+            setTimeout(() => {
+                playAllVibrations();
+            }, 2000)
         }
+
     }, [players, lobbyId])
 
 
@@ -94,46 +124,160 @@ export const VibrationGame = () => {
     }, [])
 
 
-    const playVibrationONE = useCallback(() => {
+    const playVibrationONE = () => {
         sendToPlayers({
             signal: "PLAY",
             minigame: "VIBRATION_GAME",
             data: "VIB_ONE"
         }, lobbyId, players)
-        vibrationRepresentationOne.current.play();
-    }, [lobbyId, players, vibrationRepresentationOne])
+        vibrationRepresentationOne.current?.play();
+        vibrationRepresentationRand.current?.play()
+    }
 
 
-    const playVibrationTWO = useCallback(() => {
+    const playVibrationTWO = () => {
         sendToPlayers({
             signal: "PLAY",
             minigame: "VIBRATION_GAME",
             data: "VIB_TWO"
         }, lobbyId, players)
-        vibrationRepresentationTwo.current.play();
-    }, [lobbyId, players])
+        vibrationRepresentationTwo.current?.play();
+        vibrationRepresentationRand.current?.play()
 
-    const playVibrationTHREE = useCallback(() => {
+    }
+
+    const playVibrationTHREE = () => {
         sendToPlayers({
             signal: "PLAY",
             minigame: "VIBRATION_GAME",
             data: "VIB_THREE"
         }, lobbyId, players)
-    }, [lobbyId, players])
+        vibrationRepresentationThree.current?.play();
+        vibrationRepresentationRand.current?.play()
 
+    }
 
     const chooseAndPlayRandomVibration = () => {
         const vibrations = [playVibrationONE, playVibrationTWO, playVibrationTHREE];
         const randomIndex = Math.floor(Math.random() * 3) + 1 // returns a number between 1 and 3 (both inclusiv)
         setChoosenVibration(randomIndex - 1);
+        setHeaderText("Listen and recall")
         vibrations[randomIndex - 1].call();
     }
 
+    const displayRepresentation = (vib) => {
+        if (vib === "VIB_ONE") {
+            return <VibRect ref={vibrationRepresentationOne} />
+        }
+        if (vib === "VIB_TWO") {
+            return <VibCircle ref={vibrationRepresentationTwo} />
+        }
+        if (vib === "VIB_THREE") {
+            return <VibTriangle ref={vibrationRepresentationThree} />
+        }
+        if (vib === "VIB_RAND") {
+            return <VibMerge ref={vibrationRepresentationRand} />
+        }
+    }
+    const playAllVibrations = () => {
+        setCurrentVib("VIB_ONE");
+        playVibrationONE()
+        setTimeout(() => {
+            setCurrentVib("VIB_TWO");
+            playVibrationTWO();
+        }, 5000);
+        setTimeout(() => {
+            setCurrentVib("VIB_THREE");
+            playVibrationTHREE();
+        }, 10000)
+
+        setTimeout(() => {
+            setCurrentVib("VIB_RAND");
+            chooseAndPlayRandomVibration();
+        }, 15000)
+        setTimeout(() => {
+            sendToPlayers({
+                signal: "VOTE",
+                minigame: "VIBRATION_GAME",
+                data: null
+            }, lobbyId, players)
+            setVoting(true);
+        }, 18000)
+    }
+
+    const displayVoting = (choosenVibration, votingResult) => {
+        return (
+            <div style={{ display: "flex", justifyContent: 'space-evenly', flexDirection: 'row' }}>
+                <div>
+                    <VibRect />
+                    <div>
+                        {votingResult.map((r) => {
+                            if (r.option === 0) {
+                                return <PlayerContainer player={r.player} />
+                            }
+                        })}
+                    </div>
+                </div>
+                <div>
+                    <VibCircle />
+                    <div>
+                        {votingResult.map((r) => {
+                            if (r.option === 1) {
+                                return <PlayerContainer player={r.player} />
+                            }
+                        })}
+                    </div>
+                </div>
+                <div>
+                    <VibTriangle />
+                    <div>
+                        {votingResult.map((r) => {
+                            if (r.option === 2) {
+                                return <PlayerContainer player={r.player} />
+                            }
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <BaseContainer>
             {/* <VibRect ref={vibrationRepresentationOne}/> */}
-            <VibMerge ref={vibrationRepresentationTwo}/>
-            <Button onClick={() => {playVibrationTWO()}}>Pattern 1</Button>
+            {voting ? <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <h1 style={{ marginTop: 0 }}>{headerText}</h1>
+                <Timer onExpire={() => {
+                    const scoreToGain = minigameContext.minigame.scoreToGain;
+                    let correctChoosers = votingResult.map((r) => {
+                        if (r.option === choosenVibration)
+                            return r.player
+                    })
+                    let winner;
+                    let looser;
+                    // Draw:  either both have guessed false or both players have guessed right 
+                    if (correctChoosers.length === 0 || correctChoosers.length === 2) {
+                        winner = { score: scoreToGain / 2, color: "RED", name: "Team Red" };
+                        looser = { score: scoreToGain / 2, color: "BLUE", name: "Team Blue" };
+                    }
+                    else {
+                        const winnerIsTeamRed = correctChoosers[0].id === minigameContext.minigame.team1Players[0].id;
+
+                        if (winnerIsTeamRed) {
+                            winner = { score: scoreToGain, color: "RED", name: "Team Red" };
+                            looser = { score: 0, color: "BLUE", name: "Team Blue" };
+                        }
+                        else {
+                            winner = { score: scoreToGain, color: "BLUE", name: "Team Blue" };
+                            looser = { score: 0, color: "RED", name: "Team Red" };
+                        }
+                    }
+                    history.push("/minigameWon", { winner, looser })
+                }}>10</Timer>
+            </div> :
+                <h1 style={{ marginTop: 0 }}>{headerText}</h1>
+            }
+
+            {voting ? displayVoting(choosenVibration, votingResult) : displayRepresentation(currentVib)}
         </BaseContainer>);
 }

@@ -3,15 +3,11 @@ import CreateLobby from "components/views/CreateLobby";
 import Lobby from "components/views/Lobby";
 import GamePreview from "components/views/GamePreview";
 import PlayersForNextGamePreview from "components/views/PlayersForNextGamePreview";
-import { TimingGame } from "components/games/TimingGame";
 import MinigameWon from "components/views/MinigameWon";
 import TeamScoreOverview from "components/views/TeamScoreOverview";
-import { TappingGame } from "components/games/TappingGame";
 import { createContext, useState } from "react";
 import { WinnerScreen } from "components/views/WinnerScreen";
 import { VibrationGame } from "components/games/VibrationGame";
-import HotPotato from "components/games/HotPotato";
-import { PongGame } from "components/games/PongGame";
 import ErrorScreen from "components/views/ErrorScreen";
 import Settings from "components/views/Settings";
 import { RPSGame } from "components/games/RPSGame";
@@ -39,15 +35,15 @@ const AppRouter = () => {
   const minigameRoute = () => {
     switch (minigame?.type) {
       case "TIMING_GAME":
-        return <TimingGame />
+        return <VibrationGame />
       case "TAPPING_GAME":
-        return <TappingGame />
+        return <VibrationGame />
       case "VIBRATION_GAME":
-        return <TappingGame />
+        return <VibrationGame />
       case "HOT_POTATO":
-        return <TappingGame />
+        return <VibrationGame/>
       case "PONG_GAME":
-        return <PongGame />
+        return <VibrationGame />
       case "RPS_GAME":
         return <RPSGame />
       case "STRATEGY_GAME":

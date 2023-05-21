@@ -5,6 +5,7 @@ import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { GameContext, LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
+import { Button } from 'components/ui/Button';
 
 const GamePreview = () => {
     let location = useLocation();
@@ -65,7 +66,7 @@ const GamePreview = () => {
                 <label className='preview description'>{data?.description}</label>
                 <img className='preview image' src={getImagePath(data?.type || '')}></img>
             </div>
-            <button className='btn' onClick={next}>Start game!</button>
+            <Button className='preview button-container' onClick={next}>Start game!</Button>
         </BaseContainer>
     );
 }

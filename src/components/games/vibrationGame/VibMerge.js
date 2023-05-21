@@ -1,31 +1,34 @@
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Trail } from 'react-spring';
 import '../../../styles/games/VibCircle.scss'
 import '../../../styles/games/vibRect.scss'
 import '../../../styles/games/VibTriangle.scss'
+import { VibCircle } from './VibCircle';
+import { VibRect } from './VibRect';
+import { VibTriangle } from './VibTriangle';
 
 
 
 export const VibMerge = forwardRef((props, ref) => {
 
-    const [playing, setPlaying] = useState(false);
+    const rect = useRef();
+    const triangle = useRef();
+    const circle = useRef();
 
     useImperativeHandle(ref, () => ({
         play() {
-            setPlaying(true)
+            rect.current?.play();
+            triangle.current?.play();
+            circle.current?.play()
         }
     }));
 
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <svg xmlns="http://www.w3.org/2000/svg">
-
-                <rect className={playing ? 'rect play' : 'rect'} />
-                <circle className={playing ? 'circle play' : 'circle'} />
-                <polygon points="460,250 675,600 275,600" fill="#70DB8E" className={playing ? 'triangle play' : 'triangle'} />
-
-
-            </svg>
+        <div style={{display: "grid", position: "relative"}}>
+            <VibRect style={{gridColumn: 1, gridRow: 1}} ref={rect}/>
+            <VibCircle style={{gridColumn: 1, gridRow: 1}} ref={circle}/>
+            <VibTriangle style={{gridColumn: 1, gridRow: 1 }} ref={triangle}/>
         </div>
     )
 
