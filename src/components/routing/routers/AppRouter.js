@@ -15,6 +15,7 @@ import { PongGame } from "components/games/PongGame";
 import ErrorScreen from "components/views/ErrorScreen";
 import Settings from "components/views/Settings";
 import { RPSGame } from "components/games/RPSGame";
+import { StrategyGame } from "components/games/StrategyGame";
 
 /**
  * Main router of your application.
@@ -49,6 +50,8 @@ const AppRouter = () => {
         return <PongGame />
       case "RPS_GAME":
         return <RPSGame />
+      case "STRATEGY_GAME":
+        return <StrategyGame />
       default:
         return null;
     }
