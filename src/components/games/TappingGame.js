@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import 'styles/games/tappingGame.scss';
+import 'styles/games/TappingGame.scss';
 import { useEffect, useState } from 'react';
 import { Timer } from "components/ui/Timer";
 import { useHistory } from "react-router-dom";

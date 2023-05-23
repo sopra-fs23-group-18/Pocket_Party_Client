@@ -6,7 +6,7 @@ import { LobbyContext, MinigameContext } from "components/routing/routers/AppRou
 import { ActivationState } from "@stomp/stompjs";
 import { Button } from "components/ui/Button";
 import {PongGameBoard} from "./pongGame/PongGameBoard";
-import 'styles/games/pongGame.scss'
+import 'styles/games/PongGame.scss'
 
 export const PongGame = props => {
 

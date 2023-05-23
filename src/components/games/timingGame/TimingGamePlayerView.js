@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import 'styles/games/timingGame.scss';
+import 'styles/games/TimingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
 import PropTypes from "prop-types";

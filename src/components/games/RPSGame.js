@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from "components/ui/Button";
-import 'styles/games/rpsGame.scss';
+import 'styles/games/RPSGame.scss';
 import { ActivationState } from "@stomp/stompjs";
 import { WebSocketContext } from "App";
 import { useContext } from "react";

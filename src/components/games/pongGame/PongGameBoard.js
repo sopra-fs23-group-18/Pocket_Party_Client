@@ -10,7 +10,7 @@ import { LobbyContext, MinigameContext } from "components/routing/routers/AppRou
 import PropTypes from "prop-types";
 import { ActivationState } from "@stomp/stompjs";
 import { useImperativeHandle } from "react";
-import "styles/games/pongGame.scss"
+import "styles/games/PongGame.scss"
 
 export const PongGameBoard = forwardRef((props, ref)=> {
     const gameContainer = useRef(null);
