@@ -207,7 +207,7 @@ const Lobby = props => {
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>
-                    <div className='lobby label color-team1'>
+                    <div className='lobby team-container color-team1'>
                         <input
                             className="lobby team-name-input team1 color-team1"
                             type="text"
@@ -238,7 +238,7 @@ const Lobby = props => {
                         {middleSection()}
                     </div>
 
-                    <div className='lobby label color-team2'>
+                    <div className='lobby team-container color-team2'>
                         <input
                             className="lobby team-name-input team2 color-team2"
                             type="text"
