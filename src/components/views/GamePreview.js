@@ -12,6 +12,7 @@ const GamePreview = () => {
     const minigameContext = useContext(MinigameContext);
     const lobbyContext = useContext(LobbyContext);
     const gameContext = useContext(GameContext);
+    const [errorMessage, setErrorMessage] = useState('');
     // const [description, setDescription] = useState('Description has not loaded yet!');
     // const [minigameTitle, setMinigameTitle] = useState('');
     // const [points, setPoints] = useState(0);
@@ -22,16 +23,32 @@ const GamePreview = () => {
         async function fetchData() {
             const responsePost = await api.post(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
             if (responsePost.status !== 201) {
-                //TODO proper error handeling
+                setErrorMessage(responsePost.status);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
+
                 return;
             }
-            const responsPut = await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
-            if (responsPut.status !== 204) {
-                //TODO proper error handeling
+            const responsePut = await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
+            if (responsePut.status !== 204) {
+                setErrorMessage(responsePut);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
                 return
             }
             const responseGet = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigame`);
+            if (responseGet.status !== 200) {
+                setErrorMessage(responseGet.status);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
 
+            }
             setData(responseGet.data);
             minigameContext.setMinigame(responseGet.data)
             localStorage.setItem("minigameContext", JSON.stringify(responseGet.data));

@@ -12,6 +12,7 @@ const TeamScoreOverview = () => {
     const gameContext = useContext(GameContext);
     let location = useLocation();
     const navigation = useHistory();
+    const [errorMessage, setErrorMessage] = useState('');
 
     const [hasWon, setHasWon] = useState(false);
     const timeout = useRef(null);
@@ -28,9 +29,17 @@ const TeamScoreOverview = () => {
     const team2BarRef = useRef(null);
 
     const getPoints = async () => {
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
-        setData(response.data);
-        console.log(response.data)
+        try {
+            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
+            setData(response.data);
+            console.log(response.data)
+        } catch (error) {
+            setErrorMessage(error.message);
+            history.push({
+                pathname: '/error',
+                state: { msg: errorMessage }
+            });
+        }
     }
     // Update team scores and trigger animations
     const updateScoreTeam1 = async () => {
@@ -53,8 +62,18 @@ const TeamScoreOverview = () => {
         const color = winnerTeam.color
         const name = winnerTeam.name
         const requestbody = JSON.stringify({ score, color, name })
-        await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
+        try {
+            await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
+            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
+        }
+        catch (error) {
+            setErrorMessage(error.message);
+            history.push({
+                pathname: '/error',
+                state: { msg: errorMessage }
+            });
+
+        }
         console.log();
         setHasWon(response.data.isFinished)
         getPoints();
@@ -82,14 +101,29 @@ const TeamScoreOverview = () => {
 
     useEffect(() => {
         if (hasWon) {
-            console.log("got calleds");
+            console.log("got called");
             clearTimeout(timeout.current);
             setTimeout(() => {
-                api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`).then((response) => {
-                    navigation.push("/winner", { winnerTeam: response.data }
-                    );
-                })
-            }, 5000)
+                try {
+                    api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`)
+                        .then((response) => {
+                            navigation.push("/winner", { winnerTeam: response.data });
+                        })
+                        .catch((error) => {
+                            setErrorMessage(error.message);
+                            history.push({
+                                pathname: '/error',
+                                state: { msg: errorMessage }
+                            });
+                        });
+                } catch (error) {
+                    setErrorMessage(error.message);
+                    history.push({
+                        pathname: '/error',
+                        state: { msg: errorMessage }
+                    });
+                }
+            }, 5000);
         }
     }, [hasWon]);
 

@@ -8,10 +8,19 @@ import Info from '../ui/Info';
 
 const CreateLobby = (props) => {
   const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const doCreateLobby = async () => {
-    const response = await api.post('/lobbies');
-    history.push('/lobby', response.data);
+    try {
+      const response = await api.post('/lobbies');
+      history.push('/lobby', response.data);
+    } catch (error) {
+      setErrorMessage(error.message);
+      history.push({
+        pathname: '/error',
+        state: { msg: errorMessage }
+      });
+    }
   };
 
   return (

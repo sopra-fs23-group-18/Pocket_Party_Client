@@ -20,6 +20,7 @@ const Lobby = props => {
     const inviteCode = location.state.inviteCode;
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const [team1Name, setTeam1Name] = useState('Team 1');
     const [team2Name, setTeam2Name] = useState('Team 2');
@@ -36,11 +37,19 @@ const Lobby = props => {
     const [players, setPlayers] = useState([]);
 
     const getLobbyInfo = async () => {
-        const response = await api.get(`/lobbies/${location.state.id}`);
-        const lobby = new LobbyModel(response.data);
-        lobbyContext.setLobby(lobby)
-        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+        try {
+            const response = await api.get(`/lobbies/${location.state.id}`);
+            const lobby = new LobbyModel(response.data);
+            lobbyContext.setLobby(lobby)
+            localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+        } catch (error) {
+            setErrorMessage(error.message);
+            history.push({
+                pathname: '/error',
+                state: { msg: errorMessage }
+            });
 
+        }
         const playersToAdd = [];
         for (const player of lobby.unassignedPlayers) {
             const playerToAdd = new Player(player);
@@ -165,6 +174,14 @@ const Lobby = props => {
         localStorage.setItem("lobbyContext", JSON.stringify(lobbyUpdated.data))
         if (response.status === 204) {
             history.push("/settings", { lobbyId: location.state.id });
+        }
+        else {
+            setErrorMessage(response.status);
+            history.push({
+                pathname: '/error',
+                state: { msg: errorMessage }
+            });
+
         }
     }
 
