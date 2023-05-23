@@ -2,7 +2,7 @@ import React from "react";
 import { useSpring, animated } from "react-spring";
 import "../../styles/views/ErrorScreen.scss";
 
-const ErrorScreen = () => {
+const ErrorScreen = ({ msg }) => {
     const springProps = useSpring({
         from: { opacity: 0, transform: "translateY(-50px)" },
         to: { opacity: 1, transform: "translateY(0)" },
@@ -15,6 +15,10 @@ const ErrorScreen = () => {
             <animated.p style={springProps}>
                 Something went wrong. Please return to the previous page.
             </animated.p>
+            <animated.p style={springProps}>
+                {msg}
+            </animated.p>
+
         </div>
     );
 };

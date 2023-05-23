@@ -4,6 +4,7 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { WebSocketConnection } from "./helpers/webRTC";
 import { getWsUrl } from "helpers/getDomain";
 import { Client } from '@stomp/stompjs';
+import StandardErrorBoundary from "helpers/ErrorBoundary";
 
 require("./helpers/webRTC");
 /**
@@ -29,7 +30,9 @@ const App = () => {
   return (
     <WebSocketContext.Provider value={connections}>
       <div>
-        <AppRouter />
+        <StandardErrorBoundary>
+          <AppRouter />
+        </StandardErrorBoundary>
       </div>
     </WebSocketContext.Provider>
   );
