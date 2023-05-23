@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { useEffect, useRef, useState, useLayoutEffect,  useCallback} from 'react';
+import { useEffect, useRef, useState, useLayoutEffect, useCallback } from 'react';
 import { Timer } from "components/ui/Timer";
 import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
 import { Button } from "components/ui/Button";
-import {PongGameBoard} from "./pongGame/PongGameBoard";
+import { PongGameBoard } from "./pongGame/PongGameBoard";
 import 'styles/games/PongGame.scss'
 
 export const PongGame = props => {
@@ -113,11 +113,9 @@ export const PongGame = props => {
     return (
         <div className="pong-game">
             <PongGameBoard ref={movement} />
-            <div style={{display: "flex", flexDirection: "row"}}>
+            <div style={{ display: "flex", justifyContent: 'center', flexDirection: "row" }}>
             </div>
-            
         </div>
     )
 }
 
-        

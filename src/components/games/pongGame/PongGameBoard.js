@@ -12,7 +12,7 @@ import { ActivationState } from "@stomp/stompjs";
 import { useImperativeHandle } from "react";
 import "styles/games/PongGame.scss"
 
-export const PongGameBoard = forwardRef((props, ref)=> {
+export const PongGameBoard = forwardRef((props, ref) => {
     const gameContainer = useRef(null);
     const engine = useRef(Engine.create());
     const history = useHistory();
@@ -47,30 +47,30 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         stopLeftPaddle() {
             leftPaddleDirection.current = null;
         }
-        }));
+    }));
 
     // keep track of the score
     useEffect(() => {
         localStorage.setItem("score", JSON.stringify(score));
-      }, [score]);
-    
-      // Load score from local storage on mount
-      useEffect(() => {
+    }, [score]);
+
+    // Load score from local storage on mount
+    useEffect(() => {
         const storedScore = localStorage.getItem("score");
         if (storedScore) {
-          setScore(JSON.parse(storedScore));
+            setScore(JSON.parse(storedScore));
         }
-      }, []);
+    }, []);
 
-      // display winner
-        useEffect(() => {
-            if (winner) {
-                setTimeout(() => {
-                    setWinner(null);
-                }, 1000);
-            }
-        }, [winner]);
-    
+    // display winner
+    useEffect(() => {
+        if (winner) {
+            setTimeout(() => {
+                setWinner(null);
+            }, 1000);
+        }
+    }, [winner]);
+
     // redircet to winning page when game is over
     useEffect(() => {
         // check if a winner exists, if so, redirect to the winner page
@@ -80,13 +80,13 @@ export const PongGameBoard = forwardRef((props, ref)=> {
             const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
             const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
             const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-            const loser = { score: scoreToGain - winnerScore}
+            const loser = { score: scoreToGain - winnerScore }
             setTimeout(() => {
                 history.push("/minigameWon", { winner, loser })
             }, 1000);
         }
     }, [score]);
-        
+
 
 
 
@@ -109,19 +109,19 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         BALL_START_POINT_X,
         BALL_START_POINT_Y,
         BALL_SIZE, {
-            inertia: 0,
-            friction: 0,
-            frictionStatic: 0,
-            frictionAir: 0,
-            restitution: 1.05,
-            collisionFilter: {
-                category: 0x0001,
-            },
-            render: {
-                fillStyle: 'rgb(144, 238, 144)'
-            },
-            label: "ball"
-        }
+        inertia: 0,
+        friction: 0,
+        frictionStatic: 0,
+        frictionAir: 0,
+        restitution: 1.05,
+        collisionFilter: {
+            category: 0x0001,
+        },
+        render: {
+            fillStyle: 'rgb(144, 238, 144)'
+        },
+        label: "ball"
+    }
     ))
 
     const leftPaddle = useRef(Bodies.rectangle(
@@ -129,13 +129,13 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         GAME_HEIGHT / 2,
         PLANK_WIDTH,
         PLANK_HEIGHT, {
-            isStatic: false,
-            inertia: Infinity,
-            render: {
-                fillStyle: "red"
-            },
-            label: "plankOne"
-        }   
+        isStatic: false,
+        inertia: Infinity,
+        render: {
+            fillStyle: "red"
+        },
+        label: "plankOne"
+    }
     ));
 
     const rightPaddle = useRef(Bodies.rectangle(
@@ -143,39 +143,39 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         GAME_HEIGHT / 2,
         PLANK_WIDTH,
         PLANK_HEIGHT, {
-            isStatic: false,
-            inertia: Infinity,
-            render: {
-                fillStyle: "blue"
-            },
-            label: "plankTwo"
-        }
+        isStatic: false,
+        inertia: Infinity,
+        render: {
+            fillStyle: "blue"
+        },
+        label: "plankTwo"
+    }
     ));
 
     const leftWall = useRef(Bodies.rectangle(
         0,
         GAME_HEIGHT / 2,
-        BORDER *1.5,
+        BORDER * 1.5,
         GAME_HEIGHT, {
-            isStatic: true,
-            render: {
-                fillStyle: 'rgb(221, 106, 89)'
-            },
-            label: "leftGoalWall"
-        }
+        isStatic: true,
+        render: {
+            fillStyle: 'rgb(221, 106, 89)'
+        },
+        label: "leftGoalWall"
+    }
     ));
 
     const rightWall = useRef(Bodies.rectangle(
         GAME_WIDTH,
         GAME_HEIGHT / 2,
-        BORDER*1.5,
+        BORDER * 1.5,
         GAME_HEIGHT, {
-            isStatic: true,
-            render: {
-                fillStyle: "lightblue"
-            },
-            label: "rightGoalWall"
-        }
+        isStatic: true,
+        render: {
+            fillStyle: "lightblue"
+        },
+        label: "rightGoalWall"
+    }
     ));
 
     const topWall = useRef(Bodies.rectangle(
@@ -183,12 +183,12 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         BORDER,
         GAME_WIDTH,
         BORDER, {
-            isStatic: true,
-            render: {
-                fillStyle: 'rgb(144, 238, 144)'
-            },
-            label: "wall"
-        }
+        isStatic: true,
+        render: {
+            fillStyle: 'rgb(144, 238, 144)'
+        },
+        label: "wall"
+    }
     ));
 
     const bottomWall = useRef(Bodies.rectangle(
@@ -196,13 +196,13 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         GAME_HEIGHT,
         GAME_WIDTH,
         BORDER, {
-            isStatic: true,
-            render: {
-                fillStyle: 'rgb(144, 238, 144)'
-            },
-            label: "wall"
-        }
-    ));      
+        isStatic: true,
+        render: {
+            fillStyle: 'rgb(144, 238, 144)'
+        },
+        label: "wall"
+    }
+    ));
 
     /* ############################################################ */
     /* Enginge setup START*/
@@ -226,22 +226,22 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         /// Ball will start moving in a random direction
         const speed = 5;
         const angle = Math.random() * Math.PI * 2;
-        const velocity = Matter.Vector.rotate({ x: speed, y: 0 }, angle); 
-        
+        const velocity = Matter.Vector.rotate({ x: speed, y: 0 }, angle);
+
         Matter.Runner.run(engine.current)
         Render.run(render)
         Composite.add(engine.current.world, [leftPaddle.current, rightPaddle.current, ball.current, topWall.current, bottomWall.current, leftWall.current, rightWall.current])
-        
+
         Body.setVelocity(ball.current, velocity);
 
         /// paddles should stop there initially
-        Body.setVelocity(leftPaddle.current, {x: 0, y: 0});
-        Body.setVelocity(rightPaddle.current, {x: 0, y: 0});
+        Body.setVelocity(leftPaddle.current, { x: 0, y: 0 });
+        Body.setVelocity(rightPaddle.current, { x: 0, y: 0 });
 
         const isGoal = () => {
             leftPaddleDirection.current = null;
             rightPaddleDirection.current = null;
-            Body.setPosition(ball.current, {x: GAME_WIDTH/2, y: GAME_HEIGHT/2});
+            Body.setPosition(ball.current, { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 });
             let newAngle = Math.random() * Math.PI * 2;
             Body.setVelocity(ball.current, Matter.Vector.rotate({ x: speed, y: 0 }, newAngle));
             //pause the game for 1 second
@@ -249,31 +249,31 @@ export const PongGameBoard = forwardRef((props, ref)=> {
             setTimeout(() => {
                 engine.current.timing.timeScale = timeScale.current;
             }
-            , 1000)
+                , 1000)
         }
 
-        
+
         Events.on(engine.current, "beforeUpdate", function (event) {
             /// move paddles up and down based on the direction
             if (leftPaddleDirection.current === null) {
-                Body.setVelocity(leftPaddle.current, {x: 0, y: 0});
+                Body.setVelocity(leftPaddle.current, { x: 0, y: 0 });
             }
             if (rightPaddleDirection.current === null) {
-                Body.setVelocity(rightPaddle.current, {x: 0, y: 0});
+                Body.setVelocity(rightPaddle.current, { x: 0, y: 0 });
             }
             if (leftPaddleDirection.current === "up") {
-                Body.setVelocity(leftPaddle.current, {x: 0, y: -speed});
+                Body.setVelocity(leftPaddle.current, { x: 0, y: -speed });
             }
             if (leftPaddleDirection.current === "down") {
-                Body.setVelocity(leftPaddle.current, {x: 0, y: speed});
+                Body.setVelocity(leftPaddle.current, { x: 0, y: speed });
             }
             if (rightPaddleDirection.current === "up") {
-                Body.setVelocity(rightPaddle.current, {x: 0, y: -speed});
+                Body.setVelocity(rightPaddle.current, { x: 0, y: -speed });
             }
             if (rightPaddleDirection.current === "down") {
-                Body.setVelocity(rightPaddle.current, {x: 0, y: speed});
+                Body.setVelocity(rightPaddle.current, { x: 0, y: speed });
             }
-            
+
         })
 
         /// paddles will keep moving until they hit the wall and then they will change direction
@@ -284,15 +284,15 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                 var pair = pairs[i];
                 /// if ball hits the wall, it will bounce off
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "wall" || pair.bodyB.label === "ball" && pair.bodyA.label === "wall") {
-                    Body.setVelocity(ball.current, {x: ball.current.velocity.x*2, y: -ball.current.velocity.y});
-                } 
+                    Body.setVelocity(ball.current, { x: ball.current.velocity.x * 2, y: -ball.current.velocity.y });
+                }
                 /// if ball hits the paddle, it will bounce off, but the paddle will not be affected
 
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankOne" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankOne") {
-                    Body.setVelocity(ball.current, {x: -ball.current.velocity.x*2, y: ball.current.velocity.y * Math.random()});
+                    Body.setVelocity(ball.current, { x: -ball.current.velocity.x * 2, y: ball.current.velocity.y * Math.random() });
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankTwo" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankTwo") {
-                    Body.setVelocity(ball.current, {x: -ball.current.velocity.x*2, y: ball.current.velocity.y * Math.random()});
+                    Body.setVelocity(ball.current, { x: -ball.current.velocity.x * 2, y: ball.current.velocity.y * Math.random() });
                 }
 
                 /// if ball hits the goal wall, it will be reset to the middle and update the score, and pause the game for 1 second
@@ -304,7 +304,7 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             right: prev.right + 1
                         }
                     })
-                    setWinner("Blue Wins!");
+                    setWinner("Point for Blue!");
                     isGoal();
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "rightGoalWall" || pair.bodyB.label === "ball" && pair.bodyA.label === "rightGoalWall") {
@@ -315,20 +315,20 @@ export const PongGameBoard = forwardRef((props, ref)=> {
                             left: prev.left + 1
                         }
                     })
-                    setWinner("Red Wins!");
+                    setWinner("Point for Red!");
                     isGoal();
                 }
 
                 /// if paddle hits the wall, it will stop
                 if (pair.bodyA.label === "plankOne" && pair.bodyB.label === "wall" || pair.bodyB.label === "plankOne" && pair.bodyA.label === "wall") {
-                    Body.setVelocity(leftPaddle.current, {x: 0, y: 0});
+                    Body.setVelocity(leftPaddle.current, { x: 0, y: 0 });
                 }
                 if (pair.bodyA.label === "plankTwo" && pair.bodyB.label === "wall" || pair.bodyB.label === "plankTwo" && pair.bodyA.label === "wall") {
-                    Body.setVelocity(rightPaddle.current, {x: 0, y: 0});
+                    Body.setVelocity(rightPaddle.current, { x: 0, y: 0 });
                 }
 
             }
-        })  
+        })
 
 
         return () => {
@@ -343,14 +343,14 @@ export const PongGameBoard = forwardRef((props, ref)=> {
         }
     }, [])
 
-    
+
 
     return (
         <div>
-        <div className="game-board" ref={gameContainer}></div>
-        <h1 className={'left-score'}>{score.left}</h1>
-        <h1 className={'right-score'}>{score.right}</h1>
-        <h1 className={winner === "Red Wins!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
+            <div className="game-board" ref={gameContainer}></div>
+            <h1 className={'left-score'}>{score.left}</h1>
+            <h1 className={'right-score'}>{score.right}</h1>
+            <h1 className={winner === "Point for Red!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
         </div>
     )
 })
