@@ -9,6 +9,7 @@ import { VibCircle } from "./vibrationGame/VibCircle";
 import { VibMerge } from "./vibrationGame/VibMerge";
 import { VibRect } from "./vibrationGame/VibRect";
 import { VibTriangle } from "./vibrationGame/VibTriangle";
+import "styles/games/VibrationGame.scss";
 
 export const VibrationGame = () => {
     const connections = useContext(WebSocketContext);
@@ -207,47 +208,40 @@ export const VibrationGame = () => {
 
     const displayVoting = (choosenVibration, votingResult) => {
         return (
-            <div style={{ display: "flex", justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                <div>
-                    <VibRect />
+            <div>
+                <div style={{ display: "flex", justifyContent: 'center', flexDirection: 'row' }}>
                     <div>
-                        {votingResult.map((r) => {
-                            if (r.option === 0) {
-                                return <PlayerContainer player={r.player} />
-                            }
-                        })}
+                        <VibRect style={{ marginRight: '1em' }} />
+                        <div>
+                            {votingResult.map((r) => {
+                                if (r.option === 0) {
+                                    return <PlayerContainer player={r.player} />
+                                }
+                            })}
+                        </div>
+                    </div>
+                    <div>
+                        <VibCircle />
+                        <div>
+                            {votingResult.map((r) => {
+                                if (r.option === 1) {
+                                    return <PlayerContainer player={r.player} />
+                                }
+                            })}
+                        </div>
+                    </div>
+                    <div>
+                        <VibTriangle style={{ marginTop: '1em' }} />
+                        <div>
+                            {votingResult.map((r) => {
+                                if (r.option === 2) {
+                                    return <PlayerContainer player={r.player} />
+                                }
+                            })}
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <VibCircle />
-                    <div>
-                        {votingResult.map((r) => {
-                            if (r.option === 1) {
-                                return <PlayerContainer player={r.player} />
-                            }
-                        })}
-                    </div>
-                </div>
-                <div>
-                    <VibTriangle />
-                    <div>
-                        {votingResult.map((r) => {
-                            if (r.option === 2) {
-                                return <PlayerContainer player={r.player} />
-                            }
-                        })}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <BaseContainer>
-            {/* <VibRect ref={vibrationRepresentationOne}/> */}
-            {voting ? <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <h1 style={{ marginTop: 0 }}>{headerText}</h1>
-                <Timer onExpire={() => {
+                <div style={{ display: "flex", justifyContent: 'center' }}>                <Timer onExpire={() => {
                     const scoreToGain = minigameContext.minigame.scoreToGain;
                     let correctChoosers = votingResult.map((r) => {
                         if (r.option === choosenVibration)
@@ -274,10 +268,21 @@ export const VibrationGame = () => {
                     }
                     history.push("/minigameWon", { winner, looser })
                 }}>10</Timer>
-            </div> :
-                <h1 style={{ marginTop: 0 }}>{headerText}</h1>
-            }
+                </div>
+            </div>
+        );
+    }
 
-            {voting ? displayVoting(choosenVibration, votingResult) : displayRepresentation(currentVib)}
+    return (
+        <BaseContainer>
+            <div className="vibGame container">
+                {/* <VibRect ref={vibrationRepresentationOne}/> */}
+                {voting ? <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                    <span className="vibGame label">{headerText}</span>
+                </div> :
+                    <span className="vibGame label">{headerText}</span>
+                }
+                {voting ? displayVoting(choosenVibration, votingResult) : displayRepresentation(currentVib)}
+            </div>
         </BaseContainer>);
 }

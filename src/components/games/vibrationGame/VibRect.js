@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import '../../../styles/games/vibRect.scss'
+import '../../../styles/games/VibRect.scss'
 import rect from '../../../images/rect.png'
 
 

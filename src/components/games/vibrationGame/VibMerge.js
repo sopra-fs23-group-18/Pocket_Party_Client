@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Trail } from 'react-spring';
 import '../../../styles/games/VibCircle.scss'
-import '../../../styles/games/vibRect.scss'
+import '../../../styles/games/VibRect.scss'
 import '../../../styles/games/VibTriangle.scss'
 import { VibCircle } from './VibCircle';
 import { VibRect } from './VibRect';
