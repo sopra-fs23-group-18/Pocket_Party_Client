@@ -1,52 +1,52 @@
 @import 'styles/theme';
+
 .pong-game {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f2f2f2;
+  background-color: $accentPage;
 }
 
 // pong game board should be in the middle of the screen and take enough space
 .game-board {
-    height: 100%;
-    display: flex;
+  height: 100%;
+  display: flex;
 }
 
 // the left score will be shown on the top left of the screen
-.left-score{
-    position: absolute;
-    top: 0;
-    left: 5%;
-    font-size: 8rem;
-    font-weight: bold;
-    color: rgb(215, 84, 64);
+.left-score {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  font-size: 8rem;
+  font-weight: bold;
+  color: $accentTeamOne;
 }
 
 // the right score will be shown on the top right of the screen
-.right-score{
-    position: absolute;
-    top: 0;
-    right: 5%;
-    font-size: 8rem;
-    font-weight: bold;
-    color: rgb(57, 57, 179);
+.right-score {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  font-size: 8rem;
+  font-weight: bold;
+  color: $accentTeamTwo;
 }
 
 .red-winner {
-    font-size: 3rem;
-    position: absolute;
-    color: red;
-    text-align: center;
-    left: 45%;
-  }
-  
-  .blue-winner {
-    font-size: 3rem;
-    position: absolute;
-    color: blue;
-    text-align: center;
-    left: 45%;
-  }
-  
+  font-size: 3rem;
+  align-self: center;
+  color: $accentTeamOne;
+  text-align: center;
+  left: 45%;
+}
+
+.blue-winner {
+  font-size: 3rem;
+  align-self: center;
+  color: $accentTeamTwo;
+  text-align: center;
+  left: 45%;
+}
