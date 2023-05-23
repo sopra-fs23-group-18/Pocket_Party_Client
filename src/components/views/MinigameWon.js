@@ -19,7 +19,6 @@ const MinigameWon = () => {
     let location = useLocation();
     const navigation = useHistory();
 
-
     async function getWinner(winnerTeam) {
         if (winnerTeam.color === "RED") {
             setWinner(minigameContext.minigame.team1Players[0])
@@ -40,7 +39,7 @@ const MinigameWon = () => {
         timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
     }, [])
 
-    return (
+    return (location.state.isDraw ?
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
             <Confetti numberOfPieces={200} />
@@ -53,7 +52,7 @@ const MinigameWon = () => {
                     {loser && <PlayerContainer player={loser} team={loserTeam} />}
                 </div>
             </div>
-        </BaseContainer>
+        </BaseContainer> : <label className='gameWon twi'>It's a draw!</label>
     )
 }
 
