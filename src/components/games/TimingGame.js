@@ -111,13 +111,13 @@ export const TimingGame = props => {
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
                         <PlayerContainer team='team1' player={minigameContext?.minigame?.team1Players[0]} />
-                        <h1 style={{ color: 'black' }}>Score: {player1Score}</h1>
+                        <span style={{ fontWeight: 'bold', fontSize: '30px', marginTop: '1em', color: 'black' }}>Score: {player1Score}</span>
                         <TimingGamePlayerView ref={player1} setScore={setPlayer1Score} score={player1Score} playerIndex={0} />
 
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
                         <PlayerContainer team='team2' player={minigameContext?.minigame?.team2Players[0]} />
-                        <h1 style={{ color: 'black' }}>Score: {player2Score}</h1>
+                        <span style={{ fontWeight: 'bold', fontSize: '30px', marginTop: '1em', color: 'black' }}>Score: {player2Score}</span>
                         <TimingGamePlayerView ref={player2} setScore={setPlayer2Score} score={player2Score} playerIndex={1} />
 
                     </div>
