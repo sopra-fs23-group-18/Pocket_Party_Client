@@ -81,8 +81,9 @@ export const PongGameBoard = forwardRef((props, ref) => {
             const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
             const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
             const loser = { score: scoreToGain - winnerScore }
+            const isDraw = false;
             setTimeout(() => {
-                history.push("/minigameWon", { winner, loser })
+                history.push("/minigameWon", { winner, loser, isDraw });
             }, 1000);
         }
     }, [score]);
