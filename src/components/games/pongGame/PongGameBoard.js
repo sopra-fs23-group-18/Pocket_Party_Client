@@ -120,7 +120,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
         render: {
             fillStyle: 'rgb(144, 238, 144)'
         },
-        maxspeed: 15,
+        maxspeed: 10,
         label: "ball"
     }
     ))
@@ -285,15 +285,15 @@ export const PongGameBoard = forwardRef((props, ref) => {
                 var pair = pairs[i];
                 /// if ball hits the wall, it will bounce off
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "wall" || pair.bodyB.label === "ball" && pair.bodyA.label === "wall") {
-                    Body.setVelocity(ball.current, { x: ball.current.velocity.x * 2, y: -ball.current.velocity.y });
+                    Body.setVelocity(ball.current, { x: Math.min(ball.current.velocity.x * 2, 15), y: -ball.current.velocity.y });
                 }
                 /// if ball hits the paddle, it will bounce off, but the paddle will not be affected
 
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankOne" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankOne") {
-                    Body.setVelocity(ball.current, { x: -ball.current.velocity.x * 2, y: ball.current.velocity.y * Math.random() });
+                    Body.setVelocity(ball.current, { x: Math.min(-ball.current.velocity.x * 2, 15), y: ball.current.velocity.y  });
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankTwo" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankTwo") {
-                    Body.setVelocity(ball.current, { x: -ball.current.velocity.x * 2, y: ball.current.velocity.y * Math.random() });
+                    Body.setVelocity(ball.current, { x: Math.max(-ball.current.velocity.x * 2, -15), y: ball.current.velocity.y  });
                 }
 
                 /// if ball hits the goal wall, it will be reset to the middle and update the score, and pause the game for 1 second
