@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { api } from 'helpers/api';
+import { api, handleError } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
@@ -11,23 +11,44 @@ import Player from 'models/Player';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import LobbyModel from 'models/LobbyModel';
 import { Button } from 'components/ui/Button';
-import { LobbyContext } from 'components/routing/routers/AppRouter';
+import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
+import Info from '../ui/Info';
 
 const Lobby = props => {
     let location = useLocation();
     const history = useHistory();
-    const inviteCode = location.state.inviteCode;
+    const [inviteCode, setInviteCode] = useState(location.state.inviteCode);
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
+    const [errorMessage, setErrorMessage] = useState('');
 
+    const [team1Name, setTeam1Name] = useState('Team 1');
+    const [team2Name, setTeam2Name] = useState('Team 2');
 
+    const onTeam1NameChange = (e) => {
+        setTeam1Name(e.target.value);
+    };
+
+    const onTeam2NameChange = (e) => {
+        setTeam2Name(e.target.value);
+    };
 
     // Create a state variable to hold the list of players
     const [players, setPlayers] = useState([]);
 
     const getLobbyInfo = async () => {
-        const response = await api.get(`/lobbies/${location.state.id}`);
-        const lobby = new LobbyModel(response.data);
+        let lobby;
+        try {
+            const response = await api.get(`/lobbies/${location.state.id}`);
+            lobby = new LobbyModel(response.data);
+            setInviteCode(lobby.inviteCode)
+            lobbyContext.setLobby(lobby)
+            localStorage.setItem("lobbyContext", JSON.stringify(lobby));
+        } catch (error) {
+            alert(`Error!\n${handleError(error)}`)
+
+
+        }
         const playersToAdd = [];
         for (const player of lobby.unassignedPlayers) {
             const playerToAdd = new Player(player);
@@ -56,8 +77,8 @@ const Lobby = props => {
     }, [])
 
     useEffect(() => {
-        lobbyContext.setLobby({ id: location.state.id, winningScore: location.state.winningScore })
-        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+        lobbyContext.setLobby({ id: location.state.id })
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode}));
     }, [location.state.id])
 
     const onPlayerJoin = (data) => {
@@ -73,7 +94,7 @@ const Lobby = props => {
                 destination: `/lobbies/${location.state.id}/unassign`,
                 body: JSON.stringify({
                     playerId: player.id,
-                    team: source === "team1" ? "RED" : "BLUE"
+                    team: source === "team1" ? "TEAM_ONE" : "TEAM_TWO"
                 })
             })
             return;
@@ -83,8 +104,8 @@ const Lobby = props => {
                 destination: `/lobbies/${location.state.id}/reassign`,
                 body: JSON.stringify({
                     playerId: player.id,
-                    from: source === "team1" ? "RED" : "BLUE",
-                    to: team === "team1" ? "RED" : "BLUE",
+                    from: source === "team1" ? "TEAM_ONE" : "TEAM_TWO",
+                    to: team === "team1" ? "TEAM_ONE" : "TEAM_TWO",
                 })
             })
         }
@@ -92,7 +113,7 @@ const Lobby = props => {
             destination: `/lobbies/${location.state.id}/assign`,
             body: JSON.stringify({
                 playerId: player.id,
-                team: team === "team1" ? "RED" : "BLUE"
+                team: team === "team1" ? "TEAM_ONE" : "TEAM_TWO"
             })
         })
     }
@@ -134,10 +155,32 @@ const Lobby = props => {
     };
 
     const onGameStartClicked = async () => {
-        const response = await api.put(`lobbies/${location.state.id}`);
+        const body = {
+            teams: [
+                {
+                    "id": lobbyContext.lobby.teams[0].id,
+                    "name": team1Name
+                },
+                {
+                    "id": lobbyContext.lobby.teams[1].id,
+                    "name": team2Name
+                }
+            ]
+        }
+        const response = await api.put(`lobbies/${location.state.id}`, body);
+        const lobbyUpdated = await api.get(`/lobbies/${location.state.id}`);
+        lobbyContext.setLobby(lobbyUpdated.data)
+        localStorage.setItem("lobbyContext", JSON.stringify(lobbyUpdated.data))
         if (response.status === 204) {
+            history.push("/settings", { lobbyId: location.state.id });
+        }
+        else {
+            setErrorMessage(response.status);
+            history.push({
+                pathname: '/error',
+                state: { msg: errorMessage }
+            });
 
-            history.push("/gamePreview", { players, lobbyId: location.state.id });
         }
     }
 
@@ -164,20 +207,29 @@ const Lobby = props => {
                 </Droppable>
             }
         }
-        return <Button disabled={(team1Count < 1) || (team2Count < 1)} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
+        return <Button disabled={(team1Count < 1) || (team2Count < 1) || (team1Name === '') || team2Name === ''} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
     }
 
 
     return (
         <BaseContainer>
-            <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
-            <div className='lobby qr-container'>
-                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} />
+            <div className='lobby div'>
+                <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
+                <div className='lobby qr-container'>
+                    <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
+                    <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M3. After scanning the QR-code in the app you can choose your team by dragging your player. Click the button in the center whenever you are ready to play!"} />
+
+                </div>
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>
-                    <div className='lobby label color-team1'>
-                        Team 1
+                    <div className='lobby team-container color-team1'>
+                        <input
+                            className="lobby team-name-input team1 color-team1"
+                            type="text"
+                            value={team1Name}
+                            onChange={onTeam1NameChange}
+                        />
                         <Droppable droppableId="team1">
                             {(provided) => (
                                 <div className="lobby form team1" {...provided.droppableProps} ref={provided.innerRef}>
@@ -202,8 +254,13 @@ const Lobby = props => {
                         {middleSection()}
                     </div>
 
-                    <div className='lobby label color-team2'>
-                        Team 2
+                    <div className='lobby team-container color-team2'>
+                        <input
+                            className="lobby team-name-input team2 color-team2"
+                            type="text"
+                            value={team2Name}
+                            onChange={onTeam2NameChange}
+                        />
                         <Droppable droppableId="team2">
                             {(provided) => (
                                 <div className="lobby form team2" {...provided.droppableProps} ref={provided.innerRef}>

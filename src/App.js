@@ -1,21 +1,15 @@
-import Header from "components/views/Header";
 import AppRouter from "components/routing/routers/AppRouter";
-import { createContext, useEffect, useRef, useState } from "react";
-import { WebSocketConnection } from "./helpers/webRTC";
+import { createContext, useEffect, useState } from "react";
 import { getWsUrl } from "helpers/getDomain";
 import { Client } from '@stomp/stompjs';
+import StandardErrorBoundary from "helpers/ErrorBoundary";
 
 require("./helpers/webRTC");
-/**
- * Happy coding!
- * React Template by Lucas Pelloni
- * Overhauled by Kyrill Hux
- */
 export const WebSocketContext = createContext(null);
 
 const App = () => {
   const [connections, setConnections] = useState({
-    signalingConnection: new WebSocketConnection(getWsUrl() + "/socket"), stompConnection: new Client({
+    stompConnection: new Client({
       brokerURL: getWsUrl() + "/game"
     })
   })
@@ -29,7 +23,9 @@ const App = () => {
   return (
     <WebSocketContext.Provider value={connections}>
       <div>
-        <AppRouter />
+        <StandardErrorBoundary>
+          <AppRouter />
+        </StandardErrorBoundary>
       </div>
     </WebSocketContext.Provider>
   );

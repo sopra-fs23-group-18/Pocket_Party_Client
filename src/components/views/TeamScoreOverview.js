@@ -1,14 +1,22 @@
 import "styles/views/TeamScoreOverview.scss";
 import BaseContainer from 'components/ui/BaseContainer';
 import { useState, useEffect, useRef, useContext } from 'react';
-import { api } from 'helpers/api';
+import { api, handleError } from 'helpers/api';
 import HeaderContainer from 'components/ui/HeaderContainer';
-import { useHistory } from 'react-router-dom';
-import { LobbyContext } from "components/routing/routers/AppRouter";
+import { useHistory, useLocation } from 'react-router-dom';
+import { GameContext, LobbyContext } from "components/routing/routers/AppRouter";
 
 const TeamScoreOverview = () => {
-    const navigation = useHistory();
+
     const lobbyContext = useContext(LobbyContext);
+    const gameContext = useContext(GameContext);
+    let location = useLocation();
+    const history = useHistory();
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const [outcome, setOutcome] = useState(null);
+    const timeout = useRef(null);
+
     // State for team scores
     // const [team1PtsOvr, setTeam1PtsOvr] = useState(0);
     // const [team2PtsOvr, setTeam2PtsOvr] = useState(0);
@@ -21,28 +29,51 @@ const TeamScoreOverview = () => {
     const team2BarRef = useRef(null);
 
     const getPoints = async () => {
-        const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/scores`);
-        setData(response.data);
-        console.log(response.data)
+        try {
+            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
+            setData(response.data);
+            console.log(response.data)
+        } catch (error) {
+            alert(`Error!\n${handleError(error)}`)
+        }
     }
     // Update team scores and trigger animations
     const updateScoreTeam1 = async () => {
         const score = data.teams[0].score;
         console.log(score);
-        setTeam1Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam1Pts(Math.round(score / gameContext.game.winningScore * 100));
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
         const score = data.teams[1].score;
         console.log(score);
-        setTeam2Pts(Math.round(score / lobbyContext.lobby.winningScore * 100));
+        setTeam2Pts(Math.round(score / gameContext.game.winningScore * 100));
         team2BarRef.current.classList.add('mounted');
     };
 
+
+    async function updateScores(winnerTeam) {
+        console.log(winnerTeam.name);
+        const score = winnerTeam.score
+        const name = winnerTeam.name
+        const requestbody = JSON.stringify({ score, name })
+        try {
+            await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
+            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
+            setOutcome(response.data.gameOutcome)
+            getPoints();
+
+        }
+        catch (error) {
+            alert(`Error!\n${handleError(error)}`)
+        }
+    }
+
     useEffect(() => {
-        getPoints();
-    }, []);
+        updateScores(location.state.winner);
+    }, [location]);
+
     // Wait for data to be updated
     useEffect(() => {
         if (data) {
@@ -54,18 +85,42 @@ const TeamScoreOverview = () => {
     // Automatically redirect after 10 seconds
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            navigation.push('/gamePreview');
+            history.push('/gamePreview');
         }, 10000);
         return () => clearTimeout(timeoutId);
-    }, [navigation]);
+    }, [history]);
 
+    useEffect(() => {
+        if (!outcome) { return; }
+        if (outcome !== "NOT_FINISHED") {
+            console.log("got called");
+            clearTimeout(timeout.current);
+            setTimeout(() => {
+                if (outcome === "WINNER") {
+                    try {
+                        api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`)
+                            .then((response) => {
+                                history.push("/winner", { winnerTeam: response.data, draw: false });
+                            })
+                            .catch((error) => {
+                                alert(`Error!\n${handleError(error)}`)
+                            });
+                    } catch (error) {
+                        alert(`Error!\n${handleError(error)}`)
+                    }
+                } else {
+                    history.push("/winner", { draw: true });
+                }
+            }, 5000);
+        }
+    }, [outcome]);
 
     return (
         <BaseContainer>
             <HeaderContainer title="Minigame Score" text="Progress" />
             <div className="tso maincontent">
                 <div className="tso barbox">
-                    <label className="tso team1">Team 1</label>
+                    <label className="tso team1">{lobbyContext.lobby.teams[0].name}</label>
                     <div
                         ref={team1BarRef}
                         className="tso team1-bar"
@@ -74,7 +129,7 @@ const TeamScoreOverview = () => {
                     </div>
                     <label className="tso team1">{team1Pts}%</label>
 
-                    <label className="tso team2">Team 2</label>
+                    <label className="tso team2">{lobbyContext.lobby.teams[1].name}</label>
                     <div
                         ref={team2BarRef}
                         className="tso team2-bar"

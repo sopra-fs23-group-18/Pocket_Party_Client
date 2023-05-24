@@ -1,33 +1,48 @@
 import React, { useContext } from "react";
-import 'styles/games/TappingGame.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect, useCallback } from 'react';
 import { Timer } from "components/ui/Timer";
-import { useHistory } from "react-router-dom";
 import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
+import { Button } from "components/ui/Button";
+import { PongGameBoard } from "./pongGame/PongGameBoard";
+import 'styles/games/PongGame.scss'
 import PlayerContainer from "components/ui/PlayerContainer";
 
-export const TappingGame = props => {
-    const history = useHistory();
+
+export const PongGame = props => {
+
+    const movement = useRef();
+
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
     const minigameContext = useContext(MinigameContext);
 
-    const [count1, setCount1] = useState(0);
-    const [count2, setCount2] = useState(0);
-
     const onPlayerOneInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if (data.inputType === "TAP") {
-            setCount1(data.rawData.x);
+        console.log(data);
+        if (data.inputType === "PONG") {
+            if (data.rawData.x === 1) {
+                movement.current.moveLeftPaddleUp();
+            } else if (data.rawData.x === -1) {
+                movement.current.moveLeftPaddleDown();
+            } else if (data.rawData.x === 0) {
+                movement.current.stopLeftPaddle();
+            }
         }
     }
 
     const onPlayerTwoInput = (msg) => {
         const data = JSON.parse(msg.body)
-        if (data.inputType === "TAP") {
-            setCount2(data.rawData.x);
+        console.log(data);
+        if (data.inputType === "PONG") {
+            if (data.rawData.x === 1) {
+                movement.current.moveRightPaddleUp();
+            } else if (data.rawData.x === -1) {
+                movement.current.moveRightPaddleDown();
+            } else if (data.rawData.x === 0) {
+                movement.current.stopRightPaddle();
+            }
         }
     }
 
@@ -37,14 +52,14 @@ export const TappingGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "PONG_GAME"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "PONG_GAME"
                 })
             })
         }
@@ -54,14 +69,14 @@ export const TappingGame = props => {
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "TAPPING_GAME"
+                        minigame: "PONG_GAME"
                     })
                 })
                 connections.stompConnection.publish({
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "TAPPING_GAME"
+                        minigame: "PONG_GAME"
                     })
                 })
             }
@@ -69,13 +84,13 @@ export const TappingGame = props => {
     }, [])
 
     useEffect(() => {
-
         const player = props.playerIndex === 0 ? minigameContext?.minigame.team1Players[0] : minigameContext?.minigame.team2Players[0];
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
             connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             return;
         }
+        console.log("Subscribing to input");
         connections.stompConnection.onConnect = (_) => {
             connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
             connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
@@ -84,55 +99,35 @@ export const TappingGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "PONG_GAME"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "PONG_GAME"
                 })
             })
         };
     }, [connections, lobbyContext, minigameContext])
 
-    useEffect(() => {
-        // update progress bar respectively
-        document.querySelectorAll('.progress')[0].style.height = `${count1 / 2}%`;
-        document.querySelectorAll('.progress')[1].style.height = `${count2 / 2}%`;
-    }, [count1, count2]);
-
-
     return (
-        <div className="tapping-game">
-            <div className="tapping-game__container">
-                <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
-                <div className="bar">
-                    <div className="progress">
-                        <div className="count">{count1}</div>
-                    </div>
-                </div>
-                <PlayerContainer team="team2" player={minigameContext.minigame.team2Players[0]} />
-                <div className="bar">
-                    <div className="progress">
-                        <div className="count">{count2}</div>
-                    </div>
-                </div>
+        <div className="pong-game">
+            <PongGameBoard ref={movement} />
+            
+            <div style={{ position: 'absolute', top: '20%', left: 0}}>
+                <PlayerContainer team='team1' player={minigameContext?.minigame.team1Players[0]} />
             </div>
-            <Timer onExpire={() => {
-                const scoreToGain = minigameContext.minigame.scoreToGain;
-                let winnerScore = count1 > count2 ? count1 : count2;
-                const winningTeam = count1 > count2 ? { type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name } : { type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name }
-                const total = count1 + count2;
-                winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
-                const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
-                const looser = { score: scoreToGain - winnerScore };
-                const isDraw = count1 === count2;
-                history.push("/minigameWon", { winner, looser, isDraw })
-            }}>20</Timer>
+            <div style={{ position: 'absolute', top: '20%', right: 0}}>
+                <PlayerContainer team='team2' player={minigameContext?.minigame.team2Players[0]} />
+            </div>
+
+            <div className="round-left">
+                Five points to win!
+            </div>
+            
         </div>
-
-    );
-
+    )
 }
+

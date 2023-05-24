@@ -1,49 +1,38 @@
-import React, { } from 'react';
+import React, { useState } from 'react';
 import { api } from 'helpers/api';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
-import 'styles/views/Lobby.scss';
-import BaseContainer from "components/ui/BaseContainer";
-
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-
-const CreateLobby = props => {
+import 'styles/views/CreateLobby.scss';
+import BaseContainer from 'components/ui/BaseContainer';
+import Info from '../ui/Info';
+import { handleError } from 'helpers/api';
+const CreateLobby = (props) => {
   const history = useHistory();
-  const doCreateLobby = async () => {
-    const requestBody = JSON.stringify({ winningScore: 500 });
-    const response = await api.post('/lobbies', requestBody);
-    console.log(response.data);
-    history.push('/lobby', response.data);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
 
+  const doCreateLobby = async () => {
+    try {
+      const response = await api.post('/lobbies');
+      history.push('/lobby', response.data);
+    } catch (error) {
+      alert(`Error!\n${handleError(error)}`)
+    }
+  };
 
   return (
     <BaseContainer>
-      <div className="lobby container">
-        <div className="lobby form">
-          <div className="lobby button-container">
-            <Button
-              width="100%"
-              onClick={() => doCreateLobby()}
-            >
-              Create Lobby
-            </Button>
-          </div>
+      <div className="createlobby container">
+        <div className="createlobby info">
+          <Info infotext={'Welcome to Pocket Party! This is a party game for at least two players where you will compete in several different minigames until a team has reached the winning score! Click the button below to get started.'} />
+        </div>
+        <div className="createlobby form">
+          <Button className="createlobby button-container" onClick={() => doCreateLobby()}>
+            Create Lobby
+          </Button>
         </div>
       </div>
     </BaseContainer>
-
-
   );
 };
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
 export default CreateLobby;

@@ -1,0 +1,54 @@
+@import '../theme';
+
+.info-icon {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tooltip {
+    position: absolute;
+    top: 30px;
+    left: -80px;
+    width: 160px;
+    background-color: $accent;
+    padding: 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.tooltip .tooltip-text {
+    margin-bottom: 4px;
+    color: white;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+
+.hovered .tooltip {
+    visibility: visible;
+    opacity: 0.8;
+}

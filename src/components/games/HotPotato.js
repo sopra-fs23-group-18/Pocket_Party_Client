@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ActivationState } from "@stomp/stompjs";
+import { WebSocketContext } from "App";
+import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
+
 
 const HotPotato = () => {
     const [timeLeft, setTimeLeft] = useState(10);
@@ -7,6 +11,73 @@ const HotPotato = () => {
     const [gameOver, setGameOver] = useState(false);
     const [index, setIndex] = useState(0);
     const [hasCooldown, setHasCooldown] = useState(true);
+    const connections = useContext(WebSocketContext);
+    const lobbyContext = useContext(LobbyContext);
+    const minigameContext = useContext(MinigameContext);
+
+    useEffect(() => {
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+                players.forEach(player => {
+                    connections.stompConnection.publish({
+                        destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                        body: JSON.stringify({
+                            signal: "START",
+                            minigame: "TAPPING_GAME"
+                        })
+                    });
+                });
+            }
+
+        }
+        return () => {
+            if (connections.stompConnection.state === ActivationState.ACTIVE) {
+                players.forEach(player => {
+                    connections.stompConnection.publish({
+                        destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                        body: JSON.stringify({
+                            signal: "STOP",
+                            minigame: "HOTPOTATO"
+                        })
+                    });
+                });
+            }
+
+        }
+    }, [])
+    useEffect(() => {
+
+        if (connections.stompConnection.state === ActivationState.ACTIVE) {
+            players.forEach(player => {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${player.id}/input`, handlePass);
+            });
+            return;
+        }
+
+        connections.stompConnection.onConnect = (_) => {
+            players.forEach(player => {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${player.id}/input`, handlePass);
+            });
+
+            players.forEach(player => {
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
+                    body: JSON.stringify({
+                        signal: "START",
+                        minigame: "HOTPOTATO"
+                    })
+                });
+            });
+        };
+    }, [connections, lobbyContext, minigameContext]);
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (timeLeft === 0) {
             handleExplode();

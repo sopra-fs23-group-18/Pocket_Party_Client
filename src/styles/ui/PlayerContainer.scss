@@ -32,12 +32,23 @@
     border-radius: 100%;
     border-color: aliceblue;
 }
+
 .player-container.team1 {
     background-color: $accentTeamOne;
+    color: $textColorTeamOne;
+
+    &.player-name {
+        color: $textColorTeamOne;
+    }
 }
 
 .player-container.team2 {
     background-color: $accentTeamTwo;
+    color: $textColorTeamTwo;
+
+    &.player-name {
+        color: $textColorTeamTwo;
+    }
 }
 
 .player-container.unassigned {
@@ -47,5 +58,4 @@
 .player-name {
     margin: 0.5em;
     font-weight: bold;
-    color: $textColor
 }

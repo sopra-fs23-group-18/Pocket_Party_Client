@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import 'styles/games/timingGame.scss';
+import 'styles/games/TimingGame.scss';
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
 import PropTypes from "prop-types";
@@ -19,7 +19,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     const spawnOn = useRef(Math.floor(Math.random() * (500 - 200 + 1)) + 200)
     const circles = useRef([]);
     const engine = useRef(Engine.create());
-    const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: props.playerIndex === 0 ? '#e17860':'#5d96ef' } }));
+    const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: props.playerIndex === 0 ? '#E14842' : '#614F89' } }));
 
     // const onConnected = (pc) => {
     //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"}));
@@ -94,7 +94,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
             engine: engine.current,
             options: {
                 width: 400,
-                height: 500,
+                height: 398,
                 wireframes: false,
                 background: 'transparent',
                 showDebug: false,
@@ -112,11 +112,11 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
 
         const handleTimingFeedback = (body) => {
             if (body.position.y > 260) {
-                setFeedback({ show: true, text: "To late" })
+                setFeedback({ show: true, text: "Too late" })
                 setScore((old) => old + 1)
                 Body.scale(body, 1, 0.5)
             } else if (body.position.y < 240) {
-                setFeedback({ show: true, text: "To early" })
+                setFeedback({ show: true, text: "Too early" })
                 setScore((old) => old + 1)
                 Body.scale(body, 1, 0.5)
             } else {
@@ -196,7 +196,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     }
 
     return (
-        <div style={{ color: 'black', border: 'solid', width: "20rem", height: "25rem"}}>
+        <div style={{ color: 'black', border: 'solid', width: "20rem", height: "25rem" }}>
             <h1 className={feedback.show ? 'overCanvas Feedback' : 'overCanvas'}>{feedback.text}</h1>
             <div ref={gameContainer}></div>
         </div>

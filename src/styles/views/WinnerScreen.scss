@@ -1,41 +1,52 @@
 @import 'styles/theme';
 
 
-.winnerTitle{
-    color : $accent;
-    font-size: 8rem;
-    margin-top: 5rem;
-    z-index: 10;
+.winnerTitle {
+    color: $accent;
+    font-size: 5rem;
 }
 
-.team1{
+.team1 {
     color: $accentTeamOne;
 }
 
-.team2{
+.team2 {
     color: $accentTeamTwo;
 }
 
 .winnerName {
-    font-size: 12rem;
-    margin-top: 1rem;
+    font-size: 8rem;
 }
 
 
 
 path {
     fill: transparent;
-  }
+}
 
-.curve{
+.curve {
     height: 30rem;
 }
 
-.container{
+.container {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
+}
+
+.restart-button {
+    display: flex;
+    justify-content: center;
+    width: 15em;
+    height: 2.5em;
+    background: $accent;
+    border-radius: $borderRadius
+}
+
+.score {
+    font-size: 2em;
 }

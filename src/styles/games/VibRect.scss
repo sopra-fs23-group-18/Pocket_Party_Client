@@ -1,0 +1,21 @@
+@import 'styles/theme';
+
+@keyframes rectAnim {
+    0% { transform: scale(0.5, 0.5) rotate(0turn); }
+    18% { transform: scale(1, 1)  rotate(0.5turn); }
+    28% { transform: scale(0.5, 0.5)  rotate(0turn); }
+    46% { transform: scale(1, 1)  rotate(0.5turn); }
+    54% { transform: scale(0.5, 0.5)  rotate(0turn); }
+    73% { transform: scale(1, 1)  rotate(0.5turn); }
+    81% { transform: scale(0.5, 0.5)  rotate(0turn); }
+    100% { transform: scale(1, 1)  rotate(0.5turn); }
+  }
+
+.rect{
+    width: 20rem;
+    height: 20rem;
+
+    &.play{
+        animation: rectAnim 2.2s;
+    }
+}

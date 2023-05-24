@@ -4,36 +4,63 @@ import { useContext, useEffect, useState } from 'react';
 import BaseContainer from 'components/ui/BaseContainer';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
+import { GameContext, LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
+import { Button } from 'components/ui/Button';
 
 const GamePreview = () => {
     let location = useLocation();
     const minigameContext = useContext(MinigameContext);
     const lobbyContext = useContext(LobbyContext);
+    const gameContext = useContext(GameContext);
+    const [errorMessage, setErrorMessage] = useState('');
     // const [description, setDescription] = useState('Description has not loaded yet!');
     // const [minigameTitle, setMinigameTitle] = useState('');
     // const [points, setPoints] = useState(0);
     const [data, setData] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
     const history = useHistory();
+
     useEffect(() => {
         async function fetchData() {
-            const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/minigame`);
+            const responsePost = await api.post(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
+            if (responsePost.status !== 201) {
+                setErrorMessage(responsePost.status);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
 
-            setData(response.data);
-            minigameContext.setMinigame(response.data)
-            localStorage.setItem("minigameContext", JSON.stringify(response.data));
+                return;
+            }
+            const responsePut = await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigames`);
+            if (responsePut.status !== 204) {
+                setErrorMessage(responsePut);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
+                return
+            }
+            const responseGet = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/minigame`);
+            if (responseGet.status !== 200) {
+                setErrorMessage(responseGet.status);
+                history.push({
+                    pathname: '/error',
+                    state: { msg: errorMessage }
+                });
+
+            }
+            setData(responseGet.data);
+            minigameContext.setMinigame(responseGet.data)
+            localStorage.setItem("minigameContext", JSON.stringify(responseGet.data));
 
         };
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (data !== null)
-            setTimeout(() => {
-                history.push("/playerPreview", data)
-            }, 10000);
-
-    }, [data])
+    const next = () => {
+        history.push("/playerPreview", data)
+    }
     //maybe add formatMinigameTypeString helper function
     function formatMinigameTypeString(type) {
         const words = type.split('_');
@@ -45,18 +72,27 @@ const GamePreview = () => {
         return formattedString;
     }
 
-    function getImagePath(type) {
-        return `${process.env.PUBLIC_URL}/images/${type.toLowerCase()}.png`;
+    // function getImagePath(type) {
+    //     console.log(`${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`);
+    //     return `${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`;
+    // }
+    function componentDidMount() {
+        import(`../../images/${(data?.type || '').toLowerCase()}.png`).then((module) => { setPreviewImage(module.default); });
     }
-
+    useEffect(() => {
+        if (data) {
+            componentDidMount();
+        }
+    }, [data]);
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
             <label className="preview label">How to play</label>
             <div className='preview descBox'>
                 <label className='preview description'>{data?.description}</label>
-                <img className='preview image' src={getImagePath(data?.type || '')}></img>
+                <img className='preview image' src={previewImage}></img>
             </div>
+            <Button className='preview button-container' onClick={next}>Start game!</Button>
         </BaseContainer>
     );
 }

@@ -1,0 +1,37 @@
+@import 'styles/theme';
+@keyframes circleAnim {
+    0% {
+        transform: scale(1, 1)
+    }
+
+    23% {
+        transform: scale(0.5, 0.5)
+    }
+
+    26% {
+        transform: scale(1, 1)
+    }
+
+    46% {
+        transform: scale(0.5, 0.5)
+    }
+    49% {
+        transform: scale(1, 1)
+    }
+
+    69% {
+        transform: scale(0.5, 0.5)
+    }
+    100% {
+        transform: scale(1, 1)
+    }
+}
+
+.vibCircle {
+    width: 20rem;
+    height: 20rem;
+    &.play {
+        animation: circleAnim 2s;
+    }
+    
+}
