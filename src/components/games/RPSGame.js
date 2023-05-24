@@ -69,7 +69,7 @@ export const RPSGame = () => {
       setScore(score);
     }
   }, []);
-    
+
 
   // determine winner after both players have made a choice
   useEffect(() => {
@@ -98,10 +98,10 @@ export const RPSGame = () => {
     if (score.playerOne === WINNING_SCORE || score.playerTwo === WINNING_SCORE) {
       const scoreToGain = minigameContext.minigame.scoreToGain;
       const total = score.playerOne + score.playerTwo;
-      const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain); 
+      const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
       const winningTeam = score.playerOne === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
       const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-      const loser = { score: scoreToGain - winnerScore}
+      const loser = { score: scoreToGain - winnerScore }
       setTimeout(() => {
         history.push("/minigameWon", { winner, loser })
       }, 1000);
@@ -111,138 +111,141 @@ export const RPSGame = () => {
   // websocket connection
   useEffect(() => {
     if (connections.stompConnection.state === ActivationState.ACTIVE) {
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "RPS_GAME"
-            })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "RPS_GAME"
         })
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "RPS_GAME"
-            })
+      })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "RPS_GAME"
         })
+      })
     }
     return () => {
-        if (connections.stompConnection.state === ActivationState.ACTIVE) {
-            connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-                body: JSON.stringify({
-                    signal: "STOP",
-                    minigame: "RPS_GAME"
-                })
-            })
-            connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-                body: JSON.stringify({
-                    signal: "STOP",
-                    minigame: "RPS_GAME"
-                })
-            })
-        }
+      if (connections.stompConnection.state === ActivationState.ACTIVE) {
+        connections.stompConnection.publish({
+          destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+          body: JSON.stringify({
+            signal: "STOP",
+            minigame: "RPS_GAME"
+          })
+        })
+        connections.stompConnection.publish({
+          destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+          body: JSON.stringify({
+            signal: "STOP",
+            minigame: "RPS_GAME"
+          })
+        })
+      }
     }
-}, [])
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     if (connections.stompConnection.state === ActivationState.ACTIVE) {
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
-        return;
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+      return;
     }
     console.log("Subscribing to input");
     connections.stompConnection.onConnect = (_) => {
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
 
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "RPS_GAME"
-            })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "RPS_GAME"
         })
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "RPS_GAME"
-            })
+      })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "RPS_GAME"
         })
+      })
     };
-}, [connections, lobbyContext, minigameContext])
+  }, [connections, lobbyContext, minigameContext])
 
   return (
     <div className="container">
       <h1>Rock Paper Scissors</h1>
       <div className="scoreboard">
-      <div className="player-one-score">
-        {score.playerOne}
+        <div className="player-one-score">
+          {score.playerOne}
+        </div>
+        <div className="player-two-score">
+          {score.playerTwo}
+        </div>
       </div>
-      <div className="player-two-score">
-        {score.playerTwo}
-      </div>
-    </div>
-     
       <div className="choices-container">
-      <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
-        <p className={`choice ${playerOneChoice ? 'player-one-choice' : ''}`}>
-          {playerOneChoice && (
-            <>
-              {playerOneChoice === 'rock' && (
-                <span role="img" aria-label="rock" style={{ fontSize: '10rem' }}>
-                ✊
-              </span>
-              )}
-              {playerOneChoice === 'paper' && (
-                <span role="img" aria-label="paper" style={{ fontSize: '10rem' }}>
-                🖐️
-              </span>
-              )}
-              {playerOneChoice === 'scissors' && (
-                <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                ✌️
-              </span>              
-              )}
-              {playerOneChoice === 'hold' && (
-                <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
-                😜
-              </span>
-              
-              )} 
-            </>
-          )}
-        </p>
-        <PlayerContainer team="team2" player={minigameContext.minigame.team2Players[0]} />
-        <p className={`choice ${playerTwoChoice ? 'player-two-choice' : ''}`}>
-          {playerTwoChoice && (
-            <>
-              {playerTwoChoice === 'rock' && (
-                <span role="img" aria-label="rock" style={{ fontSize: '10rem' }}>
-                ✊
-              </span>
-              )}
-              {playerTwoChoice === 'paper' && (
-                <span role="img" aria-label="paper" style={{ fontSize: '10rem' }}>
-                🖐️
-              </span>
-              )}
-              {playerTwoChoice === 'scissors' && (
-                <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                ✌️
-              </span>
-              )}
-              {playerTwoChoice === 'hold' && (
-                <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
-                😜
-              </span>
-              
-              )}
-            </>
-          )}
-        </p>
+        <div className='play-container'>
+          <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
+          <p className={`choice ${playerOneChoice ? 'player-one-choice' : ''}`}>
+            {playerOneChoice && (
+              <>
+                {playerOneChoice === 'rock' && (
+                  <span role="img" aria-label="rock" style={{ fontSize: '10rem' }}>
+                    ✊
+                  </span>
+                )}
+                {playerOneChoice === 'paper' && (
+                  <span role="img" aria-label="paper" style={{ fontSize: '10rem' }}>
+                    🖐️
+                  </span>
+                )}
+                {playerOneChoice === 'scissors' && (
+                  <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
+                    ✌️
+                  </span>
+                )}
+                {playerOneChoice === 'hold' && (
+                  <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
+                    💭
+                  </span>
+
+                )}
+              </>
+            )}
+          </p>
+        </div>
+        <div className='play-container'>
+          <PlayerContainer team="team2" player={minigameContext.minigame.team2Players[0]} />
+          <p className={`choice ${playerTwoChoice ? 'player-two-choice' : ''}`}>
+            {playerTwoChoice && (
+              <>
+                {playerTwoChoice === 'rock' && (
+                  <span role="img" aria-label="rock" style={{ fontSize: '10rem' }}>
+                    ✊
+                  </span>
+                )}
+                {playerTwoChoice === 'paper' && (
+                  <span role="img" aria-label="paper" style={{ fontSize: '10rem' }}>
+                    🖐️
+                  </span>
+                )}
+                {playerTwoChoice === 'scissors' && (
+                  <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
+                    ✌️
+                  </span>
+                )}
+                {playerTwoChoice === 'hold' && (
+                  <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
+                    💭
+                  </span>
+
+                )}
+              </>
+            )}
+          </p>
+        </div>
       </div>
       <div className="winner">
         {winnerEachRound && (
@@ -253,12 +256,12 @@ useEffect(() => {
               </span>
             )}
             {winnerEachRound === 'playerOne' && (
-              <span role="img" aria-label="player one" style={{ fontSize: '6rem', color: 'red' }}>
+              <span role="img" aria-label="player one" className='team1-color' style={{ fontSize: '6rem' }}>
                 🎉 {minigameContext.minigame.team1Players[0].nickname} wins!
               </span>
             )}
             {winnerEachRound === 'playerTwo' && (
-              <span role="img" aria-label="player two" style={{ fontSize: '6rem', color: 'blue' }}>
+              <span role="img" aria-label="player two" className='team2-color' style={{ fontSize: '6rem' }}>
                 🎉 {minigameContext.minigame.team2Players[0].nickname} wins!
               </span>
             )}
@@ -285,10 +288,10 @@ useEffect(() => {
           ✌️
         </button>
 
-        </div>
-          
+      </div>
+
     </div>
   );
 };
 
-    
+
