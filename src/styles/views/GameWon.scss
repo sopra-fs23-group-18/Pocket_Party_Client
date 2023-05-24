@@ -30,4 +30,16 @@
     &.loser {
         float: right;
     }
+
+    &.draw {
+        font-size: 6rem;
+        margin-bottom: 1rem;
+        color: $accent;
+    }
+
+    &.div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
