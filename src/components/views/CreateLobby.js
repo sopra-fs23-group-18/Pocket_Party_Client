@@ -6,6 +6,8 @@ import 'styles/views/CreateLobby.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import Info from '../ui/Info';
 import { handleError } from 'helpers/api';
+import pocketpartylogo from 'images/pocketpartylogo.png'
+
 const CreateLobby = (props) => {
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,11 +23,13 @@ const CreateLobby = (props) => {
 
   return (
     <BaseContainer>
+      {/* <img className='logo' src={pocketpartylogo}></img> */}
       <div className="createlobby container">
         <div className="createlobby info">
           <Info infotext={'Welcome to Pocket Party! This is a party game for at least two players where you will compete in several different minigames until a team has reached the winning score! Click the button below to get started.'} />
         </div>
         <div className="createlobby form">
+          <img className='logo' src={pocketpartylogo}></img>
           <Button className="createlobby button-container" onClick={() => doCreateLobby()}>
             Create Lobby
           </Button>
