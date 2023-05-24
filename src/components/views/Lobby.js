@@ -37,9 +37,10 @@ const Lobby = props => {
     const [players, setPlayers] = useState([]);
 
     const getLobbyInfo = async () => {
+        let lobby;
         try {
             const response = await api.get(`/lobbies/${location.state.id}`);
-            const lobby = new LobbyModel(response.data);
+            lobby = new LobbyModel(response.data);
             lobbyContext.setLobby(lobby)
             localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
         } catch (error) {
