@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "components/ui/Button";
 import 'styles/games/RPSGame.scss';
 import { ActivationState } from "@stomp/stompjs";
 import { WebSocketContext } from "App";
@@ -31,21 +30,21 @@ export const StrategyGame = () => {
   // assign score for each round
   const assignScore = (playerOneChoice, playerTwoChoice) => {
     if (playerOneChoice !== playerTwoChoice) {
-        setScore({
-            playerOne: score.playerOne + playerOneChoice,
-            playerTwo: score.playerTwo + playerTwoChoice,
-        });
-      
-        setNextRoundInfo({
-          playerOne: playerOneChoice+ "for" + minigameContext.minigame.team1Players[0].nickname,
-          playerTwo: playerTwoChoice + "for" + minigameContext.minigame.team2Players[0].nickname
-        }
-        );
-    } 
-    else {
-        setNextRoundInfo({tie: "Zero points for both"});
+      setScore({
+        playerOne: score.playerOne + playerOneChoice,
+        playerTwo: score.playerTwo + playerTwoChoice,
+      });
+
+      setNextRoundInfo({
+        playerOne: playerOneChoice + "for" + minigameContext.minigame.team1Players[0].nickname,
+        playerTwo: playerTwoChoice + "for" + minigameContext.minigame.team2Players[0].nickname
+      }
+      );
     }
-};
+    else {
+      setNextRoundInfo({ tie: "Zero points for both" });
+    }
+  };
 
   const onPlayerOneInput = (msg) => {
     const data = JSON.parse(msg.body);
@@ -83,18 +82,18 @@ export const StrategyGame = () => {
   }, []);
 
   // store round played in local storage
-    useEffect(() => {
-        localStorage.setItem('roundPlayed', JSON.stringify(roundPlayed));
-    }, [roundPlayed]);
+  useEffect(() => {
+    localStorage.setItem('roundPlayed', JSON.stringify(roundPlayed));
+  }, [roundPlayed]);
 
-    // retrieve round played from local storage
-    useEffect(() => {
-        const roundPlayed = JSON.parse(localStorage.getItem('roundPlayed'));
-        if (roundPlayed) {
-            setRoundPlayed(roundPlayed);
-        }
-    }, []);
-    
+  // retrieve round played from local storage
+  useEffect(() => {
+    const roundPlayed = JSON.parse(localStorage.getItem('roundPlayed'));
+    if (roundPlayed) {
+      setRoundPlayed(roundPlayed);
+    }
+  }, []);
+
 
   // determine winner after both players have made a choice
   useEffect(() => {
@@ -132,10 +131,10 @@ export const StrategyGame = () => {
       const scoreToGain = minigameContext.minigame.scoreToGain;
       const total = score.playerOne + score.playerTwo;
       let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
-      winnerScore = Math.round(winnerScore / total * scoreToGain); 
+      winnerScore = Math.round(winnerScore / total * scoreToGain);
       const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
       const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-      const loser = { score: scoreToGain - winnerScore}
+      const loser = { score: scoreToGain - winnerScore }
       setTimeout(() => {
         history.push("/minigameWon", { winner, loser })
       }, 1000);
@@ -145,106 +144,106 @@ export const StrategyGame = () => {
   // websocket connection
   useEffect(() => {
     if (connections.stompConnection.state === ActivationState.ACTIVE) {
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "STRATEGY_GAME"
-            })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "STRATEGY_GAME"
         })
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "STRATEGY_GAME"
-            })
+      })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "STRATEGY_GAME"
         })
+      })
     }
     return () => {
-        if (connections.stompConnection.state === ActivationState.ACTIVE) {
-            connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-                body: JSON.stringify({
-                    signal: "STOP",
-                    minigame: "STRATEGY_GAME"
-                })
-            })
-            connections.stompConnection.publish({
-                destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-                body: JSON.stringify({
-                    signal: "STOP",
-                    minigame: "STRATEGY_GAME"
-                })
-            })
-        }
+      if (connections.stompConnection.state === ActivationState.ACTIVE) {
+        connections.stompConnection.publish({
+          destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+          body: JSON.stringify({
+            signal: "STOP",
+            minigame: "STRATEGY_GAME"
+          })
+        })
+        connections.stompConnection.publish({
+          destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+          body: JSON.stringify({
+            signal: "STOP",
+            minigame: "STRATEGY_GAME"
+          })
+        })
+      }
     }
-}, [])
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     if (connections.stompConnection.state === ActivationState.ACTIVE) {
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
-        return;
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+      return;
     }
     console.log("Subscribing to input");
     connections.stompConnection.onConnect = (_) => {
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-        connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+      connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
 
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "STRATEGY_GAME"
-            })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "STRATEGY_GAME"
         })
-        connections.stompConnection.publish({
-            destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
-            body: JSON.stringify({
-                signal: "START",
-                minigame: "STRATEGY_GAME"
-            })
+      })
+      connections.stompConnection.publish({
+        destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
+        body: JSON.stringify({
+          signal: "START",
+          minigame: "STRATEGY_GAME"
         })
+      })
     };
-}, [connections, lobbyContext, minigameContext])
+  }, [connections, lobbyContext, minigameContext])
 
   return (
     <div className="container">
       <h1>Greedy Choice</h1>
       <div className="scoreboard">
-      <div className="player-one-score">
-        {score.playerOne}
+        <div className="player-one-score">
+          {score.playerOne}
+        </div>
+        <div className="player-two-score">
+          {score.playerTwo}
+        </div>
       </div>
-      <div className="player-two-score">
-        {score.playerTwo}
-      </div>
-    </div>
       <div className="choices-container">
-      <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
+        <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
         <p className={`choice ${playerOneChoice ? 'player-one-choice' : ''}`}>
           {playerOneChoice && (
             <>
               {playerOneChoice === 5 && (
                 <span role="img" aria-label="rock" style={{ fontSize: '5rem' }}>
-                💎💎💎💎💎
-              </span>
+                  💎💎💎💎💎
+                </span>
               )}
               {playerOneChoice === 3 && (
                 <span role="img" aria-label="paper" style={{ fontSize: '7rem' }}>
-                💰💰💰
-              </span>
+                  💰💰💰
+                </span>
               )}
               {playerOneChoice === 1 && (
                 <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                💵
-              </span>              
-              )}
-                {playerOneChoice === 'hold' && (
-                <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
-                🤑
+                  💵
                 </span>
-                )}
-              
+              )}
+              {playerOneChoice === 'hold' && (
+                <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
+                  🤑
+                </span>
+              )}
+
             </>
           )}
         </p>
@@ -254,24 +253,24 @@ useEffect(() => {
             <>
               {playerTwoChoice === 5 && (
                 <span role="img" aria-label="rock" style={{ fontSize: '5rem' }}>
-                💎💎💎💎💎
-              </span>
+                  💎💎💎💎💎
+                </span>
               )}
               {playerTwoChoice === 3 && (
                 <span role="img" aria-label="paper" style={{ fontSize: '7rem' }}>
-                💰💰💰
-              </span>
+                  💰💰💰
+                </span>
               )}
               {playerTwoChoice === 1 && (
                 <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                💵
-              </span>
+                  💵
+                </span>
               )}
               {playerTwoChoice === 'hold' && (
                 <span role="img" aria-label="funny" style={{ fontSize: '10rem' }}>
-                🤑
-              </span>
-                )}
+                  🤑
+                </span>
+              )}
             </>
           )}
         </p>
@@ -281,14 +280,14 @@ useEffect(() => {
           <>
             {nextRoundInfo.playerOne && (
               <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'red' }}>
-               😄 {nextRoundInfo.playerOne}
+                😄 {nextRoundInfo.playerOne}
               </span>
             )}
             {nextRoundInfo.playerTwo && (
               <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'blue' }}>
                 😄 {nextRoundInfo.playerTwo}
               </span>
-            )} 
+            )}
             {nextRoundInfo.tie && (
               <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'red' }}>
                 😞 {nextRoundInfo.tie}
