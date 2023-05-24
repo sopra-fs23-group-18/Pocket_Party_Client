@@ -312,6 +312,9 @@ export const StrategyGame = () => {
           1
       </button>
       </div>
+      <div className="round-left">
+        Round left: {5 - roundPlayed}
+      </div>
     </div>
   );
 };

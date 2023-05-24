@@ -289,6 +289,9 @@ export const RPSGame = () => {
         </button>
 
         </div>
+        <div className='round-left'>
+          Five points to win!
+        </div>
           
     </div>
   );

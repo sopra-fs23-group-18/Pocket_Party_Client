@@ -122,6 +122,10 @@ export const PongGame = props => {
             <div style={{ position: 'absolute', top: '20%', right: 0}}>
                 <PlayerContainer team='team2' player={minigameContext?.minigame.team2Players[0]} />
             </div>
+
+            <div className="round-left">
+                Five points to win!
+            </div>
             
         </div>
     )

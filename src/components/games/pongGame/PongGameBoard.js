@@ -306,7 +306,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
                             right: prev.right + 1
                         }
                     })
-                    setWinner("Point for Blue!");
+                    setWinner("Point for " + minigameContext.minigame.team2Players[0].nickname + "!");
                     isGoal();
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "rightGoalWall" || pair.bodyB.label === "ball" && pair.bodyA.label === "rightGoalWall") {
@@ -317,7 +317,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
                             left: prev.left + 1
                         }
                     })
-                    setWinner("Point for Red!");
+                    setWinner("Point for " + minigameContext.minigame.team1Players[0].nickname + "!");
                     isGoal();
                 }
 
@@ -352,7 +352,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
             <div className="game-board" ref={gameContainer}></div>
             <h1 className={'left-score'}>{score.left}</h1>
             <h1 className={'right-score'}>{score.right}</h1>
-            <h1 className={winner === "Point for Red!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
+            <h1 className={winner === "Point for " + minigameContext.minigame.team1Players[0].nickname + "!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
         </div>
     )
 })
