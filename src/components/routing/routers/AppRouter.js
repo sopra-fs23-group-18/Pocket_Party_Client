@@ -12,6 +12,7 @@ import ErrorScreen from "components/views/ErrorScreen";
 import Settings from "components/views/Settings";
 import { RPSGame } from "components/games/RPSGame";
 import { StrategyGame } from "components/games/StrategyGame";
+import { PongGame } from "components/games/PongGame";
 
 /**
  * Main router of your application.
@@ -43,7 +44,7 @@ const AppRouter = () => {
       case "HOT_POTATO":
         return <VibrationGame/>
       case "PONG_GAME":
-        return <VibrationGame />
+        return <PongGame />
       case "RPS_GAME":
         return <RPSGame />
       case "STRATEGY_GAME":
@@ -89,6 +90,15 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/settings">
                 <Settings />
+              </Route>
+              <Route exact path="/rpsGame">
+                <RPSGame />
+              </Route>
+              <Route exact path="/strategyGame">
+                <StrategyGame />
+              </Route>
+              <Route exact path="/pongGame">
+                <PongGame />
               </Route>
             </Switch>
           </BrowserRouter>

@@ -36,17 +36,21 @@
 }
 
 .red-winner {
+  position: absolute;
+  top: 50%;
   font-size: 3rem;
   align-self: center;
   color: $accentTeamOne;
   text-align: center;
-  left: 45%;
+  left: 40%;
 }
 
 .blue-winner {
+  position: absolute;
+  top: 50%;
   font-size: 3rem;
   align-self: center;
   color: $accentTeamTwo;
   text-align: center;
-  left: 45%;
+  left: 40%;
 }

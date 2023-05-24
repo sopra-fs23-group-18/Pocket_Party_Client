@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { useHistory } from "react-router-dom";
 import PlayerContainer from "components/ui/PlayerContainer";
+import { Timer } from "components/ui/Timer";
 
 export const StrategyGame = () => {
   const [playerOneChoice, setPlayerOneChoice] = useState("hold");
@@ -127,20 +128,20 @@ export const StrategyGame = () => {
   }, [onRoundFinished]);
 
   // redircet to winning page when game is over
-  useEffect(() => {
-    if (roundPlayed === roundToPLay) {
-      const scoreToGain = minigameContext.minigame.scoreToGain;
-      const total = score.playerOne + score.playerTwo;
-      let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
-      winnerScore = Math.round(winnerScore / total * scoreToGain); 
-      const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-      const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-      const loser = { score: scoreToGain - winnerScore}
-      setTimeout(() => {
-        history.push("/minigameWon", { winner, loser })
-      }, 1000);
-    }
-  }, [roundPlayed]);
+  // useEffect(() => {
+  //   if (roundPlayed === roundToPLay) {
+  //     const scoreToGain = minigameContext.minigame.scoreToGain;
+  //     const total = score.playerOne + score.playerTwo;
+  //     let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
+  //     winnerScore = Math.round(winnerScore / total * scoreToGain); 
+  //     const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
+  //     const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+  //     const loser = { score: scoreToGain - winnerScore}
+  //     setTimeout(() => {
+  //       history.push("/minigameWon", { winner, loser })
+  //     }, 1000);
+  //   }
+  // }, [roundPlayed]);
 
   // websocket connection
   useEffect(() => {
@@ -297,6 +298,16 @@ useEffect(() => {
           </>
         )}
       </div>
+      <Timer onExpire={() => {
+                const scoreToGain = minigameContext.minigame.scoreToGain;
+                let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
+                const winningTeam = score.playerOne > score.playerTwo ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
+                const total = score.playerOne + score.playerTwo;
+                winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
+                const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+                const looser = { score: scoreToGain - winnerScore };
+                history.push("/minigameWon", { winner, looser })
+            }}>20</Timer>
     </div>
   );
 };
