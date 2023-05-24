@@ -11,7 +11,7 @@ const TeamScoreOverview = () => {
     const lobbyContext = useContext(LobbyContext);
     const gameContext = useContext(GameContext);
     let location = useLocation();
-    const navigation = useHistory();
+    const history = useHistory();
     const [errorMessage, setErrorMessage] = useState('');
 
     const [hasWon, setHasWon] = useState(false);
@@ -65,6 +65,9 @@ const TeamScoreOverview = () => {
         try {
             await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
             const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
+            setHasWon(response.data.isFinished)
+            getPoints();
+    
         }
         catch (error) {
             setErrorMessage(error.message);
@@ -74,9 +77,6 @@ const TeamScoreOverview = () => {
             });
 
         }
-        console.log();
-        setHasWon(response.data.isFinished)
-        getPoints();
     }
 
     useEffect(() => {
@@ -94,10 +94,10 @@ const TeamScoreOverview = () => {
     // Automatically redirect after 10 seconds
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            navigation.push('/gamePreview');
+            history.push('/gamePreview');
         }, 10000);
         return () => clearTimeout(timeoutId);
-    }, [navigation]);
+    }, [history]);
 
     useEffect(() => {
         if (hasWon) {
@@ -107,7 +107,7 @@ const TeamScoreOverview = () => {
                 try {
                     api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`)
                         .then((response) => {
-                            navigation.push("/winner", { winnerTeam: response.data });
+                            history.push("/winner", { winnerTeam: response.data });
                         })
                         .catch((error) => {
                             setErrorMessage(error.message);
