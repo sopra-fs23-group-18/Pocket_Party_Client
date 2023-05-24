@@ -249,10 +249,12 @@ export const VibrationGame = () => {
                     })
                     let winner;
                     let looser;
+                    let isDraw = false;
                     // Draw:  either both have guessed false or both players have guessed right 
                     if (correctChoosers.length === 0 || correctChoosers.length === 2) {
                         winner = { score: scoreToGain / 2, color: "RED", name: "Team Red" };
                         looser = { score: scoreToGain / 2, color: "BLUE", name: "Team Blue" };
+                        isDraw = true;
                     }
                     else {
                         const winnerIsTeamRed = correctChoosers[0].id === minigameContext.minigame.team1Players[0].id;
@@ -266,7 +268,7 @@ export const VibrationGame = () => {
                             looser = { score: 0, color: "RED", name: "Team Red" };
                         }
                     }
-                    history.push("/minigameWon", { winner, looser })
+                    history.push("/minigameWon", { winner, looser, isDraw })
                 }}>10</Timer>
                 </div>
             </div>

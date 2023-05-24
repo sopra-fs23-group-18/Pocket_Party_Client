@@ -124,13 +124,23 @@ export const TimingGame = props => {
                 </div>
                 <Timer onExpire={() => {
                     const scoreToGain = minigameContext.minigame.scoreToGain;
-                    let winnerScore = player1Score > player2Score ? player1Score : player2Score;
-                    const winningTeam = player1Score > player2Score ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
-                    const total = player1Score + player2Score;
-                    winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
-                    const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-                    const looser = { score: scoreToGain - winnerScore };
-                    history.push("/minigameWon", { winner, looser })
+                    const isDraw = player1Score === player2Score;
+                    let winner
+                    let looser
+                    if (isDraw) {
+                        winner = { score: scoreToGain / 2, color: "RED", name: "Team Red" };
+                        looser = { score: scoreToGain / 2, color: "BLUE", name: "Team Blue" };
+                    }
+                    else {
+                        let winnerScore = player1Score > player2Score ? player1Score : player2Score;
+                        const winningTeam = player1Score > player2Score ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
+                        const total = player1Score + player2Score;
+                        winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
+                        winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+                        looser = { score: scoreToGain - winnerScore };
+                    }
+
+                    history.push("/minigameWon", { winner, looser, isDraw });
                 }}> 20 </Timer>
             </div>
         </BaseContainer>
