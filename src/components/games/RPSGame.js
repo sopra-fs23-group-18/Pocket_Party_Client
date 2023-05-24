@@ -23,8 +23,6 @@ export const RPSGame = () => {
   const lobbyContext = useContext(LobbyContext);
   const minigameContext = useContext(MinigameContext);
 
-  //const WINNING_SCORE = 5;
-
   // determine winner for each round
   const determineWinner = (playerOneChoice, playerTwoChoice) => {
     if (playerOneChoice === playerTwoChoice) {
@@ -52,7 +50,7 @@ export const RPSGame = () => {
   const onPlayerTwoInput = (msg) => {
     const data = JSON.parse(msg.body);
     if (data.inputType === 'RPS') {
-      setPlayerOneDecision(choices[data.rawData.x]);
+      setPlayerTwoDecision(choices[data.rawData.x]);
     }
   };
 
@@ -250,7 +248,7 @@ export const RPSGame = () => {
         {winnerEachRound && (
           <>
             {winnerEachRound === 'tie' && (
-              <span role="img" aria-label="tie" style={{ fontSize: '5rem' }}>
+              <span role="img" aria-label="tie" style={{ fontSize: '6rem' }}>
                 🤝 tie
               </span>
             )}
@@ -299,7 +297,7 @@ export const RPSGame = () => {
                 const looser = { score: scoreToGain - winnerScore };
                 const isDraw = score.playerOne === score.playerTwo;
                 history.push("/minigameWon", { winner, looser, isDraw })
-            }}>5</Timer>
+            }}>20</Timer>
           
     </div>
   );

@@ -74,7 +74,7 @@ h1 {
 // winner class
 .winner {
     position: absolute;
-    top: 20%;
+    bottom: 20%;
     margin-top: 10px;
     transform: scale(1.1);
     font: optional;
@@ -96,7 +96,7 @@ h1 {
 
 .next-round-container {
     position: absolute;
-    top: 40%;
+    bottom: 30%;
     margin-top: 10px;
     transform: scale(1.1);
     font: optional;

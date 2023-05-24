@@ -7,6 +7,7 @@ import { ActivationState } from "@stomp/stompjs";
 import { Button } from "components/ui/Button";
 import { PongGameBoard } from "./pongGame/PongGameBoard";
 import 'styles/games/PongGame.scss'
+import PlayerContainer from "components/ui/PlayerContainer";
 
 
 export const PongGame = props => {
@@ -114,8 +115,14 @@ export const PongGame = props => {
     return (
         <div className="pong-game">
             <PongGameBoard ref={movement} />
-            <div style={{ display: "flex", justifyContent: 'center', flexDirection: "row" }}>
+            
+            <div style={{ position: 'absolute', top: '20%', left: 0}}>
+                <PlayerContainer team='team1' player={minigameContext?.minigame.team1Players[0]} />
             </div>
+            <div style={{ position: 'absolute', top: '20%', right: 0}}>
+                <PlayerContainer team='team2' player={minigameContext?.minigame.team2Players[0]} />
+            </div>
+            
         </div>
     )
 }

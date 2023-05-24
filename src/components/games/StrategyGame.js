@@ -24,10 +24,6 @@ export const StrategyGame = () => {
   const lobbyContext = useContext(LobbyContext);
   const minigameContext = useContext(MinigameContext);
 
-  const roundToPLay = 5;
-
-  const choices = [5, 3, 1];
-
   // assign score for each round
   const assignScore = (playerOneChoice, playerTwoChoice) => {
     if (playerOneChoice !== playerTwoChoice) {
@@ -37,8 +33,8 @@ export const StrategyGame = () => {
       });
 
       setNextRoundInfo({
-        playerOne: playerOneChoice + "for" + minigameContext.minigame.team1Players[0].nickname,
-        playerTwo: playerTwoChoice + "for" + minigameContext.minigame.team2Players[0].nickname
+        playerOne: minigameContext.minigame.team1Players[0].nickname + " won " + playerOneChoice + " points   ",
+        playerTwo: minigameContext.minigame.team2Players[0].nickname + " won " + playerTwoChoice + " points",
       }
       );
     }
@@ -50,23 +46,15 @@ export const StrategyGame = () => {
   const onPlayerOneInput = (msg) => {
     const data = JSON.parse(msg.body);
     if (data.inputType === 'STRATEGY') {
-      playerOneInput(data.rawData.x);
+      setPlayerOneDecision(data.rawData.x);
     }
   };
 
   const onPlayerTwoInput = (msg) => {
     const data = JSON.parse(msg.body);
     if (data.inputType === 'STRATEGY') {
-      playerTwoInput(data.rawData.x);
+      setPlayerTwoDecision(data.rawData.x);
     }
-  };
-
-  const playerOneInput = (choice) => {
-    setPlayerOneDecision(choice);
-  };
-
-  const playerTwoInput = (choice) => {
-    setPlayerTwoDecision(choice);
   };
 
   // store player score in local storage
@@ -280,23 +268,44 @@ export const StrategyGame = () => {
         {nextRoundInfo && (
           <>
             {nextRoundInfo.playerOne && (
-              <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'red' }}>
-                😄 {nextRoundInfo.playerOne}
+              <span role="img" style={{ fontSize: '3rem', color: 'red' }}>
+                {nextRoundInfo.playerOne}
               </span>
             )}
             {nextRoundInfo.playerTwo && (
-              <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'blue' }}>
-                😄 {nextRoundInfo.playerTwo}
+              <span role="img" style={{ fontSize: '3rem', color: 'blue' }}>
+                🎉🎉🎉 {nextRoundInfo.playerTwo}
               </span>
             )}
             {nextRoundInfo.tie && (
-              <span role="img" aria-label="funny" style={{ fontSize: '6rem', color: 'red' }}>
+              <span role="img" aria-label="funny" style={{ fontSize: '4rem', color: 'green' }}>
                 😞 {nextRoundInfo.tie}
               </span>
             )}
           </>
         )}
       </div>
+      <div className="button">
+      <button onClick={() => setPlayerOneDecision(5)}>
+          5
+      </button>
+      <button onClick={() => setPlayerOneDecision(3)}>
+          3
+      </button>
+      <button onClick={() => setPlayerOneDecision(1)}>
+          1
+      </button>
+      <button onClick={() => setPlayerTwoDecision(5)}>
+          5
+      </button>
+      <button onClick={() => setPlayerTwoDecision(3)}>
+          3
+      </button>
+      <button onClick={() => setPlayerTwoDecision(1)}>
+          1
+      </button>
+      </div>
+              
       <Timer onExpire={() => {
                 const scoreToGain = minigameContext.minigame.scoreToGain;
                 let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
@@ -307,7 +316,7 @@ export const StrategyGame = () => {
                 const looser = { score: scoreToGain - winnerScore };
                 const isDraw = score.playerOne === score.playerTwo;
                 history.push("/minigameWon", { winner, looser, isDraw })
-            }}>5</Timer>
+            }}>20</Timer>
     </div>
   );
 };
