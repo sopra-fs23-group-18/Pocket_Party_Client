@@ -13,6 +13,8 @@ import Settings from "components/views/Settings";
 import { RPSGame } from "components/games/RPSGame";
 import { StrategyGame } from "components/games/StrategyGame";
 import { PongGame } from "components/games/PongGame";
+import { TimingGame } from "components/games/TimingGame";
+import { TappingGame } from "components/games/TappingGame";
 
 /**
  * Main router of your application.
@@ -36,13 +38,13 @@ const AppRouter = () => {
   const minigameRoute = () => {
     switch (minigame?.type) {
       case "TIMING_GAME":
-        return <VibrationGame />
+        return <TimingGame />
       case "TAPPING_GAME":
-        return <VibrationGame />
+        return <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
       case "HOT_POTATO":
-        return <VibrationGame/>
+        return <TappingGame/>
       case "PONG_GAME":
         return <PongGame />
       case "RPS_GAME":
