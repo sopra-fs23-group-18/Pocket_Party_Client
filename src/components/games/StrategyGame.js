@@ -24,6 +24,8 @@ export const StrategyGame = () => {
   const lobbyContext = useContext(LobbyContext);
   const minigameContext = useContext(MinigameContext);
 
+  const roundToPLay = 5;
+
   // assign score for each round
   const assignScore = (playerOneChoice, playerTwoChoice) => {
     if (playerOneChoice !== playerTwoChoice) {
@@ -115,20 +117,20 @@ export const StrategyGame = () => {
   }, [onRoundFinished]);
 
   // redircet to winning page when game is over
-  // useEffect(() => {
-  //   if (roundPlayed === roundToPLay) {
-  //     const scoreToGain = minigameContext.minigame.scoreToGain;
-  //     const total = score.playerOne + score.playerTwo;
-  //     let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
-  //     winnerScore = Math.round(winnerScore / total * scoreToGain); 
-  //     const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-  //     const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-  //     const loser = { score: scoreToGain - winnerScore}
-  //     setTimeout(() => {
-  //       history.push("/minigameWon", { winner, loser })
-  //     }, 1000);
-  //   }
-  // }, [roundPlayed]);
+  useEffect(() => {
+    if (roundPlayed === roundToPLay) {
+      const scoreToGain = minigameContext.minigame.scoreToGain;
+      const total = score.playerOne + score.playerTwo;
+      let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
+      winnerScore = Math.round(winnerScore / total * scoreToGain); 
+      const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
+      const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+      const loser = { score: scoreToGain - winnerScore}
+      setTimeout(() => {
+        history.push("/minigameWon", { winner, loser })
+      }, 1000);
+    }
+  }, [roundPlayed]);
 
   // websocket connection
   useEffect(() => {
@@ -208,17 +210,18 @@ export const StrategyGame = () => {
         </div>
       </div>
       <div className="choices-container">
+      <div className='play-container'>
         <PlayerContainer team="team1" player={minigameContext.minigame.team1Players[0]} />
         <p className={`choice ${playerOneChoice ? 'player-one-choice' : ''}`}>
           {playerOneChoice && (
             <>
               {playerOneChoice === 5 && (
-                <span role="img" aria-label="rock" style={{ fontSize: '5rem' }}>
+                <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
                   💎💎💎💎💎
                 </span>
               )}
               {playerOneChoice === 3 && (
-                <span role="img" aria-label="paper" style={{ fontSize: '7rem' }}>
+                <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
                   💰💰💰
                 </span>
               )}
@@ -236,17 +239,19 @@ export const StrategyGame = () => {
             </>
           )}
         </p>
+      </div>
+      <div className='play-container'>
         <PlayerContainer team="team2" player={minigameContext.minigame.team2Players[0]} />
         <p className={`choice ${playerTwoChoice ? 'player-two-choice' : ''}`}>
           {playerTwoChoice && (
             <>
               {playerTwoChoice === 5 && (
-                <span role="img" aria-label="rock" style={{ fontSize: '5rem' }}>
+                <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
                   💎💎💎💎💎
                 </span>
               )}
               {playerTwoChoice === 3 && (
-                <span role="img" aria-label="paper" style={{ fontSize: '7rem' }}>
+                <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
                   💰💰💰
                 </span>
               )}
@@ -263,6 +268,7 @@ export const StrategyGame = () => {
             </>
           )}
         </p>
+        </div>
       </div>
       <div className='next-round-container'>
         {nextRoundInfo && (
@@ -305,18 +311,6 @@ export const StrategyGame = () => {
           1
       </button>
       </div>
-              
-      <Timer onExpire={() => {
-                const scoreToGain = minigameContext.minigame.scoreToGain;
-                let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
-                const winningTeam = score.playerOne > score.playerTwo ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
-                const total = score.playerOne + score.playerTwo;
-                winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
-                const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-                const looser = { score: scoreToGain - winnerScore };
-                const isDraw = score.playerOne === score.playerTwo;
-                history.push("/minigameWon", { winner, looser, isDraw })
-            }}>20</Timer>
     </div>
   );
 };

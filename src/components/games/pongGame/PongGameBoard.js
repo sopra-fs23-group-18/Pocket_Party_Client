@@ -25,6 +25,8 @@ export const PongGameBoard = forwardRef((props, ref) => {
 
     const minigameContext = useContext(MinigameContext);
 
+    
+
 
     useImperativeHandle(ref, () => ({
         moveRightPaddleUp() {
@@ -70,20 +72,20 @@ export const PongGameBoard = forwardRef((props, ref) => {
     }, [winner]);
 
     // redircet to winning page when game is over
-    // useEffect(() => {
-    //     // check if a winner exists, if so, redirect to the winner page
-    //     if (score.left === WINNING_SCORE || score.right === WINNING_SCORE) {
-    //         const scoreToGain = minigameContext.minigame.scoreToGain;
-    //         const total = score.left + score.right;
-    //         const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
-    //         const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-    //         const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-    //         const loser = { score: scoreToGain - winnerScore }
-    //         setTimeout(() => {
-    //             history.push("/minigameWon", { winner, loser })
-    //         }, 1000);
-    //     }
-    // }, [score]);
+    useEffect(() => {
+        // check if a winner exists, if so, redirect to the winner page
+        if (score.left === WINNING_SCORE || score.right === WINNING_SCORE) {
+            const scoreToGain = minigameContext.minigame.scoreToGain;
+            const total = score.left + score.right;
+            const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
+            const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
+            const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+            const loser = { score: scoreToGain - winnerScore }
+            setTimeout(() => {
+                history.push("/minigameWon", { winner, loser })
+            }, 1000);
+        }
+    }, [score]);
 
 
 
@@ -118,6 +120,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
         render: {
             fillStyle: 'rgb(144, 238, 144)'
         },
+        maxspeed: 15,
         label: "ball"
     }
     ))
@@ -349,17 +352,6 @@ export const PongGameBoard = forwardRef((props, ref) => {
             <h1 className={'left-score'}>{score.left}</h1>
             <h1 className={'right-score'}>{score.right}</h1>
             <h1 className={winner === "Point for Red!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
-            <Timer onExpire={() => {
-                const scoreToGain = minigameContext.minigame.scoreToGain;
-                let winnerScore = score.left > score.right ? score.playerOne : score.playerTwo;
-                const winningTeam = score.left > score.right? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
-                const total = score.left + score.right;
-                winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
-                const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
-                const looser = { score: scoreToGain - winnerScore };
-                const isDraw = score.left === score.right;
-                history.push("/minigameWon", { winner, looser, isDraw })
-            }}>20</Timer>
         </div>
     )
 })
