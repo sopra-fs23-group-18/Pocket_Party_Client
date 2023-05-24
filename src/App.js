@@ -15,8 +15,7 @@ require("./helpers/webRTC");
 export const WebSocketContext = createContext(null);
 
 const App = () => {
-  const [connections, setConnections] = useState({
-    signalingConnection: new WebSocketConnection(getWsUrl() + "/socket"), stompConnection: new Client({
+  const [connections, setConnections] = useState({stompConnection: new Client({
       brokerURL: getWsUrl() + "/game"
     })
   })
