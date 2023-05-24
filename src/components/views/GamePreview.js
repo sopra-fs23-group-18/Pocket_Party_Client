@@ -77,13 +77,23 @@ const GamePreview = () => {
     function getImagePath(type) {
         return `../../images/${type.toLowerCase()}.png`;
     }
+    function getVarFromString(string) {
+        switch (string) {
+            case 'pong_game':
+                return pong_game;
+            case 'tapping_game':
+                return tapping_game;
+            case 'timing_game':
+                return timing_game
+        }
+    }
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
             <label className="preview label">How to play</label>
             <div className='preview descBox'>
                 <label className='preview description'>{data?.description}</label>
-                <img className='preview image' src={data?.type}></img>
+                <img className='preview image' src={getVarFromString(data.type)}></img>
             </div>
             <Button className='preview button-container' onClick={next}>Start game!</Button>
         </BaseContainer>
