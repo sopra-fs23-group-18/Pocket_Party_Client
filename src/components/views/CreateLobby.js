@@ -5,7 +5,7 @@ import { Button } from 'components/ui/Button';
 import 'styles/views/CreateLobby.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import Info from '../ui/Info';
-
+import { handleError } from 'helpers/api';
 const CreateLobby = (props) => {
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState('');
@@ -15,11 +15,7 @@ const CreateLobby = (props) => {
       const response = await api.post('/lobbies');
       history.push('/lobby', response.data);
     } catch (error) {
-      setErrorMessage(error.message);
-      history.push({
-        pathname: '/error',
-        state: { msg: errorMessage }
-      });
+      alert(`Error!\n${handleError(error)}`)
     }
   };
 

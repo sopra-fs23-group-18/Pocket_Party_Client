@@ -18,7 +18,6 @@ export default class StandardErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, errorInfo) {
-        console.log("Error caught!");
         console.error(error);
         console.error(errorInfo);
 

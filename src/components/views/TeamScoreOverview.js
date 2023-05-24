@@ -34,11 +34,7 @@ const TeamScoreOverview = () => {
             setData(response.data);
             console.log(response.data)
         } catch (error) {
-            setErrorMessage(error.message);
-            history.push({
-                pathname: '/error',
-                state: { msg: errorMessage }
-            });
+            alert(`Error!\n${handleError(error)}`)
         }
     }
     // Update team scores and trigger animations
@@ -67,15 +63,10 @@ const TeamScoreOverview = () => {
             const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
             setHasWon(response.data.isFinished)
             getPoints();
-    
+
         }
         catch (error) {
-            setErrorMessage(error.message);
-            history.push({
-                pathname: '/error',
-                state: { msg: errorMessage }
-            });
-
+            alert(`Error!\n${handleError(error)}`)
         }
     }
 
@@ -110,18 +101,10 @@ const TeamScoreOverview = () => {
                             history.push("/winner", { winnerTeam: response.data });
                         })
                         .catch((error) => {
-                            setErrorMessage(error.message);
-                            history.push({
-                                pathname: '/error',
-                                state: { msg: errorMessage }
-                            });
+                            alert(`Error!\n${handleError(error)}`)
                         });
                 } catch (error) {
-                    setErrorMessage(error.message);
-                    history.push({
-                        pathname: '/error',
-                        state: { msg: errorMessage }
-                    });
+                    alert(`Error!\n${handleError(error)}`)
                 }
             }, 5000);
         }
