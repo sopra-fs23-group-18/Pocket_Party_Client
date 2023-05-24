@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { api } from 'helpers/api';
+import { api, handleError } from 'helpers/api';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Lobby.scss";
@@ -93,7 +93,7 @@ const Lobby = props => {
                 destination: `/lobbies/${location.state.id}/unassign`,
                 body: JSON.stringify({
                     playerId: player.id,
-                    team: source === "team1" ? "RED" : "BLUE"
+                    team: source === "team1" ? "TEAM_ONE" : "TEAM_TWO"
                 })
             })
             return;
@@ -103,8 +103,8 @@ const Lobby = props => {
                 destination: `/lobbies/${location.state.id}/reassign`,
                 body: JSON.stringify({
                     playerId: player.id,
-                    from: source === "team1" ? "RED" : "BLUE",
-                    to: team === "team1" ? "RED" : "BLUE",
+                    from: source === "team1" ? "TEAM_ONE" : "TEAM_TWO",
+                    to: team === "team1" ? "TEAM_ONE" : "TEAM_TWO",
                 })
             })
         }
@@ -112,7 +112,7 @@ const Lobby = props => {
             destination: `/lobbies/${location.state.id}/assign`,
             body: JSON.stringify({
                 playerId: player.id,
-                team: team === "team1" ? "RED" : "BLUE"
+                team: team === "team1" ? "TEAM_ONE" : "TEAM_TWO"
             })
         })
     }

@@ -123,10 +123,10 @@ export const TappingGame = props => {
             <Timer onExpire={() => {
                 const scoreToGain = minigameContext.minigame.scoreToGain;
                 let winnerScore = count1 > count2 ? count1 : count2;
-                const winningTeam = count1 > count2 ? { color: "RED", name: "Team Red" } : { color: "BLUE", name: "Team Blue" }
+                const winningTeam = count1 > count2 ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" }
                 const total = count1 + count2;
                 winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
-                const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+                const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
                 const looser = { score: scoreToGain - winnerScore };
                 history.push("/minigameWon", { winner, looser })
             }}>20</Timer>

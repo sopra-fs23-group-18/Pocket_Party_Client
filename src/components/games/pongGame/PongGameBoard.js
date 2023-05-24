@@ -78,8 +78,8 @@ export const PongGameBoard = forwardRef((props, ref) => {
             const scoreToGain = minigameContext.minigame.scoreToGain;
             const total = score.left + score.right;
             const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
-            const winningTeam = score.left === WINNING_SCORE ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-            const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+            const winningTeam = score.left === WINNING_SCORE ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
+            const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
             const loser = { score: scoreToGain - winnerScore }
             setTimeout(() => {
                 history.push("/minigameWon", { winner, loser })

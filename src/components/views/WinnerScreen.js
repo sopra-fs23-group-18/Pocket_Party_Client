@@ -25,7 +25,7 @@ export const WinnerScreen = () => {
         <BaseContainer>
             <div className="container">
                 <h1 className="winnerTitle">Winner</h1>
-                {winnerTeam && <h1 className={`winnerName ${winnerTeam.color === "RED" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
+                {winnerTeam && <h1 className={`winnerName ${winnerTeam.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
                 <div className="score">Score: {gameContext.game.winningScore} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
             </div>

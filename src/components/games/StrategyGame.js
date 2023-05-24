@@ -123,8 +123,8 @@ export const StrategyGame = () => {
       const total = score.playerOne + score.playerTwo;
       let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
       winnerScore = Math.round(winnerScore / total * scoreToGain); 
-      const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
-      const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
+      const winningTeam = score.playerOne > score.playerTwo ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
+      const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
       const loser = { score: scoreToGain - winnerScore}
       setTimeout(() => {
         history.push("/minigameWon", { winner, loser })

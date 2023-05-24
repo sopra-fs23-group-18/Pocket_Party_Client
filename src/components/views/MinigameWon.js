@@ -20,7 +20,7 @@ const MinigameWon = () => {
     const navigation = useHistory();
 
     async function getWinner(winnerTeam) {
-        if (winnerTeam.color === "RED") {
+        if (winnerTeam.type === "TEAM_ONE") {
             setWinner(minigameContext.minigame.team1Players[0])
             setWinnerTeam("team1")
             setLoser(minigameContext.minigame.team2Players[0])
