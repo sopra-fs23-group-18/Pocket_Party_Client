@@ -6,6 +6,9 @@ import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { GameContext, LobbyContext, MinigameContext } from 'components/routing/routers/AppRouter';
 import { Button } from 'components/ui/Button';
+import pong_game from '../../images/pong_game.png'
+import tapping_game from '../../images/tapping_game.png'
+import timing_game from '../../images/timing_game.png'
 
 const GamePreview = () => {
     let location = useLocation();
@@ -74,14 +77,13 @@ const GamePreview = () => {
     function getImagePath(type) {
         return `../../images/${type.toLowerCase()}.png`;
     }
-
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
             <label className="preview label">How to play</label>
             <div className='preview descBox'>
                 <label className='preview description'>{data?.description}</label>
-                <img className='preview image' src={getImagePath(data?.type || '')}></img>
+                <img className='preview image' src={data?.type}></img>
             </div>
             <Button className='preview button-container' onClick={next}>Start game!</Button>
         </BaseContainer>
