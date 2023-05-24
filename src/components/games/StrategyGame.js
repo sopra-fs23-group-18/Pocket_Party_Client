@@ -126,7 +126,7 @@ export const StrategyGame = () => {
       const winningTeam = score.playerOne > score.playerTwo ? { color: "red", name: "Team Red" } : { color: "blue", name: "Team Blue" };
       const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
       const loser = { score: scoreToGain - winnerScore}
-      const isDraw = false;
+      const isDraw = score.playerOne === score.playerTwo;
       setTimeout(() => {
         history.push("/minigameWon", { winner, loser, isDraw })
       }, 1000);
