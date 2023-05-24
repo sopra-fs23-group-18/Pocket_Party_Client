@@ -1,7 +1,7 @@
 import "styles/views/TeamScoreOverview.scss";
 import BaseContainer from 'components/ui/BaseContainer';
 import { useState, useEffect, useRef, useContext } from 'react';
-import { api } from 'helpers/api';
+import { api, handleError } from 'helpers/api';
 import HeaderContainer from 'components/ui/HeaderContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { GameContext, LobbyContext } from "components/routing/routers/AppRouter";
