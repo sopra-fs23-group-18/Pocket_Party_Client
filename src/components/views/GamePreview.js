@@ -72,7 +72,7 @@ const GamePreview = () => {
     }
 
     function getImagePath(type) {
-        return `${process.env.PUBLIC_URL}/images/${type.toLowerCase()}.png`;
+        return `../../images/${type.toLowerCase()}.png`;
     }
 
     return (
