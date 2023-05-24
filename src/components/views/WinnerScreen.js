@@ -13,7 +13,7 @@ export const WinnerScreen = () => {
     const [winnerTeam, setWinnerTeam] = useState();
 
     useEffect(() => {
-        const { winnerTeam } = location.state;
+        const { winnerTeam } = location.state.winnerTeam;
         setWinnerTeam(winnerTeam);
     }, [location])
 
@@ -29,7 +29,7 @@ export const WinnerScreen = () => {
             <div className="container">
                 <h1 className="winnerTitle">Winner</h1>
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
-                <div className="score">Score: {gameContext.game.winningScore} pts </div>
+                <div className="score">Score: {winnerTeam.score} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
                 <button className='lobby button-container' onClick={redirectToLobby}>Play again!</button>
             </div>
