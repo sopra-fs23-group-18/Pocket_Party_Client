@@ -43,8 +43,6 @@ const AppRouter = () => {
         return <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
-      case "HOT_POTATO":
-        return <TappingGame/>
       case "PONG_GAME":
         return <PongGame />
       case "RPS_GAME":

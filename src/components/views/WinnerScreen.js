@@ -8,33 +8,37 @@ import { GameContext, LobbyContext } from "components/routing/routers/AppRouter"
 
 export const WinnerScreen = () => {
     const history = useHistory();
-    const location = useLocation();
+    let location = useLocation();
     const gameContext = useContext(GameContext);
-    const [winnerTeam, setWinnerTeam] = useState();
+    const lobbyContext = useContext(LobbyContext);
+
+    const [winnerTeam, setWinnerTeam] = useState(null);
 
     useEffect(() => {
-        const { winnerTeam } = location.state.winnerTeam;
+        console.log(location.state);
+
+        const { winnerTeam }  = location.state;
         setWinnerTeam(winnerTeam);
-    }, [location])
+    }, [])
 
     const restartGame = async () => {
         //TODO delete Lobby
         history.push("/createLobby");
     }
     const redirectToLobby = () => {
-        history.push("/lobby")
+        history.push("/lobby", {id: lobbyContext.lobby.id})
     }
-    const content = () => {
+    const content = (winnerTeam) => {
         if (!location.state.draw) {
-            <div className="container">
+            return <div className="container">
                 <h1 className="winnerTitle">Winner</h1>
-                {winnerTeam && <h1 className={`winnerName ${winnerTeam.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
-                <div className="score">Score: {winnerTeam.score} pts </div>
+                {winnerTeam && <h1 className={`winnerName ${winnerTeam?.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam?.name}</h1>}
+                <div className="score">Score: {winnerTeam?.score} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
-                <button className='lobby button-container' onClick={redirectToLobby}>Play again!</button>
+                <Button className='lobby button-container' onClick={redirectToLobby}>Play again!</Button>
             </div>
         } else {
-            <div className="container">
+            return <div className="container">
                 <h1 className="winnerTitle">Its a Draw!</h1>
                 <div className="score">Score: {gameContext.game.winningScore} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
@@ -44,7 +48,7 @@ export const WinnerScreen = () => {
     }
     return (
         <BaseContainer>
-            <div>{content()}</div>
+            <div>{content(winnerTeam)}</div>
         </BaseContainer>
     )
 };

@@ -72,7 +72,7 @@ const TeamScoreOverview = () => {
 
     useEffect(() => {
         updateScores(location.state.winner);
-    }, []);
+    }, [location]);
 
     // Wait for data to be updated
     useEffect(() => {

@@ -17,7 +17,7 @@ import Info from '../ui/Info';
 const Lobby = props => {
     let location = useLocation();
     const history = useHistory();
-    const inviteCode = location.state.inviteCode;
+    const [inviteCode, setInviteCode] = useState(location.state.inviteCode);
     const connections = useContext(WebSocketContext);
     const lobbyContext = useContext(LobbyContext);
     const [errorMessage, setErrorMessage] = useState('');
@@ -41,8 +41,9 @@ const Lobby = props => {
         try {
             const response = await api.get(`/lobbies/${location.state.id}`);
             lobby = new LobbyModel(response.data);
+            setInviteCode(lobby.inviteCode)
             lobbyContext.setLobby(lobby)
-            localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+            localStorage.setItem("lobbyContext", JSON.stringify(lobby));
         } catch (error) {
             alert(`Error!\n${handleError(error)}`)
 
@@ -76,8 +77,8 @@ const Lobby = props => {
     }, [])
 
     useEffect(() => {
-        lobbyContext.setLobby({ id: location.state.id, winningScore: location.state.winningScore })
-        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
+        lobbyContext.setLobby({ id: location.state.id })
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode}));
     }, [location.state.id])
 
     const onPlayerJoin = (data) => {
