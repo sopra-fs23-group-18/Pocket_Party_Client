@@ -21,6 +21,9 @@ export const WinnerScreen = () => {
         //TODO delete Lobby
         history.push("/createLobby");
     }
+    const redirectToLobby = () => {
+        history.push("/lobby")
+    }
     return (
         <BaseContainer>
             <div className="container">
@@ -28,6 +31,7 @@ export const WinnerScreen = () => {
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
                 <div className="score">Score: {gameContext.game.winningScore} pts </div>
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
+                <button className='lobby button-container' onClick={redirectToLobby}>Play again!</button>
             </div>
         </BaseContainer>
     )

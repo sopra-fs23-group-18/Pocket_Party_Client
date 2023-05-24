@@ -101,8 +101,9 @@ export const RPSGame = () => {
       const winningTeam = score.playerOne === WINNING_SCORE ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
       const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
       const loser = { score: scoreToGain - winnerScore}
+      const isDraw = false;
       setTimeout(() => {
-        history.push("/minigameWon", { winner, loser })
+        history.push("/minigameWon", { winner, loser, isDraw })
       }, 1000);
     }
   }, [score]);
@@ -287,6 +288,9 @@ export const RPSGame = () => {
           ✌️
         </button>
 
+        </div>
+        <div className='round-left'>
+          Five points to win!
         </div>
           
     </div>

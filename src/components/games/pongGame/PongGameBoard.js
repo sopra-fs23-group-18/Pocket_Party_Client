@@ -81,8 +81,9 @@ export const PongGameBoard = forwardRef((props, ref) => {
             const winningTeam = score.left === WINNING_SCORE ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
             const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
             const loser = { score: scoreToGain - winnerScore }
+            const isDraw = false;
             setTimeout(() => {
-                history.push("/minigameWon", { winner, loser })
+                history.push("/minigameWon", { winner, loser, isDraw });
             }, 1000);
         }
     }, [score]);
@@ -305,7 +306,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
                             right: prev.right + 1
                         }
                     })
-                    setWinner("Point for Blue!");
+                    setWinner("Point for " + minigameContext.minigame.team2Players[0].nickname + "!");
                     isGoal();
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "rightGoalWall" || pair.bodyB.label === "ball" && pair.bodyA.label === "rightGoalWall") {
@@ -316,7 +317,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
                             left: prev.left + 1
                         }
                     })
-                    setWinner("Point for Red!");
+                    setWinner("Point for " + minigameContext.minigame.team1Players[0].nickname + "!");
                     isGoal();
                 }
 
@@ -351,7 +352,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
             <div className="game-board" ref={gameContainer}></div>
             <h1 className={'left-score'}>{score.left}</h1>
             <h1 className={'right-score'}>{score.right}</h1>
-            <h1 className={winner === "Point for Red!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
+            <h1 className={winner === "Point for " + minigameContext.minigame.team1Players[0].nickname + "!" ? 'red-winner' : 'blue-winner'}>{winner}</h1>
         </div>
     )
 })

@@ -128,7 +128,8 @@ export const TappingGame = props => {
                 winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
                 const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
                 const looser = { score: scoreToGain - winnerScore };
-                history.push("/minigameWon", { winner, looser })
+                const isDraw = count1 === count2;
+                history.push("/minigameWon", { winner, looser, isDraw })
             }}>20</Timer>
         </div>
 

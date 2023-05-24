@@ -126,8 +126,9 @@ export const StrategyGame = () => {
       const winningTeam = score.playerOne > score.playerTwo ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
       const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
       const loser = { score: scoreToGain - winnerScore}
+      const isDraw = score.playerOne === score.playerTwo;
       setTimeout(() => {
-        history.push("/minigameWon", { winner, loser })
+        history.push("/minigameWon", { winner, loser, isDraw })
       }, 1000);
     }
   }, [roundPlayed]);
@@ -310,6 +311,9 @@ export const StrategyGame = () => {
       <button onClick={() => setPlayerTwoDecision(1)}>
           1
       </button>
+      </div>
+      <div className="round-left">
+        Round left: {5 - roundPlayed}
       </div>
     </div>
   );
