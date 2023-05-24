@@ -1,16 +1,14 @@
-import React, { forwardRef, useCallback, useContext, useMemo } from "react";
+import React, { forwardRef,  useContext } from "react";
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
-import { WebSocketContext } from "App";
 import { Timer } from "components/ui/Timer";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { PeerConnection, PeerConnectionConfig } from "helpers/webRTC";
+import { useHistory} from "react-router-dom";
 import Input from "models/Input";
-import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
+import { MinigameContext } from "components/routing/routers/AppRouter";
 import PropTypes from "prop-types";
-import { ActivationState } from "@stomp/stompjs";
 import { useImperativeHandle } from "react";
 import "styles/games/PongGame.scss"
+import PlayerContainer from "components/ui/PlayerContainer";
 
 export const PongGameBoard = forwardRef((props, ref) => {
     const gameContainer = useRef(null);
@@ -180,7 +178,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
 
     const topWall = useRef(Bodies.rectangle(
         GAME_WIDTH / 2,
-        BORDER,
+        0,
         GAME_WIDTH,
         BORDER, {
         isStatic: true,
@@ -361,7 +359,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
                 const looser = { score: scoreToGain - winnerScore };
                 const isDraw = score.left === score.right;
                 history.push("/minigameWon", { winner, looser, isDraw })
-            }}>5</Timer>
+            }}>20</Timer>
         </div>
     )
 })
