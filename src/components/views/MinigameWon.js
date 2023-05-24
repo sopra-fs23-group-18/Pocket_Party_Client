@@ -38,8 +38,7 @@ const MinigameWon = () => {
         getWinner(location.state.winner);
         timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
     }, [])
-
-    return (location.state.isDraw ?
+    return (location.state.isDraw ? <BaseContainer> <div className="gameWon div"><label className='gameWon draw'>It's a draw!</label></div> </BaseContainer> :
         <BaseContainer>
             <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
             <Confetti numberOfPieces={200} />
@@ -52,7 +51,7 @@ const MinigameWon = () => {
                     {loser && <PlayerContainer player={loser} team={loserTeam} />}
                 </div>
             </div>
-        </BaseContainer> : <label className='gameWon twi'>It's a draw!</label>
+        </BaseContainer>
     )
 }
 

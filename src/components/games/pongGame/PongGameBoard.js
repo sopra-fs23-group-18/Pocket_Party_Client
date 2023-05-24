@@ -359,8 +359,9 @@ export const PongGameBoard = forwardRef((props, ref) => {
                 winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
                 const winner = { score: winnerScore, color: winningTeam.color, name: winningTeam.name }
                 const looser = { score: scoreToGain - winnerScore };
-                history.push("/minigameWon", { winner, looser })
-            }}>20</Timer>
+                const isDraw = score.left === score.right;
+                history.push("/minigameWon", { winner, looser, isDraw })
+            }}>5</Timer>
         </div>
     )
 })

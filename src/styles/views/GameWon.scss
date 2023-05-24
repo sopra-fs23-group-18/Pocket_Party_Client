@@ -9,8 +9,6 @@
 
     &.twi {
         // The winner is
-
-
         font-style: normal;
         font-weight: 700;
         font-size: 64px;
@@ -29,5 +27,17 @@
 
     &.loser {
         float: right;
+    }
+
+    &.draw {
+        font-size: 6rem;
+        margin-bottom: 1rem;
+        color: $accent;
+    }
+
+    &.div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
