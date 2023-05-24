@@ -24,8 +24,8 @@ export const WinnerScreen = () => {
     const redirectToLobby = () => {
         history.push("/lobby")
     }
-    return (
-        <BaseContainer>
+    const content = () => {
+        if (!location.state.draw) {
             <div className="container">
                 <h1 className="winnerTitle">Winner</h1>
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam.name}</h1>}
@@ -33,6 +33,18 @@ export const WinnerScreen = () => {
                 <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
                 <button className='lobby button-container' onClick={redirectToLobby}>Play again!</button>
             </div>
+        } else {
+            <div className="container">
+                <h1 className="winnerTitle">Its a Draw!</h1>
+                <div className="score">Score: {gameContext.game.winningScore} pts </div>
+                <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
+                <Button className='lobby button-container' onClick={redirectToLobby}>Play again!</Button>
+            </div>
+        }
+    }
+    return (
+        <BaseContainer>
+            <div>{content()}</div>
         </BaseContainer>
     )
 };

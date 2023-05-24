@@ -252,20 +252,20 @@ export const VibrationGame = () => {
                     let isDraw = false;
                     // Draw:  either both have guessed false or both players have guessed right 
                     if (correctChoosers.length === 0 || correctChoosers.length === 2) {
-                        winner = { score: scoreToGain / 2, type: "TEAM_ONE", name: "Team Red" };
-                        looser = { score: scoreToGain / 2, type: "TEAM_TWO", name: "Team Blue" };
+                        winner = { score: scoreToGain / 2, type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name };
+                        looser = { score: scoreToGain / 2, type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
                         isDraw = true;
                     }
                     else {
                         const winnerIsTeamRed = correctChoosers[0].id === minigameContext.minigame.team1Players[0].id;
 
                         if (winnerIsTeamRed) {
-                            winner = { score: scoreToGain, type: "TEAM_ONE", name: "Team Red" };
-                            looser = { score: 0, type: "TEAM_TWO", name: "Team Blue" };
+                            winner = { score: scoreToGain, type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name };
+                            looser = { score: 0, type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
                         }
                         else {
-                            winner = { score: scoreToGain, type: "TEAM_TWO", name: "Team Blue" };
-                            looser = { score: 0, type: "TEAM_ONE", name: "Team Red" };
+                            winner = { score: scoreToGain, type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
+                            looser = { score: 0, type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name };
                         }
                     }
                     history.push("/minigameWon", { winner, looser, isDraw })

@@ -123,7 +123,7 @@ export const TappingGame = props => {
             <Timer onExpire={() => {
                 const scoreToGain = minigameContext.minigame.scoreToGain;
                 let winnerScore = count1 > count2 ? count1 : count2;
-                const winningTeam = count1 > count2 ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" }
+                const winningTeam = count1 > count2 ? { type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name } : { type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name }
                 const total = count1 + count2;
                 winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
                 const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }

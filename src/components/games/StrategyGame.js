@@ -123,7 +123,7 @@ export const StrategyGame = () => {
       const total = score.playerOne + score.playerTwo;
       let winnerScore = score.playerOne > score.playerTwo ? score.playerOne : score.playerTwo;
       winnerScore = Math.round(winnerScore / total * scoreToGain); 
-      const winningTeam = score.playerOne > score.playerTwo ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
+      const winningTeam = score.playerOne > score.playerTwo ? { type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name } : { type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
       const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
       const loser = { score: scoreToGain - winnerScore}
       const isDraw = score.playerOne === score.playerTwo;

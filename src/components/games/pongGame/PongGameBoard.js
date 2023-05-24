@@ -1,10 +1,10 @@
-import React, { forwardRef,  useContext } from "react";
+import React, { forwardRef, useContext } from "react";
 import { useEffect, useRef, useState } from 'react';
 import Matter, { Bodies, Body, Composite, Engine, Events, Render, World } from 'matter-js';
 import { Timer } from "components/ui/Timer";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Input from "models/Input";
-import { MinigameContext } from "components/routing/routers/AppRouter";
+import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import PropTypes from "prop-types";
 import { useImperativeHandle } from "react";
 import "styles/games/PongGame.scss"
@@ -14,6 +14,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
     const gameContainer = useRef(null);
     const engine = useRef(Engine.create());
     const history = useHistory();
+    const lobbyContext = useContext(LobbyContext);
     const leftPaddleDirection = useRef(null);
     const rightPaddleDirection = useRef(null);
     const [score, setScore] = useState({
@@ -25,7 +26,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
 
     const minigameContext = useContext(MinigameContext);
 
-    
+
 
 
     useImperativeHandle(ref, () => ({
@@ -78,7 +79,7 @@ export const PongGameBoard = forwardRef((props, ref) => {
             const scoreToGain = minigameContext.minigame.scoreToGain;
             const total = score.left + score.right;
             const winnerScore = Math.round(WINNING_SCORE / total * scoreToGain);
-            const winningTeam = score.left === WINNING_SCORE ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" };
+            const winningTeam = score.left === WINNING_SCORE ? { type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name } : { type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
             const winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }
             const loser = { score: scoreToGain - winnerScore }
             const isDraw = false;
@@ -291,10 +292,10 @@ export const PongGameBoard = forwardRef((props, ref) => {
                 /// if ball hits the paddle, it will bounce off, but the paddle will not be affected
 
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankOne" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankOne") {
-                    Body.setVelocity(ball.current, { x: Math.min(-ball.current.velocity.x * 2, 15), y: ball.current.velocity.y  });
+                    Body.setVelocity(ball.current, { x: Math.min(-ball.current.velocity.x * 2, 15), y: ball.current.velocity.y });
                 }
                 if (pair.bodyA.label === "ball" && pair.bodyB.label === "plankTwo" || pair.bodyB.label === "ball" && pair.bodyA.label === "plankTwo") {
-                    Body.setVelocity(ball.current, { x: Math.max(-ball.current.velocity.x * 2, -15), y: ball.current.velocity.y  });
+                    Body.setVelocity(ball.current, { x: Math.max(-ball.current.velocity.x * 2, -15), y: ball.current.velocity.y });
                 }
 
                 /// if ball hits the goal wall, it will be reset to the middle and update the score, and pause the game for 1 second

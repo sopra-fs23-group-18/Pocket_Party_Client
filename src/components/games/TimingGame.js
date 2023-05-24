@@ -128,12 +128,12 @@ export const TimingGame = props => {
                     let winner
                     let looser
                     if (isDraw) {
-                        winner = { score: scoreToGain / 2, type: "TEAM_ONE", name: "Team Red" };
-                        looser = { score: scoreToGain / 2, type: "TEAM_TWO", name: "Team Blue" };
+                        winner = { score: scoreToGain / 2, type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name };
+                        looser = { score: scoreToGain / 2, type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
                     }
                     else {
                         let winnerScore = player1Score > player2Score ? player1Score : player2Score;
-                        const winningTeam = player1Score > player2Score ? { type: "TEAM_ONE", name: "Team Red" } : { type: "TEAM_TWO", name: "Team Blue" }
+                        const winningTeam = player1Score > player2Score ? { type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name } : { type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name }
                         const total = player1Score + player2Score;
                         winnerScore = Math.round(winnerScore / total * scoreToGain) || scoreToGain / 2;
                         winner = { score: winnerScore, type: winningTeam.type, name: winningTeam.name }

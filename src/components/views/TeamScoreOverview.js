@@ -14,7 +14,7 @@ const TeamScoreOverview = () => {
     const history = useHistory();
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [hasWon, setHasWon] = useState(false);
+    const [outcome, setOutcome] = useState(null);
     const timeout = useRef(null);
 
     // State for team scores
@@ -54,14 +54,14 @@ const TeamScoreOverview = () => {
 
 
     async function updateScores(winnerTeam) {
+        console.log(winnerTeam.name);
         const score = winnerTeam.score
-        const color = winnerTeam.type
         const name = winnerTeam.name
-        const requestbody = JSON.stringify({ score, color, name })
+        const requestbody = JSON.stringify({ score, name })
         try {
             await api.put(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}`, requestbody)
             const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/gameover`)
-            setHasWon(response.data.isFinished)
+            setOutcome(response.data.gameOutcome)
             getPoints();
 
         }
@@ -91,24 +91,29 @@ const TeamScoreOverview = () => {
     }, [history]);
 
     useEffect(() => {
-        if (hasWon) {
+        if (!outcome) { return; }
+        if (outcome !== "NOT_FINISHED") {
             console.log("got called");
             clearTimeout(timeout.current);
             setTimeout(() => {
-                try {
-                    api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`)
-                        .then((response) => {
-                            history.push("/winner", { winnerTeam: response.data });
-                        })
-                        .catch((error) => {
-                            alert(`Error!\n${handleError(error)}`)
-                        });
-                } catch (error) {
-                    alert(`Error!\n${handleError(error)}`)
+                if (outcome === "WINNER") {
+                    try {
+                        api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/winner`)
+                            .then((response) => {
+                                history.push("/winner", { winnerTeam: response.data, draw: false });
+                            })
+                            .catch((error) => {
+                                alert(`Error!\n${handleError(error)}`)
+                            });
+                    } catch (error) {
+                        alert(`Error!\n${handleError(error)}`)
+                    }
+                } else {
+                    history.push("/winner", { draw: true });
                 }
             }, 5000);
         }
-    }, [hasWon]);
+    }, [outcome]);
 
     return (
         <BaseContainer>
