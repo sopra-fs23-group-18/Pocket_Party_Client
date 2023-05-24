@@ -44,11 +44,8 @@ const Lobby = props => {
             lobbyContext.setLobby(lobby)
             localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, winningScore: location.state.winningScore }));
         } catch (error) {
-            setErrorMessage(error.message);
-            history.push({
-                pathname: '/error',
-                state: { msg: errorMessage }
-            });
+            alert(`Error!\n${handleError(error)}`)
+
 
         }
         const playersToAdd = [];
