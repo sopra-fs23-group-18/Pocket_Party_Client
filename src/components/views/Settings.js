@@ -14,16 +14,11 @@ const Settings = props => {
   const gameContext = useContext(GameContext);
 
   const [winningScore, setWinningScore] = useState(2000);
-  // const [pointCalculation, setPointCalculation] = useState(null);
-  const [playerChoice, setPlayerChoice] = useState('RANDOM');
-  //const [gameMode, setGameMode] = useState(null);
-  const [chosenMinigames, setChosenMinigames] = useState([]);
 
   const doCreateGame = async () => {
     const requestBody = JSON.stringify({
       winningScore: winningScore,
-      // pointCalculation: pointCalculation,
-      playerChoice: playerChoice
+      chosenMinigames: location.state?.chosenMinigames || []
     });
     const response = await api.post(`/lobbies/${lobbyContext.lobby.id}/games`, requestBody);
     if (response.status === 201) {
@@ -33,18 +28,12 @@ const Settings = props => {
     }
   };
 
-
-  // setChosenMinigames([
-  //   ...chosenMinigames,
-  //   { id: nextId++, name: name}
-  // ]);
-
   const handleDurationOptionClick = (score) => {
     setWinningScore(score);
   };
-  const handlePlayerChoiceOptionClick = (choice) => {
-    setPlayerChoice(choice);
-    console.log(choice);
+
+  const goToMinigameChoice = (score) => {
+    history.push("/minigameChoiceSettings");
   };
 
   return (
@@ -52,15 +41,12 @@ const Settings = props => {
       <HeaderContainer text="Choose your settings" title="Settings"></HeaderContainer>
       <div className="settings container">
         <div className="settings form">
-          <div className='settings label'>Player Choice</div>
-          <div className="settings option-container">
-            <div className={`option ${playerChoice === 'RANDOM' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('RANDOM')}>
-              <span className="option-label">Random</span>
-            </div>
-            <div className={`option ${playerChoice === 'VOTING' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('VOTING')}>
-              <span className="option-label">Voting</span>
-            </div>
-          </div>
+          <Button className="settings button-container"
+            onClick={() => goToMinigameChoice()}
+          >
+            Minigames
+          </Button>
+          {/* Options for Duration of the Game: */}
           <div className='settings label'>Duration</div>
           <div className="settings option-container">
             <div className={`option ${winningScore === 500 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(500)}>

@@ -26,6 +26,22 @@
         border: 0.2em solid $accent;
     }
 
+
+    &.minigames-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40vw;
+        font-size: 1vw;
+        border-radius: 0.75em;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        box-sizing: border-box;
+        height: 60vh;
+        border: 0.2em solid $accent;
+    }
+
     &.team1 {
         border: 0.2em solid $accentTeamOne;
     }

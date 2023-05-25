@@ -17,6 +17,7 @@ import { TimingGame } from "components/games/TimingGame";
 import { TappingGame } from "components/games/TappingGame";
 import { StrategyGameFor4 } from "components/games/StrategyGameFor4";
 import { TappingGameFor4 } from "components/games/TappingGameFor4";
+import MinigameChoiceSettings from "components/views/MinigameChoiceSettings";
 
 /**
  * Main router of your application.
@@ -42,7 +43,7 @@ const AppRouter = () => {
       case "TIMING_TUMBLE":
         return <TimingGame />
       case "QUICK_FINGERS":
-        if (minigame?.amountOfPlayers ==='TWO'){
+        if (minigame?.amountOfPlayers === 'TWO') {
           return <TappingGameFor4 />
         }
         return <TappingGame />
@@ -53,7 +54,7 @@ const AppRouter = () => {
       case "ROCK_PAPER_SCISSORS":
         return <RPSGame />
       case "GREEDY_GAMBIT":
-        if (minigame?.amountOfPlayers === 'TWO'){
+        if (minigame?.amountOfPlayers === 'TWO') {
           return <StrategyGameFor4 />
         }
         return <StrategyGame />
@@ -98,6 +99,9 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/settings">
                 <Settings />
+              </Route>
+              <Route exact path="/minigameChoiceSettings">
+                <MinigameChoiceSettings />
               </Route>
             </Switch>
           </BrowserRouter>
