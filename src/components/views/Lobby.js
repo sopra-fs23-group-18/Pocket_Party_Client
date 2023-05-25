@@ -113,6 +113,7 @@ const Lobby = props => {
                     to: team === "team1" ? "TEAM_ONE" : "TEAM_TWO",
                 })
             })
+            return;
         }
         connections.stompConnection.publish({
             destination: `/lobbies/${location.state.id}/assign`,
@@ -141,13 +142,15 @@ const Lobby = props => {
     const team2Count = players.filter(p => p.team === 'team2').length;
     // Create a function to handle drag and drop events
     const handleOnDragEnd = (result) => {
+       
         // If the draggable item was dropped outside of a droppable container move it back to unassigned players
         if (!result.destination) {
             const newPlayers = Array.from(players);
             const player = newPlayers.find(p => p.id === parseInt(result.draggableId));
             player.team = 'unassigned';
             setPlayers(newPlayers);
-            return;
+            assignPlayerToTeam(player, 'unassigned', result.source.droppableId)
+            return; 
         }
 
         if (result.destination.droppableId === 'team1' && team1Count >= 4) {
