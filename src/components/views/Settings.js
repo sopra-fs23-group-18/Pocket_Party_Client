@@ -18,7 +18,7 @@ const Settings = props => {
   const doCreateGame = async () => {
     const requestBody = JSON.stringify({
       winningScore: winningScore,
-      chosenMinigames: location.state?.chosenMinigames || []
+      minigamesChoice: location.state?.chosenMinigames || []
     });
     const response = await api.post(`/lobbies/${lobbyContext.lobby.id}/games`, requestBody);
     if (response.status === 201) {
