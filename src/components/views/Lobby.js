@@ -228,7 +228,7 @@ const Lobby = props => {
             <HeaderContainer title='Invite code' text={`${inviteCode}`}></HeaderContainer>
             <div className='lobby qr-container'>
                 <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
-                <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M3. After scanning the QR-code in the app you can choose your team by dragging your player. Click the button in the center whenever you are ready to play!"} />
+                <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M4. After scanning the QR-code in the app you can choose your team by dragging your player. Choose a name for your team and click the button in the center whenever you are ready to play!"} />
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>

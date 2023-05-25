@@ -23,10 +23,9 @@ const CreateLobby = (props) => {
 
   return (
     <BaseContainer>
-      {/* <img className='logo' src={pocketpartylogo}></img> */}
       <div className="createlobby container">
         <div className="createlobby info">
-          <Info infotext={'Welcome to Pocket Party! This is a party game for at least two players where you will compete in several different minigames until a team has reached the winning score! Click the button below to get started.'} />
+          <Info infotext={'Welcome to Pocket Party! This is a party game for at least two players where you will compete in several different minigames until a team has reached the winning score! The special thing is that your smartphones work as game controllers. Click the button below to get started.'} />
         </div>
         <div className="createlobby form">
           <img className='logo' src={pocketpartylogo}></img>
