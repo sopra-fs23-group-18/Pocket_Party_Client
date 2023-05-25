@@ -50,8 +50,8 @@ const MinigameWon = () => {
     return (
         location.state.isDraw ?
             <BaseContainer>
+            <HeaderContainer title="Draw" text={formatMinigameTypeString(minigameContext.minigame.type)} ></HeaderContainer>
                 <div className="gameWon maindiv">
-                    <HeaderContainer title="Draw" text={formatMinigameTypeString(minigameContext.minigame.type)} ></HeaderContainer>
                     <label className='gameWon twi'>IT'S A DRAW</label>
                 </div>
             </BaseContainer>
