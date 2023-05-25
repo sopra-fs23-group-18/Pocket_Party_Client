@@ -18,11 +18,51 @@ const TeamScoreOverview = () => {
     const timeout = useRef(null);
 
     // State for team scores
-    // const [team1PtsOvr, setTeam1PtsOvr] = useState(0);
-    // const [team2PtsOvr, setTeam2PtsOvr] = useState(0);
     const [team1Pts, setTeam1Pts] = useState(0);
     const [team2Pts, setTeam2Pts] = useState(0);
+    const [team1Pct, setTeam1Pct] = useState(0);
+    const [team2Pct, setTeam2Pct] = useState(0);
     const [data, setData] = useState(null);
+
+
+    // State for animation of team scores
+    const [animatedTeam1Pts, setAnimatedTeam1Pts] = useState(0);
+    const [animatedTeam2Pts, setAnimatedTeam2Pts] = useState(0);
+
+    const animateScores = () => {
+        const animationDuration = 4000; // Animation duration in milliseconds
+        const animationSteps = 60; // Number of animation steps
+        const step = Math.ceil((team1Pts - animatedTeam1Pts) / animationSteps); // Increment value per step
+
+        // Animate team 1 score
+        const team1Animation = setInterval(() => {
+            setAnimatedTeam1Pts((prevScore) => {
+                const newScore = prevScore + step;
+                return newScore <= team1Pts ? newScore : team1Pts;
+            });
+        }, animationDuration / animationSteps);
+
+        // Animate team 2 score
+        const team2Animation = setInterval(() => {
+            setAnimatedTeam2Pts((prevScore) => {
+                const newScore = prevScore + step;
+                return newScore <= team2Pts ? newScore : team2Pts;
+            });
+        }, animationDuration / animationSteps);
+
+        // Clear intervals after reaching the actual scores
+        setTimeout(() => {
+            clearInterval(team1Animation);
+            clearInterval(team2Animation);
+        }, animationDuration);
+    };
+
+    // Trigger the score animation when the component mounts or team scores change
+    useEffect(() => {
+        if (team1Pts !== animatedTeam1Pts || team2Pts !== animatedTeam2Pts) {
+            animateScores();
+        }
+    }, [team1Pts, team2Pts]);
 
     // Refs for triggering animations
     const team1BarRef = useRef(null);
@@ -41,14 +81,16 @@ const TeamScoreOverview = () => {
     const updateScoreTeam1 = async () => {
         const score = data.teams[0].score;
         console.log(score);
-        setTeam1Pts(Math.round(score / gameContext.game.winningScore * 100));
+        setTeam1Pct(Math.round(score / gameContext.game.winningScore * 100));
+        setTeam1Pts(score);
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
         const score = data.teams[1].score;
         console.log(score);
-        setTeam2Pts(Math.round(score / gameContext.game.winningScore * 100));
+        setTeam2Pct(Math.round(score / gameContext.game.winningScore * 100));
+        setTeam2Pts(score);
         team2BarRef.current.classList.add('mounted');
     };
 
@@ -124,22 +166,22 @@ const TeamScoreOverview = () => {
                     <div
                         ref={team1BarRef}
                         className="tso team1-bar"
-                        style={{ width: `${team1Pts}%` }}
+                        style={{ width: `${team1Pct}%` }}
                     >
                     </div>
-                    <label className="tso team1">{team1Pts}%</label>
+                    <label className="tso team1">{animatedTeam1Pts}pts</label>
 
                     <label className="tso team2">{lobbyContext.lobby.teams[1].name}</label>
                     <div
                         ref={team2BarRef}
                         className="tso team2-bar"
-                        style={{ width: `${team2Pts}%` }}
+                        style={{ width: `${team2Pct}%` }}
                     >
                     </div>
-                    <label className="tso team2">{team2Pts}%</label>
+                    <label className="tso team2">{animatedTeam2Pts}pts</label>
                 </div>
-                <label className="tso goal-label">Goal: {gameContext.game.winningScore} pts</label>
                 <div className="tso line" />
+                <label className="tso goal-label">{gameContext.game.winningScore}pts</label>
             </div>
         </BaseContainer>
     );

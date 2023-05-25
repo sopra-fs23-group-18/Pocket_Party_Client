@@ -5,7 +5,7 @@
         font-size: 1.5em;
         color: $accent;
         font-weight: bold;
-        margin-right: 1em;
+        margin-left: 0.5em;
     }
 
     &.maincontent {
@@ -39,12 +39,12 @@
 
         .team1-bar {
             background-color: $accentTeamOne;
-            width: #{Team1Pts};
+            width: #{Team1Pct};
         }
 
         .team2-bar {
             background-color: $accentTeamTwo;
-            width: #{Team2Pts};
+            width: #{Team2Pct};
         }
 
         .team1 {
