@@ -63,7 +63,7 @@ const Settings = props => {
           </div>
           <div className='settings label'>Duration</div>
           <div className="settings option-container">
-            <div className={`option ${winningScore === 1 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(1)}>
+            <div className={`option ${winningScore === 500 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(500)}>
               <span className="option-label">Short</span>
             </div>
             <div className={`option ${winningScore === 2000 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(2000)}>
