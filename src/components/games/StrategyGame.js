@@ -275,17 +275,18 @@ export const StrategyGame = () => {
         {nextRoundInfo && (
           <>
             {nextRoundInfo.playerOne && (
-              <span role="img" style={{ fontSize: '3rem', color: 'red' }}>
-                {nextRoundInfo.playerOne}
+              <span role="img" style={{ fontSize: '2rem', color: 'red' }}>
+                🎉{nextRoundInfo.playerOne}
+                {'\n'}
               </span>
             )}
             {nextRoundInfo.playerTwo && (
-              <span role="img" style={{ fontSize: '3rem', color: 'blue' }}>
-                🎉🎉🎉 {nextRoundInfo.playerTwo}
+              <span role="img" style={{ fontSize: '2rem', color: 'blue' }}>
+                🎉🎉🎉 {'\n'} {nextRoundInfo.playerTwo} 🎉
               </span>
             )}
             {nextRoundInfo.tie && (
-              <span role="img" aria-label="funny" style={{ fontSize: '4rem', color: 'green' }}>
+              <span role="img" aria-label="funny" style={{ fontSize: '2rem', color: 'green' }}>
                 😞 {nextRoundInfo.tie}
               </span>
             )}

@@ -77,13 +77,11 @@ h1 {
     margin-top: 10px;
     transform: scale(1.1);
     font: optional;
-    font-size: 30px;
     font-weight: bold;
-    color: $accent;
+    color: black;
     text-align: center;
-    width: 200px;
-    border: 0.2em solid $accent;
-    background-color: $accentPage;
+    width: 500px;
+    background-color: $textColor;
     border-radius: $borderRadius;
 }
 
@@ -98,16 +96,15 @@ h1 {
 
 .next-round-container {
     position: absolute;
-    bottom: 30%;
+    bottom: 20%;
     margin-top: 10px;
     transform: scale(1.1);
     font: optional;
-    font-size: 30px;
     font-weight: bold;
-    color: $accent;
+    color: black;
     text-align: center;
-    border: 0.2em solid $accent;
-    background-color: $accentPage;
+    width: 500px;
+    background-color: $textColor;
     border-radius: $borderRadius;
 }
 

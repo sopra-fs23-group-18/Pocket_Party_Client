@@ -251,17 +251,17 @@ export const RPSGame = () => {
         {winnerEachRound && (
           <>
             {winnerEachRound === 'tie' && (
-              <span role="img" aria-label="tie" style={{ fontSize: '6rem' }}>
+              <span role="img" aria-label="tie" style={{ fontSize: '2rem' }}>
                 🤝 tie
               </span>
             )}
             {winnerEachRound === 'playerOne' && (
-              <span role="img" aria-label="player one" className='team1-color' style={{ fontSize: '6rem' }}>
+              <span role="img" aria-label="player one" className='team1-color' style={{ fontSize: '2rem' }}>
                 🎉 {minigameContext.minigame.team1Players[0].nickname} wins!
               </span>
             )}
             {winnerEachRound === 'playerTwo' && (
-              <span role="img" aria-label="player two" className='team2-color' style={{ fontSize: '6rem' }}>
+              <span role="img" aria-label="player two" className='team2-color' style={{ fontSize: '2rem' }}>
                 🎉 {minigameContext.minigame.team2Players[0].nickname} wins!
               </span>
             )}

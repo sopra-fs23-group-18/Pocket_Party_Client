@@ -103,6 +103,12 @@ const AppRouter = () => {
               <Route exact path="/minigameChoiceSettings">
                 <MinigameChoiceSettings />
               </Route>
+              <Route exact path= "/rpsGame">
+                <RPSGame />
+              </Route>
+              <Route exact path= "/strategyGame">
+                <StrategyGame />
+              </Route>
             </Switch>
           </BrowserRouter>
         </MinigameContext.Provider>

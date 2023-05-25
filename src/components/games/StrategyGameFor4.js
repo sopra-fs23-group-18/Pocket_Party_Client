@@ -209,7 +209,7 @@ export const StrategyGameFor4 = () => {
     if (players.length > 0 && lobbyId !== null) {
         sendToPlayers({
             signal: "START",
-            minigame: "STRATEGY_GAME",
+            minigame: "GREEDY_GAMBIT",
             data: null
         }, lobbyId, players);
     }
@@ -220,7 +220,7 @@ useEffect(() => {
   return () => {
       sendToPlayers({
           signal: "STOP",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
       }, lobbyId, players)
   }
 }, [])
@@ -243,7 +243,7 @@ useEffect(() => {
 
       sendToPlayers({
         signal: "START",
-        minigame: "STRATEGY_GAME",
+        minigame: "GREEDY_GAMBIT",
         data: null
       }, lobbyId, players);
     };
