@@ -48,3 +48,32 @@
   font-weight: bold;
   color: blue;
 }
+
+.tap-container-4 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tap-area {
+  display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 25em;
+    @include center;
+}
+
+.bar-4 {
+  width: 40%;
+  height: 350px;
+  background-color: transparent;
+  border-radius: 10px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin: 100px;
+
+}

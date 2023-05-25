@@ -2,9 +2,10 @@
 
 .tso {
     &.goal-label {
-        font-size: 1em;
+        font-size: 1.5em;
         color: $accent;
         font-weight: bold;
+        margin-right: 1em;
     }
 
     &.maincontent {
@@ -65,7 +66,7 @@
 
     .line {
         height: 15em;
-        width: 0.1em;
+        width: 0.15em;
         flex-direction: row;
         background-color: $accent;
         margin-bottom: 1em;
