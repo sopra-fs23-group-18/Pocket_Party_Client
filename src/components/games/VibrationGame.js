@@ -94,7 +94,7 @@ export const VibrationGame = () => {
             connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
             sendToPlayers({
                 signal: "START",
-                minigame: "VIBRATION_GAME",
+                minigame: "VIBRATION_VOYAGE",
                 data: null
             }, lobbyId, players);
         };
@@ -104,7 +104,7 @@ export const VibrationGame = () => {
         if (players.length > 0 && lobbyId !== null) {
             sendToPlayers({
                 signal: "START",
-                minigame: "VIBRATION_GAME",
+                minigame: "VIBRATION_VOYAGE",
                 data: null
             }, lobbyId, players);
             setTimeout(() => {
@@ -119,7 +119,7 @@ export const VibrationGame = () => {
         return () => {
             sendToPlayers({
                 signal: "STOP",
-                minigame: "VIBRATION_GAME"
+                minigame: "VIBRATION_VOYAGE"
             }, lobbyId, players)
         }
     }, [])
@@ -128,7 +128,7 @@ export const VibrationGame = () => {
     const playVibrationONE = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_ONE"
         }, lobbyId, players)
         vibrationRepresentationOne.current?.play();
@@ -139,7 +139,7 @@ export const VibrationGame = () => {
     const playVibrationTWO = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_TWO"
         }, lobbyId, players)
         vibrationRepresentationTwo.current?.play();
@@ -150,7 +150,7 @@ export const VibrationGame = () => {
     const playVibrationTHREE = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_THREE"
         }, lobbyId, players)
         vibrationRepresentationThree.current?.play();
@@ -199,7 +199,7 @@ export const VibrationGame = () => {
         setTimeout(() => {
             sendToPlayers({
                 signal: "VOTE",
-                minigame: "VIBRATION_GAME",
+                minigame: "VIBRATION_VOYAGE",
                 data: null
             }, lobbyId, players)
             setVoting(true);
