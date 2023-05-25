@@ -22,7 +22,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     const rect = useRef(Bodies.rectangle(100, 250, 50, 50, { isStatic: true, isSensor: true, render: { fillStyle: props.playerIndex === 0 ? '#E14842' : '#614F89' } }));
 
     // const onConnected = (pc) => {
-    //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_GAME"}));
+    //     pc.send(JSON.stringify({signal: "START", minigame: "TIMING_TUMBLE"}));
     // }
 
 
@@ -47,7 +47,7 @@ export const TimingGamePlayerView = forwardRef((props, ref) => {
     //             destination: `lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
     //             body: JSON.stringify({
     //                 signal: "START",
-    //                 minigame: "TIMING_GAME"
+    //                 minigame: "TIMING_TUMBLE"
     //             })
     //         })
     //     }

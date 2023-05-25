@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { api, handleError } from 'helpers/api';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
-import { Timer } from 'components/ui/Timer';
 import 'styles/views/Settings.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
+import HeaderContainer from 'components/ui/HeaderContainer';
 
 const Settings = props => {
   let location = useLocation();
@@ -15,16 +14,11 @@ const Settings = props => {
   const gameContext = useContext(GameContext);
 
   const [winningScore, setWinningScore] = useState(2000);
-  // const [pointCalculation, setPointCalculation] = useState(null);
-  const [playerChoice, setPlayerChoice] = useState('RANDOM');
-  //const [gameMode, setGameMode] = useState(null);
-  const [chosenMinigames, setChosenMinigames] = useState([]);
 
   const doCreateGame = async () => {
     const requestBody = JSON.stringify({
       winningScore: winningScore,
-      // pointCalculation: pointCalculation,
-      playerChoice: playerChoice
+      minigamesChoice: location.state?.chosenMinigames || []
     });
     const response = await api.post(`/lobbies/${lobbyContext.lobby.id}/games`, requestBody);
     if (response.status === 201) {
@@ -34,36 +28,28 @@ const Settings = props => {
     }
   };
 
-
-  // setChosenMinigames([
-  //   ...chosenMinigames,
-  //   { id: nextId++, name: name}
-  // ]);
-
   const handleDurationOptionClick = (score) => {
     setWinningScore(score);
   };
-  const handlePlayerChoiceOptionClick = (choice) => {
-    setPlayerChoice(choice);
-    console.log(choice);
+
+  const goToMinigameChoice = (score) => {
+    history.push("/minigameChoiceSettings");
   };
 
   return (
     <BaseContainer>
+      <HeaderContainer text="Choose your settings" title="Settings"></HeaderContainer>
       <div className="settings container">
         <div className="settings form">
-          <div className='settings label'>Player Choice</div>
-          <div className="settings option-container">
-            <div className={`option ${playerChoice === 'RANDOM' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('RANDOM')}>
-              <span className="option-label">Random</span>
-            </div>
-            <div className={`option ${playerChoice === 'VOTING' ? 'selected' : ''}`} onClick={() => handlePlayerChoiceOptionClick('VOTING')}>
-              <span className="option-label">Voting</span>
-            </div>
-          </div>
+          <Button className="settings button-container"
+            onClick={() => goToMinigameChoice()}
+          >
+            Minigames
+          </Button>
+          {/* Options for Duration of the Game: */}
           <div className='settings label'>Duration</div>
           <div className="settings option-container">
-            <div className={`option ${winningScore === 1 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(1)}>
+            <div className={`option ${winningScore === 500 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(500)}>
               <span className="option-label">Short</span>
             </div>
             <div className={`option ${winningScore === 2000 ? 'selected' : ''}`} onClick={() => handleDurationOptionClick(2000)}>

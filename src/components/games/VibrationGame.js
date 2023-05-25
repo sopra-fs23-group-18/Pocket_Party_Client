@@ -45,9 +45,9 @@ export const VibrationGame = () => {
                 return [...old, result];
             })
         }
-    }
+    };
 
-    const onPlayerTwoInput = (msg) => {
+    const onPlayerTwoInput =(msg) => {
         const data = JSON.parse(msg.body)
         if (data.inputType === 'VIBRATION_VOTE') {
             setVotingResult((old) => {
@@ -58,7 +58,7 @@ export const VibrationGame = () => {
                 return [...old, result];
             })
         }
-    }
+    };
 
     const sendToPlayers = (body, lobbyId, players) => {
         for (const player of players) {
@@ -83,28 +83,48 @@ export const VibrationGame = () => {
     }, [lobbyContext, minigameContext])
 
     useEffect(() => {
-        if (connections.stompConnection.connected) {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
-            return;
+        if(players.length > 0 && lobbyId !== null ){
+            if (connections.stompConnection.connected) {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+                return;
+            }
+    
+            connections.stompConnection.onConnect = (_) => {
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
+                connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyId}/players/${players[0]}/signal`,
+                    body: JSON.stringify({
+                    signal: "START",
+                    minigame: "VIBRATION_VOYAGE",
+                    data: null
+                })
+                })
+                connections.stompConnection.publish({
+                    destination: `/lobbies/${lobbyId}/players/${players[1]}/signal`,
+                    body: JSON.stringify({
+                        signal: "START",
+                        minigame: "VIBRATION_VOYAGE",
+                        data: null
+                    })
+                })
+                
+                sendToPlayers({
+                    signal: "START",
+                    minigame: "VIBRATION_VOYAGE",
+                    data: null
+                }, lobbyId, players);
+            };
         }
-
-        connections.stompConnection.onConnect = (_) => {
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/input`, onPlayerOneInput);
-            connections.stompConnection.subscribe(`/topic/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/input`, onPlayerTwoInput);
-            sendToPlayers({
-                signal: "START",
-                minigame: "VIBRATION_GAME",
-                data: null
-            }, lobbyId, players);
-        };
+        
     }, [connections, players, lobbyId])
 
     useEffect(() => {
         if (players.length > 0 && lobbyId !== null) {
             sendToPlayers({
                 signal: "START",
-                minigame: "VIBRATION_GAME",
+                minigame: "VIBRATION_VOYAGE",
                 data: null
             }, lobbyId, players);
             setTimeout(() => {
@@ -119,7 +139,7 @@ export const VibrationGame = () => {
         return () => {
             sendToPlayers({
                 signal: "STOP",
-                minigame: "VIBRATION_GAME"
+                minigame: "VIBRATION_VOYAGE"
             }, lobbyId, players)
         }
     }, [])
@@ -128,7 +148,7 @@ export const VibrationGame = () => {
     const playVibrationONE = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_ONE"
         }, lobbyId, players)
         vibrationRepresentationOne.current?.play();
@@ -139,7 +159,7 @@ export const VibrationGame = () => {
     const playVibrationTWO = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_TWO"
         }, lobbyId, players)
         vibrationRepresentationTwo.current?.play();
@@ -150,7 +170,7 @@ export const VibrationGame = () => {
     const playVibrationTHREE = () => {
         sendToPlayers({
             signal: "PLAY",
-            minigame: "VIBRATION_GAME",
+            minigame: "VIBRATION_VOYAGE",
             data: "VIB_THREE"
         }, lobbyId, players)
         vibrationRepresentationThree.current?.play();
@@ -199,7 +219,7 @@ export const VibrationGame = () => {
         setTimeout(() => {
             sendToPlayers({
                 signal: "VOTE",
-                minigame: "VIBRATION_GAME",
+                minigame: "VIBRATION_VOYAGE",
                 data: null
             }, lobbyId, players)
             setVoting(true);
@@ -243,7 +263,7 @@ export const VibrationGame = () => {
                 </div>
                 <div style={{ display: "flex", justifyContent: 'center' }}>                <Timer onExpire={() => {
                     const scoreToGain = minigameContext.minigame.scoreToGain;
-                    let correctChoosers = votingResult.map((r) => {
+                    let correctChoosers = votingResult.filter((r) => {
                         if (r.option === choosenVibration)
                             return r.player
                     })
@@ -255,8 +275,7 @@ export const VibrationGame = () => {
                         winner = { score: scoreToGain / 2, type: "TEAM_ONE", name: lobbyContext.lobby.teams[0].name };
                         looser = { score: scoreToGain / 2, type: "TEAM_TWO", name: lobbyContext.lobby.teams[1].name };
                         isDraw = true;
-                    }
-                    else {
+                    }else {
                         const winnerIsTeamRed = correctChoosers[0].id === minigameContext.minigame.team1Players[0].id;
 
                         if (winnerIsTeamRed) {

@@ -140,14 +140,14 @@ export const StrategyGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
     }
@@ -157,14 +157,14 @@ export const StrategyGame = () => {
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "STRATEGY_GAME"
+            minigame: "GREEDY_GAMBIT"
           })
         })
         connections.stompConnection.publish({
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "STRATEGY_GAME"
+            minigame: "GREEDY_GAMBIT"
           })
         })
       }
@@ -186,14 +186,14 @@ export const StrategyGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
     };
@@ -217,18 +217,18 @@ export const StrategyGame = () => {
           {playerOneChoice && (
             <>
               {playerOneChoice === 5 && (
-                <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
-                  💎💎💎💎💎
+                <span role="img" aria-label="rock" style={{ fontSize: '6rem' }}>
+                  5💎
                 </span>
               )}
               {playerOneChoice === 3 && (
-                <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
-                  💰💰💰
+                <span role="img" aria-label="paper" style={{ fontSize: '6rem' }}>
+                  3💰
                 </span>
               )}
               {playerOneChoice === 1 && (
-                <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                  💵
+                <span role="img" aria-label="scissors" style={{ fontSize: '6rem' }}>
+                  1💵
                 </span>
               )}
               {playerOneChoice === 'hold' && (
@@ -247,18 +247,18 @@ export const StrategyGame = () => {
           {playerTwoChoice && (
             <>
               {playerTwoChoice === 5 && (
-                <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
-                  💎💎💎💎💎
+                <span role="img" aria-label="rock" style={{ fontSize: '6rem' }}>
+                  5💎
                 </span>
               )}
               {playerTwoChoice === 3 && (
-                <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
-                  💰💰💰
+                <span role="img" aria-label="paper" style={{ fontSize: '6rem' }}>
+                  3💰
                 </span>
               )}
               {playerTwoChoice === 1 && (
-                <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                  💵
+                <span role="img" aria-label="scissors" style={{ fontSize: '6rem' }}>
+                  1💵
                 </span>
               )}
               {playerTwoChoice === 'hold' && (

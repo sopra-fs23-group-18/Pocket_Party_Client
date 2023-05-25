@@ -1,6 +1,13 @@
 @import 'styles/theme';
 
 .tso {
+    &.goal-label {
+        font-size: 1.5em;
+        color: $accent;
+        font-weight: bold;
+        margin-left: 0.5em;
+    }
+
     &.maincontent {
         display: flex;
         flex-direction: row;
@@ -32,12 +39,12 @@
 
         .team1-bar {
             background-color: $accentTeamOne;
-            width: #{Team1Pts};
+            width: #{Team1Pct};
         }
 
         .team2-bar {
             background-color: $accentTeamTwo;
-            width: #{Team2Pts};
+            width: #{Team2Pct};
         }
 
         .team1 {
@@ -45,6 +52,7 @@
             font-weight: bold;
             text-align: center;
             width: 10%;
+            font-size: 1.5em;
         }
 
         .team2 {
@@ -52,12 +60,13 @@
             font-weight: bold;
             text-align: center;
             width: 10%;
+            font-size: 1.5em;
         }
     }
 
     .line {
         height: 15em;
-        width: 0.1em;
+        width: 0.15em;
         flex-direction: row;
         background-color: $accent;
         margin-bottom: 1em;

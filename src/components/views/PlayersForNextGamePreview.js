@@ -63,8 +63,6 @@ const PlayersForNextGamePreview = ({ id }) => {
             <div className='playersForNextGamePreview container'>
                 <div className='playersForNextGamePreview player-team1'>
                     {team1Players()}
-
-
                 </div>
                 <label className='playersForNextGamePreview versusLabel'>VS</label>
                 <div className='playersForNextGamePreview player-team2'>

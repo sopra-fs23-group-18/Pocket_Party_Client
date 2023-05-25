@@ -7,6 +7,7 @@ import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
 import PlayerContainer from "components/ui/PlayerContainer";
+import { Button } from "components/ui/Button";
 
 export const TappingGame = props => {
     const history = useHistory();
@@ -37,14 +38,14 @@ export const TappingGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "QUICK_FINGERS"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "QUICK_FINGERS"
                 })
             })
         }
@@ -54,14 +55,14 @@ export const TappingGame = props => {
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "TAPPING_GAME"
+                        minigame: "QUICK_FINGERS"
                     })
                 })
                 connections.stompConnection.publish({
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "TAPPING_GAME"
+                        minigame: "QUICK_FINGERS"
                     })
                 })
             }
@@ -84,14 +85,14 @@ export const TappingGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "QUICK_FINGERS"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "TAPPING_GAME"
+                    minigame: "QUICK_FINGERS"
                 })
             })
         };

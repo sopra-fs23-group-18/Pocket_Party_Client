@@ -1,11 +1,10 @@
 import BaseContainer from "components/ui/BaseContainer";
 import PlayerContainer from "components/ui/PlayerContainer";
-import "styles/views/GameWon.scss";
+import "styles/views/MinigameWon.scss";
 import Confetti from 'react-confetti';
 import HeaderContainer from "components/ui/HeaderContainer";
 import { useHistory, useLocation } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
-import { api } from "helpers/api";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 
 const MinigameWon = () => {
@@ -34,24 +33,42 @@ const MinigameWon = () => {
         }
     }
 
+    function formatMinigameTypeString(type) {
+        const words = type.split('_');
+        const formattedWords = words.map(function (word) {
+            const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            return capitalizedWord;
+        });
+        const formattedString = formattedWords.join(' ');
+        return formattedString;
+    }
+
     useEffect(() => {
         getWinner(location.state.winner);
         timeout.current = setTimeout(() => { navigation.push("/teamScoreOverview", location.state) }, 5000)
     }, [])
-    return (location.state.isDraw ? <BaseContainer> <div className="gameWon div"><label className='gameWon draw'>It's a draw!</label></div> </BaseContainer> :
-        <BaseContainer>
-            <HeaderContainer title="Winner" text="Minigame" ></HeaderContainer>
-            <Confetti numberOfPieces={200} />
-            <div className="gameWon maindiv">
-                <label className="gameWon twi">The winner is</label>
-                <div className="gameWon winner">
-                    {winner && <PlayerContainer player={winner} team={winnerTeam} />}
+    return (
+        location.state.isDraw ?
+            <BaseContainer>
+            <HeaderContainer title="Draw" text={formatMinigameTypeString(minigameContext.minigame.type)} ></HeaderContainer>
+                <div className="gameWon maindiv">
+                    <label className='gameWon twi'>IT'S A DRAW</label>
                 </div>
-                <div className="gameWon loser">
-                    {loser && <PlayerContainer player={loser} team={loserTeam} />}
+            </BaseContainer>
+            :
+            <BaseContainer>
+                <Confetti numberOfPieces={200} />
+                <HeaderContainer title="Winner" text={formatMinigameTypeString(minigameContext.minigame.type)} ></HeaderContainer>
+                <div className="gameWon maindiv">
+                    <label className="gameWon twi">THE WINNER IS</label>
+                    <div className="gameWon winners">
+                        {winner && <PlayerContainer player={winner} team={winnerTeam} />}
+                    </div>
+                    <div className="gameWon losers">
+                        {loser && <PlayerContainer player={loser} team={loserTeam} />}
+                    </div>
                 </div>
-            </div>
-        </BaseContainer>
+            </BaseContainer>
     )
 }
 

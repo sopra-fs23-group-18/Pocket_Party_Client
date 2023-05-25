@@ -22,8 +22,8 @@ const Lobby = props => {
     const lobbyContext = useContext(LobbyContext);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [team1Name, setTeam1Name] = useState('Team 1');
-    const [team2Name, setTeam2Name] = useState('Team 2');
+    const [team1Name, setTeam1Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[0].name || 'Team 1' : 'Team 1');
+    const [team2Name, setTeam2Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[1].name || 'Team 2' : 'Team 2');
 
     const onTeam1NameChange = (e) => {
         setTeam1Name(e.target.value);
@@ -78,15 +78,20 @@ const Lobby = props => {
 
     useEffect(() => {
         lobbyContext.setLobby({ id: location.state.id })
-        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode}));
-    }, [location.state.id])
+        localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode }));
+    }, [location.state.id]);
 
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
         localStorage.setItem(`${playerJoined.id}`, `${playerJoined.avatar}`)
         playerJoined.team = 'unassigned'
         setPlayers((old) => [...old, playerJoined]);
-    }
+    };
+
+    const onPlayerLeave = (data) => {
+        const playerLeaved = new Player(JSON.parse(data.body));
+        setPlayers((old) => old.filter((p) => p.id !== playerLeaved.id));
+    };
 
     const assignPlayerToTeam = (player, team, source) => {
         if (source !== null && team === "unassigned") {
@@ -121,10 +126,14 @@ const Lobby = props => {
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
             return;
         }
         connections.stompConnection.onConnect = (_) => {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
         };
     }, [connections, location])
 
@@ -207,19 +216,16 @@ const Lobby = props => {
                 </Droppable>
             }
         }
-        return <Button disabled={(team1Count < 1) || (team2Count < 1) || (team1Name === '') || team2Name === ''} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
+        return <Button disabled={(team1Count < 1) || (team2Count < 1) || (team1Name === '') || team2Name === '' || (team1Name === team2Name)} className='lobby button-container' onClick={onGameStartClicked}>Start Game</Button>
     }
 
 
     return (
         <BaseContainer>
-            <div className='lobby div'>
-                <HeaderContainer title='Invite code:' text={`${inviteCode}`}></HeaderContainer>
-                <div className='lobby qr-container'>
-                    <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
-                    <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M3. After scanning the QR-code in the app you can choose your team by dragging your player. Click the button in the center whenever you are ready to play!"} />
-
-                </div>
+            <HeaderContainer title='Invite code' text={`${inviteCode}`}></HeaderContainer>
+            <div className='lobby qr-container'>
+                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${inviteCode}&size=100x100&bgcolor=FBF7F4`} className='lobby image' />
+                <Info infotext={"In order to be able to play please download the android app from https://github.com/sopra-fs23-group-18/pocket-party-mobile/releases/tag/M3. After scanning the QR-code in the app you can choose your team by dragging your player. Click the button in the center whenever you are ready to play!"} />
             </div>
             <div className="lobby container">
                 <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -229,6 +235,7 @@ const Lobby = props => {
                             type="text"
                             value={team1Name}
                             onChange={onTeam1NameChange}
+                            maxLength={15}
                         />
                         <Droppable droppableId="team1">
                             {(provided) => (
@@ -260,6 +267,7 @@ const Lobby = props => {
                             type="text"
                             value={team2Name}
                             onChange={onTeam2NameChange}
+                            maxLength={15}
                         />
                         <Droppable droppableId="team2">
                             {(provided) => (

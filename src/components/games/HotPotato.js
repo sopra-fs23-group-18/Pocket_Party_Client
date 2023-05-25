@@ -23,7 +23,7 @@ const HotPotato = () => {
                         destination: `/lobbies/${lobbyContext.lobby.id}/players/${player.id}/signal`,
                         body: JSON.stringify({
                             signal: "START",
-                            minigame: "TAPPING_GAME"
+                            minigame: "QUICK_FINGERS"
                         })
                     });
                 });

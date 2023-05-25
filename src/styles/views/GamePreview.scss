@@ -3,6 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 .preview {
+    &.container {
+        margin-top: 2em;
+        min-height: 300px;
+        @include center;
+        flex-direction: column;
+        justify-content: space-around;
+
+    }
 
     &.label {
         color: $accent;
@@ -18,7 +26,6 @@
         display: flex;
         flex-direction: row;
         justify-content: left;
-        width: 60%;
         font-size: 1em;
         padding-left: 2em;
         padding-right: 2em;
@@ -29,14 +36,14 @@
         box-sizing: border-box;
         position: relative;
         width: 50em;
-        height: 30em;
-
+        height: 20em;
+        margin-bottom: 2em;
         border: 0.2em solid $accent;
     }
 
     &.image {
-        width: 20em;
-        height: 15em;
+        width: 24em;
+        height: 12em;
 
         text-align: right;
         align-self: flex-end;
@@ -48,19 +55,20 @@
     &.description {
         color: $accent;
         font-weight: bold;
-        margin-right: 20em;
+        margin-right: 30em;
+        display: inline-block;
+        width: 40%;
     }
 
     &.button-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 1em;
-        width: 15vw;
-        height: 6vh;
+        width: 8em;
+        height: 2em;
         background: $accent;
         border-radius: $borderRadius;
-        font-size: 2vw;
+        font-size: 1.5em;
         color: $textColor;
     }
 }

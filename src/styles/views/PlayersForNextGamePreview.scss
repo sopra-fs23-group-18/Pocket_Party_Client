@@ -4,8 +4,7 @@
 .playersForNextGamePreview {
 
     &.container {
-        margin-top: 2em;
-        /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
+        margin-top: 10em;
         @include center;
         flex-direction: row;
     }
