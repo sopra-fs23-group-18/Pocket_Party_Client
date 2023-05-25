@@ -90,7 +90,7 @@ const Lobby = props => {
 
     const onPlayerLeave = (data) => {
         const playerLeaved = new Player(JSON.parse(data.body));
-        setPlayers((old) => old.map((p) => p.id !== playerLeaved.id));
+        setPlayers((old) => old.filter((p) => p.id !== playerLeaved.id));
     };
 
     const assignPlayerToTeam = (player, team, source) => {
