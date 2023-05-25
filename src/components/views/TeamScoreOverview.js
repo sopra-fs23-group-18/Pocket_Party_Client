@@ -138,7 +138,7 @@ const TeamScoreOverview = () => {
                     </div>
                     <label className="tso team2">{team2Pts}%</label>
                 </div>
-                <label className="tso goal-label">GOAL</label>
+                <label className="tso goal-label">Goal: {gameContext.game.winningScore} pts</label>
                 <div className="tso line" />
             </div>
         </BaseContainer>
