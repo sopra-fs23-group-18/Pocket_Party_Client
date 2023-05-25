@@ -7,7 +7,6 @@ import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
 import PlayerContainer from "components/ui/PlayerContainer";
-import { Button } from "components/ui/Button";
 
 export const TappingGameFor4 = props => {
     const history = useHistory();
@@ -80,7 +79,7 @@ export const TappingGameFor4 = props => {
     if (players.length > 0 && lobbyId !== null) {
         sendToPlayers({
             signal: "START",
-            minigame: "TAPPING_GAME",
+            minigame: "QUICK_FINGERS",
             data: null
         }, lobbyId, players);
     }
@@ -91,7 +90,7 @@ useEffect(() => {
   return () => {
       sendToPlayers({
           signal: "STOP",
-          minigame: "TAPPING_GAME"
+          minigame: "QUICK_FINGERS"
       }, lobbyId, players)
   }
 }, [])
@@ -114,7 +113,7 @@ useEffect(() => {
 
       sendToPlayers({
         signal: "START",
-        minigame: "TAPPING_GAME",
+        minigame: "QUICK_FINGERS",
         data: null
       }, lobbyId, players);
     };
@@ -165,11 +164,6 @@ useEffect(() => {
                 </div>
                 </div>
             </div>
-            <Button onClick={() => {
-                setCount1(11)
-                setCount2(110)
-                setCount3(51)
-            }}>test</Button>
             <Timer onExpire={() => {
                 const scoreToGain = minigameContext.minigame.scoreToGain;
                 const team1Score = count1 + count2;
