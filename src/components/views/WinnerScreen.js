@@ -40,7 +40,6 @@ export const WinnerScreen = () => {
         } else {
             return <div className="container">
                 <h1 className="winnerTitle">Its a Draw!</h1>
-                <div className="score">Score: {gameContext.game.winningScore} pts </div>
                 <Button className='restart-button' onClick={restartGame}>End Game</Button>
                 <Button className='restart-button' onClick={redirectToLobby}>Play again!</Button>
             </div>

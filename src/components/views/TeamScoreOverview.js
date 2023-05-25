@@ -128,7 +128,7 @@ const TeamScoreOverview = () => {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             history.push('/gamePreview');
-        }, 10000);
+        }, 8000);
         return () => clearTimeout(timeoutId);
     }, [history]);
 
@@ -153,7 +153,7 @@ const TeamScoreOverview = () => {
                 } else {
                     history.push("/winner", { draw: true });
                 }
-            }, 5000);
+            }, 8000);
         }
     }, [outcome]);
 
