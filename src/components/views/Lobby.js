@@ -22,8 +22,8 @@ const Lobby = props => {
     const lobbyContext = useContext(LobbyContext);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [team1Name, setTeam1Name] = useState('Team 1');
-    const [team2Name, setTeam2Name] = useState('Team 2');
+    const [team1Name, setTeam1Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[0].name || 'Team 1' : 'Team 1');
+    const [team2Name, setTeam2Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[1].name || 'Team 2' : 'Team 2');
 
     const onTeam1NameChange = (e) => {
         setTeam1Name(e.target.value);
@@ -79,14 +79,19 @@ const Lobby = props => {
     useEffect(() => {
         lobbyContext.setLobby({ id: location.state.id })
         localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode }));
-    }, [location.state.id])
+    }, [location.state.id]);
 
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
         localStorage.setItem(`${playerJoined.id}`, `${playerJoined.avatar}`)
         playerJoined.team = 'unassigned'
         setPlayers((old) => [...old, playerJoined]);
-    }
+    };
+
+    const onPlayerLeave = (data) => {
+        const playerLeaved = new Player(JSON.parse(data.body));
+        setPlayers((old) => old.map((p) => p.id !== playerLeaved.id));
+    };
 
     const assignPlayerToTeam = (player, team, source) => {
         if (source !== null && team === "unassigned") {
@@ -121,10 +126,14 @@ const Lobby = props => {
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
             return;
         }
         connections.stompConnection.onConnect = (_) => {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
         };
     }, [connections, location])
 
@@ -226,7 +235,7 @@ const Lobby = props => {
                             type="text"
                             value={team1Name}
                             onChange={onTeam1NameChange}
-                            maxLength={20}
+                            maxLength={15}
                         />
                         <Droppable droppableId="team1">
                             {(provided) => (
@@ -258,7 +267,7 @@ const Lobby = props => {
                             type="text"
                             value={team2Name}
                             onChange={onTeam2NameChange}
-                            maxLength={20}
+                            maxLength={15}
                         />
                         <Droppable droppableId="team2">
                             {(provided) => (
