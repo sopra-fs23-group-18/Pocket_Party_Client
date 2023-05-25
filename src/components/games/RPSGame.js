@@ -115,14 +115,14 @@ export const RPSGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "RPS_GAME"
+          minigame: "ROCK_PAPER_SCISSORS"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "RPS_GAME"
+          minigame: "ROCK_PAPER_SCISSORS"
         })
       })
     }
@@ -132,14 +132,14 @@ export const RPSGame = () => {
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "RPS_GAME"
+            minigame: "ROCK_PAPER_SCISSORS"
           })
         })
         connections.stompConnection.publish({
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "RPS_GAME"
+            minigame: "ROCK_PAPER_SCISSORS"
           })
         })
       }
@@ -161,14 +161,14 @@ export const RPSGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "RPS_GAME"
+          minigame: "ROCK_PAPER_SCISSORS"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "RPS_GAME"
+          minigame: "ROCK_PAPER_SCISSORS"
         })
       })
     };

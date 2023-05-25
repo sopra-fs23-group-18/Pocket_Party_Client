@@ -140,14 +140,14 @@ export const StrategyGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
     }
@@ -157,14 +157,14 @@ export const StrategyGame = () => {
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "STRATEGY_GAME"
+            minigame: "GREEDY_GAMBIT"
           })
         })
         connections.stompConnection.publish({
           destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
           body: JSON.stringify({
             signal: "STOP",
-            minigame: "STRATEGY_GAME"
+            minigame: "GREEDY_GAMBIT"
           })
         })
       }
@@ -186,14 +186,14 @@ export const StrategyGame = () => {
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
       connections.stompConnection.publish({
         destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
         body: JSON.stringify({
           signal: "START",
-          minigame: "STRATEGY_GAME"
+          minigame: "GREEDY_GAMBIT"
         })
       })
     };

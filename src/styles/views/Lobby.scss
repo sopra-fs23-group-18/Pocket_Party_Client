@@ -29,9 +29,11 @@
     }
 
     &.qr-container {
+        position: absolute;
         display: flex;
-        flex: column;
-        align-items: flex-end;
+        @include center;
+        right: 10em;
+        top: 2em;
     }
 
     &.team-name-input {
@@ -82,11 +84,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 15vw;
-        height: 6vh;
+        width: 8em;
+        height: 2em;
         background: $accent;
         border-radius: $borderRadius;
-        font-size: 2vw;
+        font-size: 1.5em;
         color: $textColor;
     }
 
@@ -95,7 +97,7 @@
         margin-right: 3em;
     }
 
-    &.div {
+    &.header {
         display: flex;
         flex-direction: row;
         justify-content: space-around;

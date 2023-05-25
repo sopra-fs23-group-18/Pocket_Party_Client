@@ -10,7 +10,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: white;
+    background-color: $accentPage;
 }
 
 .info {
@@ -19,7 +19,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 12px;
-    color: #fff;
+    color: $accent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,13 +28,14 @@
 .tooltip {
     position: absolute;
     top: 30px;
-    left: -80px;
+    left: -68px;
     width: 160px;
     background-color: $accent;
     padding: 8px;
     border-radius: 4px;
-    color: #fff;
+    color: $textColor;
     font-size: 14px;
+    font-weight: bold;
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.3s linear;
@@ -42,13 +43,14 @@
 
 .tooltip .tooltip-text {
     margin-bottom: 4px;
-    color: white;
+    color: $textColor;
     word-wrap: break-word;
     white-space: pre-wrap;
+    text-align: justify;
 }
 
 
 .hovered .tooltip {
     visibility: visible;
-    opacity: 0.8;
+    opacity: 1;
 }

@@ -72,27 +72,26 @@ const GamePreview = () => {
         return formattedString;
     }
 
-    // function getImagePath(type) {
-    //     console.log(`${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`);
-    //     return `${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`;
-    // }
-    function componentDidMount() {
+    function getImagePath() {
         import(`../../images/${(data?.type || '').toLowerCase()}.png`).then((module) => { setPreviewImage(module.default); });
     }
     useEffect(() => {
         if (data) {
-            componentDidMount();
+            getImagePath();
         }
     }, [data]);
+
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
-            <label className="preview label">How to play</label>
-            <div className='preview descBox'>
-                <label className='preview description'>{data?.description}</label>
-                <img className='preview image' src={previewImage}></img>
+            <div className='preview container'>
+                <label className="preview label">How to play</label>
+                <div className='preview descBox'>
+                    <label className='preview description'>{data?.description}</label>
+                    <img className='preview image' src={previewImage}></img>
+                </div>
+                <Button className='preview button-container' onClick={next}>Start game!</Button>
             </div>
-            <Button className='preview button-container' onClick={next}>Start game!</Button>
         </BaseContainer>
     );
 }

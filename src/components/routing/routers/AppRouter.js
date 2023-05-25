@@ -39,20 +39,20 @@ const AppRouter = () => {
 
   const minigameRoute = () => {
     switch (minigame?.type) {
-      case "TIMING_GAME":
+      case "TIMING_TUMBLE":
         return <TimingGame />
-      case "TAPPING_GAME":
+      case "QUICK_FINGERS":
         if (minigame?.amountOfPlayers ==='TWO'){
           return <TappingGameFor4 />
         }
         return <TappingGame />
-      case "VIBRATION_GAME":
+      case "VIBRATION_VOYAGE":
         return <VibrationGame />
-      case "PONG_GAME":
+      case "POCKET_PONG":
         return <PongGame />
-      case "RPS_GAME":
+      case "ROCK_PAPER_SCISSORS":
         return <RPSGame />
-      case "STRATEGY_GAME":
+      case "GREEDY_GAMBIT":
         if (minigame?.amountOfPlayers === 'TWO'){
           return <StrategyGameFor4 />
         }

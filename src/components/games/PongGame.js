@@ -52,14 +52,14 @@ export const PongGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "PONG_GAME"
+                    minigame: "POCKET_PONG"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "PONG_GAME"
+                    minigame: "POCKET_PONG"
                 })
             })
         }
@@ -69,14 +69,14 @@ export const PongGame = props => {
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "PONG_GAME"
+                        minigame: "POCKET_PONG"
                     })
                 })
                 connections.stompConnection.publish({
                     destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                     body: JSON.stringify({
                         signal: "STOP",
-                        minigame: "PONG_GAME"
+                        minigame: "POCKET_PONG"
                     })
                 })
             }
@@ -99,14 +99,14 @@ export const PongGame = props => {
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team1Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "PONG_GAME"
+                    minigame: "POCKET_PONG"
                 })
             })
             connections.stompConnection.publish({
                 destination: `/lobbies/${lobbyContext.lobby.id}/players/${minigameContext?.minigame.team2Players[0].id}/signal`,
                 body: JSON.stringify({
                     signal: "START",
-                    minigame: "PONG_GAME"
+                    minigame: "POCKET_PONG"
                 })
             })
         };

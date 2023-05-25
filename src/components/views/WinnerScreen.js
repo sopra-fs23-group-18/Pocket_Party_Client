@@ -17,7 +17,7 @@ export const WinnerScreen = () => {
     useEffect(() => {
         console.log(location.state);
 
-        const { winnerTeam }  = location.state;
+        const { winnerTeam } = location.state;
         setWinnerTeam(winnerTeam);
     }, [])
 
@@ -26,7 +26,7 @@ export const WinnerScreen = () => {
         history.push("/createLobby");
     }
     const redirectToLobby = () => {
-        history.push("/lobby", {id: lobbyContext.lobby.id})
+        history.push("/lobby", { id: lobbyContext.lobby.id })
     }
     const content = (winnerTeam) => {
         if (!location.state.draw) {
@@ -34,15 +34,15 @@ export const WinnerScreen = () => {
                 <h1 className="winnerTitle">Winner</h1>
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam?.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam?.name}</h1>}
                 <div className="score">Score: {winnerTeam?.score} pts </div>
-                <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
-                <Button className='lobby button-container' onClick={redirectToLobby}>Play again!</Button>
+                <Button className='restart-button' onClick={restartGame}>End Game</Button>
+                <Button className='restart-button' onClick={redirectToLobby}>Play again!</Button>
             </div>
         } else {
             return <div className="container">
                 <h1 className="winnerTitle">Its a Draw!</h1>
                 <div className="score">Score: {gameContext.game.winningScore} pts </div>
-                <Button className='lobby button-container' onClick={restartGame}>New Game</Button>
-                <Button className='lobby button-container' onClick={redirectToLobby}>Play again!</Button>
+                <Button className='restart-button' onClick={restartGame}>End Game</Button>
+                <Button className='restart-button' onClick={redirectToLobby}>Play again!</Button>
             </div>
         }
     }

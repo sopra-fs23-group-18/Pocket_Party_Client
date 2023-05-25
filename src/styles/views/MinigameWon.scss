@@ -4,11 +4,16 @@
 
 .gameWon {
     &.maindiv {
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        justify-content: center;
         margin-top: 5em;
+        justify-self: center;
     }
 
     &.twi {
-        // The winner is
+        margin-top: 1em;
         font-style: normal;
         font-weight: 700;
         font-size: 64px;
@@ -16,28 +21,20 @@
         text-align: center;
         padding-left: 0.25em;
         color: $accent;
-
-
-    }
-
-    &.winner {
+        align-self: center;
         display: flex;
-        justify-content: center;
     }
 
-    &.loser {
-        float: right;
-    }
-
-    &.draw {
-        font-size: 6rem;
-        margin-bottom: 1rem;
-        color: $accent;
-    }
-
-    &.div {
+    &.winners {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    &.losers {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 10em;
+        margin-top: 2em;
     }
 }

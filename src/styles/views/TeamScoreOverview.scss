@@ -1,6 +1,12 @@
 @import 'styles/theme';
 
 .tso {
+    &.goal-label {
+        font-size: 1em;
+        color: $accent;
+        font-weight: bold;
+    }
+
     &.maincontent {
         display: flex;
         flex-direction: row;
@@ -45,6 +51,7 @@
             font-weight: bold;
             text-align: center;
             width: 10%;
+            font-size: 1.5em;
         }
 
         .team2 {
@@ -52,6 +59,7 @@
             font-weight: bold;
             text-align: center;
             width: 10%;
+            font-size: 1.5em;
         }
     }
 

@@ -41,10 +41,14 @@ path {
 .restart-button {
     display: flex;
     justify-content: center;
-    width: 15em;
-    height: 2.5em;
+    align-items: center;
+    width: 8em;
+    height: 2em;
     background: $accent;
-    border-radius: $borderRadius
+    border-radius: $borderRadius;
+    font-size: 1.5em;
+    color: $textColor;
+    margin: 0.5em;
 }
 
 .score {

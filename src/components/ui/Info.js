@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InfoIcon from '../../images/information.png';
-import '../../styles/views/Info.scss';
+import '../../styles/ui/Info.scss';
 
 const Info = ({ infotext }) => {
     const [isHovered, setIsHovered] = useState(false);
