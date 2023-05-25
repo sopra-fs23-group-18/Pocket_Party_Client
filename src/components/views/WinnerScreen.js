@@ -34,14 +34,14 @@ export const WinnerScreen = () => {
                 <h1 className="winnerTitle">Winner</h1>
                 {winnerTeam && <h1 className={`winnerName ${winnerTeam?.type === "TEAM_ONE" ? "team1" : "team2"}`}>{winnerTeam?.name}</h1>}
                 <div className="score">Score: {winnerTeam?.score} pts </div>
-                <Button className='restart-button' onClick={restartGame}>New Game</Button>
+                <Button className='restart-button' onClick={restartGame}>End Game</Button>
                 <Button className='restart-button' onClick={redirectToLobby}>Play again!</Button>
             </div>
         } else {
             return <div className="container">
                 <h1 className="winnerTitle">Its a Draw!</h1>
                 <div className="score">Score: {gameContext.game.winningScore} pts </div>
-                <Button className='restart-button' onClick={restartGame}></Button>
+                <Button className='restart-button' onClick={restartGame}>End Game</Button>
                 <Button className='restart-button' onClick={redirectToLobby}>Play again!</Button>
             </div>
         }
