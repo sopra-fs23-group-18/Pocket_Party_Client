@@ -29,7 +29,7 @@
         box-sizing: border-box;
         position: relative;
         width: 50em;
-        height: 30em;
+        height: 25em;
 
         border: 0.2em solid $accent;
     }
@@ -49,6 +49,8 @@
         color: $accent;
         font-weight: bold;
         margin-right: 20em;
+        display: inline-block;
+        width: 40%;
     }
 
     &.button-container {

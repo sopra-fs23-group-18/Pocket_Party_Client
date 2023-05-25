@@ -89,8 +89,7 @@ const GamePreview = () => {
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>
             <label className="preview label">How to play</label>
             <div className='preview descBox'>
-                {/*<label className='preview description'>{data?.description}</label>*/}
-                <div dangerouslySetInnerHTML={{ __html: data?.description }}></div>
+                <label className='preview description'>{data?.description}</label>
                 <img className='preview image' src={previewImage}></img>
             </div>
             <Button className='preview button-container' onClick={next}>Start game!</Button>
