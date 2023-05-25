@@ -290,7 +290,7 @@ export const RPSGame = () => {
 
         </div>
         <div className='round-left'>
-          Five points to win!
+          Three points to win!
         </div>
           
     </div>
