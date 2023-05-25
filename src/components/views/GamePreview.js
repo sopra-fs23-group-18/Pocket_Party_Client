@@ -72,18 +72,15 @@ const GamePreview = () => {
         return formattedString;
     }
 
-    // function getImagePath(type) {
-    //     console.log(`${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`);
-    //     return `${process.env.PUBLIC_URL}/src/images/${type.toLowerCase()}.png`;
-    // }
-    function componentDidMount() {
+    function getImagePath() {
         import(`../../images/${(data?.type || '').toLowerCase()}.png`).then((module) => { setPreviewImage(module.default); });
     }
     useEffect(() => {
         if (data) {
-            componentDidMount();
+            getImagePath();
         }
     }, [data]);
+    
     return (
         <BaseContainer>
             <HeaderContainer text={formatMinigameTypeString(data?.type || '')} title="Minigame" points={data?.scoreToGain}></HeaderContainer>

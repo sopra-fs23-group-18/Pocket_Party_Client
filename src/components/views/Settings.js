@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { api, handleError } from 'helpers/api';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Button } from 'components/ui/Button';
-import { Timer } from 'components/ui/Timer';
 import 'styles/views/Settings.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import { GameContext, LobbyContext } from 'components/routing/routers/AppRouter';
+import HeaderContainer from 'components/ui/HeaderContainer';
 
 const Settings = props => {
   let location = useLocation();
@@ -50,6 +49,7 @@ const Settings = props => {
 
   return (
     <BaseContainer>
+      <HeaderContainer text="Choose your settings" title="Settings"></HeaderContainer>
       <div className="settings container">
         <div className="settings form">
           <div className='settings label'>Player Choice</div>
