@@ -72,25 +72,25 @@ const TeamScoreOverview = () => {
         try {
             const response = await api.get(`/lobbies/${lobbyContext.lobby.id}/games/${gameContext.game.id}/scores`);
             setData(response.data);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
             alert(`Error!\n${handleError(error)}`)
         }
     }
     // Update team scores and trigger animations
     const updateScoreTeam1 = async () => {
-        const score = data.teams[0].score;
-        console.log(score);
-        setTeam1Pct(Math.round(score / gameContext.game.winningScore * 100));
-        setTeam1Pts(score);
+        const score1 = data.teams[0].score;
+        console.log(score1);
+        setTeam1Pct(Math.round(score1/ gameContext.game.winningScore * 100));
+        setTeam1Pts(score1);
         team1BarRef.current.classList.add('mounted');
     };
 
     const updateScoreTeam2 = async () => {
-        const score = data.teams[1].score;
-        console.log(score);
-        setTeam2Pct(Math.round(score / gameContext.game.winningScore * 100));
-        setTeam2Pts(score);
+        const score2 = data.teams[1].score;
+        console.log(score2);
+        setTeam2Pct(Math.round(score2 / gameContext.game.winningScore * 100));
+        setTeam2Pts(score2);
         team2BarRef.current.classList.add('mounted');
     };
 
@@ -124,7 +124,7 @@ const TeamScoreOverview = () => {
         }
     }, [data]);
 
-    // Automatically redirect after 10 seconds
+    // Automatically redirect after 8 seconds
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             history.push('/gamePreview');
