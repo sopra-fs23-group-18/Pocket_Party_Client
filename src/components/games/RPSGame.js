@@ -23,7 +23,7 @@ export const RPSGame = () => {
   const lobbyContext = useContext(LobbyContext);
   const minigameContext = useContext(MinigameContext);
 
-  const WINNING_SCORE = 5;
+  const WINNING_SCORE = 3;
 
   // determine winner for each round
   const determineWinner = (playerOneChoice, playerTwoChoice) => {
