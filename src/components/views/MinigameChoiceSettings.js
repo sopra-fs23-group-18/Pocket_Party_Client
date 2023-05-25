@@ -72,8 +72,6 @@ const MinigameChoiceSettings = props => {
                 </div>
             </div>
         </BaseContainer >
-        //71
-
     );
 };
 
