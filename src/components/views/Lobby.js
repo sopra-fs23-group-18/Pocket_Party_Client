@@ -79,14 +79,19 @@ const Lobby = props => {
     useEffect(() => {
         lobbyContext.setLobby({ id: location.state.id })
         localStorage.setItem("lobbyContext", JSON.stringify({ id: location.state.id, inviteCode: location.state.inviteCode }));
-    }, [location.state.id])
+    }, [location.state.id]);
 
     const onPlayerJoin = (data) => {
         const playerJoined = new Player(JSON.parse(data.body));
         localStorage.setItem(`${playerJoined.id}`, `${playerJoined.avatar}`)
         playerJoined.team = 'unassigned'
         setPlayers((old) => [...old, playerJoined]);
-    }
+    };
+
+    const onPlayerLeave = (data) => {
+        const playerLeaved = new Player(JSON.parse(data.body));
+        setPlayers((old) => old.map((p) => p.id !== playerLeaved.id));
+    };
 
     const assignPlayerToTeam = (player, team, source) => {
         if (source !== null && team === "unassigned") {
@@ -121,10 +126,14 @@ const Lobby = props => {
     useEffect(() => {
         if (connections.stompConnection.state === ActivationState.ACTIVE) {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
             return;
         }
         connections.stompConnection.onConnect = (_) => {
             connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}`, onPlayerJoin);
+            connections.stompConnection.subscribe(`/queue/lobbies/${location.state.id}/leave`, onPlayerLeave);
+
         };
     }, [connections, location])
 
