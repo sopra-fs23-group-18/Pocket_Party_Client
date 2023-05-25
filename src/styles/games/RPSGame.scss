@@ -131,3 +131,29 @@ h1 {
     width: 400px;
     margin: 0 auto;
 }
+
+.play-container-4 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 25em;
+    @include center;
+}
+
+.choice-container-4 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.score-4 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  
+}
+
+.choice-4 {
+  font-size: 10rem;
+  margin: 0.5rem 0;
+  border: 2px solid black;
+  text-align: center;
+}

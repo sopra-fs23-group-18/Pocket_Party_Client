@@ -7,6 +7,7 @@ import { WebSocketContext } from "App";
 import { LobbyContext, MinigameContext } from "components/routing/routers/AppRouter";
 import { ActivationState } from "@stomp/stompjs";
 import PlayerContainer from "components/ui/PlayerContainer";
+import { Button } from "components/ui/Button";
 
 export const TappingGame = props => {
     const history = useHistory();

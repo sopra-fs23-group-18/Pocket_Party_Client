@@ -15,6 +15,8 @@ import { StrategyGame } from "components/games/StrategyGame";
 import { PongGame } from "components/games/PongGame";
 import { TimingGame } from "components/games/TimingGame";
 import { TappingGame } from "components/games/TappingGame";
+import { StrategyGameFor4 } from "components/games/StrategyGameFor4";
+import { TappingGameFor4 } from "components/games/TappingGameFor4";
 
 /**
  * Main router of your application.
@@ -40,6 +42,9 @@ const AppRouter = () => {
       case "TIMING_GAME":
         return <TimingGame />
       case "TAPPING_GAME":
+        if (minigame?.amountOfPlayers ==='TWO'){
+          return <TappingGameFor4 />
+        }
         return <TappingGame />
       case "VIBRATION_GAME":
         return <VibrationGame />
@@ -48,6 +53,9 @@ const AppRouter = () => {
       case "RPS_GAME":
         return <RPSGame />
       case "STRATEGY_GAME":
+        if (minigame?.amountOfPlayers === 'TWO'){
+          return <StrategyGameFor4 />
+        }
         return <StrategyGame />
       default:
         return null;
@@ -90,15 +98,6 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/settings">
                 <Settings />
-              </Route>
-              <Route exact path="/rpsGame">
-                <RPSGame />
-              </Route>
-              <Route exact path="/strategyGame">
-                <StrategyGame />
-              </Route>
-              <Route exact path="/pongGame">
-                <PongGame />
               </Route>
             </Switch>
           </BrowserRouter>

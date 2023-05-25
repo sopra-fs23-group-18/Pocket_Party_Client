@@ -218,17 +218,17 @@ export const StrategyGame = () => {
             <>
               {playerOneChoice === 5 && (
                 <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
-                  💎💎💎💎💎
+                  5💎
                 </span>
               )}
               {playerOneChoice === 3 && (
                 <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
-                  💰💰💰
+                  3💰
                 </span>
               )}
               {playerOneChoice === 1 && (
                 <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                  💵
+                  1💵
                 </span>
               )}
               {playerOneChoice === 'hold' && (
@@ -248,17 +248,17 @@ export const StrategyGame = () => {
             <>
               {playerTwoChoice === 5 && (
                 <span role="img" aria-label="rock" style={{ fontSize: '3rem' }}>
-                  💎💎💎💎💎
+                  5💎
                 </span>
               )}
               {playerTwoChoice === 3 && (
                 <span role="img" aria-label="paper" style={{ fontSize: '5rem' }}>
-                  💰💰💰
+                  3💰
                 </span>
               )}
               {playerTwoChoice === 1 && (
                 <span role="img" aria-label="scissors" style={{ fontSize: '10rem' }}>
-                  💵
+                  1💵
                 </span>
               )}
               {playerTwoChoice === 'hold' && (
