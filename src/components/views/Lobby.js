@@ -22,8 +22,8 @@ const Lobby = props => {
     const lobbyContext = useContext(LobbyContext);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const [team1Name, setTeam1Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[0].name || 'Team 1' : 'Team 1');
-    const [team2Name, setTeam2Name] = useState(lobbyContext.lobby.teams ? lobbyContext.lobby.teams[1].name || 'Team 2' : 'Team 2');
+    const [team1Name, setTeam1Name] = useState(lobbyContext?.lobby?.teams ? lobbyContext.lobby.teams[0].name : location.state.teams[0].name);
+    const [team2Name, setTeam2Name] = useState(lobbyContext?.lobby?.teams ? lobbyContext.lobby.teams[1].name : location.state.teams[1].name);
 
     const onTeam1NameChange = (e) => {
         setTeam1Name(e.target.value);
